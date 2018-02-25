@@ -1,0 +1,16 @@
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\bin\Debug\DataSyncSystem.exe.config
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\bin\Debug\DataSyncSystem.exe
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\bin\Debug\DataSyncSystem.pdb
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.csprojResolveAssemblyReference.cache
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.FmLogin.resources
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.Properties.Resources.resources
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.csproj.GenerateResource.Cache
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.csproj.CoreCompileInputs.cache
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.exe
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.pdb
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.FmMain.resources
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.SelfView.HeadRecord.resources
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.SelfView.TrialRecord.resources
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\bin\Debug\MySql.Data.dll
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\bin\Debug\MySql.Data.xml
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.FmUser.resources
