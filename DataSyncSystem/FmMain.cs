@@ -81,7 +81,6 @@ namespace DataSyncSystem
 
         //pmPanHeads panel 中所需的功能部件
         public Trial pmHeadShowTrial = null;
-        
 
         #endregion
 
@@ -122,12 +121,12 @@ namespace DataSyncSystem
 
         //文件下载
         FolderBrowserDialog dnldDialog = new FolderBrowserDialog();
-        string dnldPath = "";
+        public string dnldPath = "";
         Socket dnldSock = null;
         string dnldHead = null;
         volatile bool dnldOk ;
 
-        volatile bool dnldRunFlg;
+        public volatile bool dnldRunFlg;
         volatile bool upldRunFlg;
 
         #endregion
@@ -157,6 +156,7 @@ namespace DataSyncSystem
             pmPans[1] = pmPanPdcts;
             pmPans[2] = pmPanTrials;
             pmPans[3] = pmPanHeads;
+
             setCurPmLab();
             setCurPmPan();
             #endregion
@@ -174,12 +174,13 @@ namespace DataSyncSystem
             //设置panSetting 中界面的显示
             setPsPanel();
             GetCsvSock.init(this);
+            initDnldSock();
         }
 
         #region form 的初始化和消亡设置
         private void FmMain_Load(object sender, EventArgs e)
         {
-            Control.CheckForIllegalCrossThreadCalls = false;
+            CheckForIllegalCrossThreadCalls = false;
 
             //界面打开先显示panel1 
             panMain.Visible = true;
@@ -254,9 +255,7 @@ namespace DataSyncSystem
             // 关闭负责下载的socket
             if(dnldSock != null)
             {
-                if (dnldSock.Connected)
-                {
-                    try
+                try
                     {
                         dnldSock.Shutdown(SocketShutdown.Both);
                         dnldSock.Close();
@@ -265,23 +264,19 @@ namespace DataSyncSystem
                     {
                         MyLogger.WriteLine("关闭dnldSock 遇到异常!");
                     }
-                }
             }
 
             //关闭负责上传的socket
             if(upldSock != null)
             {
-                if (upldSock.Connected)
+                try
                 {
-                    try
-                    {
-                        upldSock.Shutdown(SocketShutdown.Both);
-                        upldSock.Close();
-                    }
-                    catch
-                    {
-                        MyLogger.WriteLine("关闭upldSock 遇到异常！");
-                    }
+                    upldSock.Shutdown(SocketShutdown.Both);
+                    upldSock.Close();
+                }
+                catch
+                {
+                    MyLogger.WriteLine("关闭upldSock 遇到异常！");
                 }
             }
         }
@@ -341,7 +336,8 @@ namespace DataSyncSystem
                 //页面信息
                 for (int i = 0; i < plUploadList.Count; i++)
                 {
-                    UploadRecord record = new UploadRecord(plUploadList[i], panMyLoad.BackColor);
+                    UploadRecord record = new UploadRecord(plUploadList[i], panMyLoad.BackColor
+                                              ,this,dnldDialog,dnldSock);
                     record.Location = new Point(newX, newY);
                     newY += (record.Height + plUploadHoffset);
                     panMyLoad.Controls.Add(record);
@@ -451,7 +447,6 @@ namespace DataSyncSystem
             }
         }
         #endregion
-
 
         //上传.zip 文件到服务器===============================================
         private void btUpload_Click(object sender, EventArgs e)
@@ -1278,41 +1273,36 @@ namespace DataSyncSystem
         #endregion
 
         //下载某次Trial的数据( 这里目前下载的是 data.zip )=======================
+        public void initDnldSock()
+        {
+            dnldSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            IPAddress ip = IPAddress.Parse(ContantInfo.SockServ.ip);
+            try
+            {
+                dnldSock.Connect(ip, Int32.Parse(ContantInfo.SockServ.port));
+                MyLogger.WriteLine("download request connected to server!");
+
+                dnldRunFlg = true;
+
+                //开启线程监听server 的 响应
+                Thread dnldTh = new Thread(dnldRecv);
+                dnldTh.IsBackground = true;
+                dnldTh.Start();
+            }
+            catch (Exception err)
+            {
+                MyLogger.WriteLine(err.Message);
+            }
+        }
         private void pmTrialBtDnld_Click(object sender, EventArgs e)
         {
-            //读取配置文件中的dnldpath
-            FileInfo cfgFile = new FileInfo(Environment.CurrentDirectory + "\\" + ".datasync.cfg");
-            if (cfgFile.Exists)
-            {
-                using (StreamReader sr = new StreamReader(new FileStream(cfgFile.FullName, FileMode.Open, FileAccess.Read)))
-                {
-                    string tmp = "";
-                    while((tmp = sr.ReadLine())!= null)
-                    {
-                        if (tmp.StartsWith("path"))
-                        {
-                            dnldPath = tmp.Split('=')[1];
-                            break;
-                        }
-                    }
+            dnldPath = CfgTool.getDnldPath(dnldDialog);
 
-                    //防止下载目录不存在
-                    DirectoryInfo dnldDir = new DirectoryInfo(dnldPath);
-                    if (!dnldDir.Exists)
-                    {
-                        dnldDir.Create();
-                    }
-                }
-                MyLogger.WriteLine("dnld_path:" + dnldPath);
-            }
-            else
+            if(dnldPath == null)
             {
-                MyLogger.WriteLine("configure file not exists!");
-                if (dnldDialog.ShowDialog() == DialogResult.OK)
-                {
-                    dnldPath = dnldDialog.SelectedPath;
-                }
-            }//dialog ok
+                MyLogger.WriteLine("下载取消!");
+                return;
+            }
 
             //先判断要下载的文件是否已经存在
             FileInfo existFile = new FileInfo(dnldPath + "\\" + pmHeadShowTrial.TrUserId + "_" + pmHeadShowTrial.TrDate + ".zip");
@@ -1325,22 +1315,9 @@ namespace DataSyncSystem
             //先获取socket 连接
             if(dnldSock == null)
             {
-                dnldSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                IPAddress ip = IPAddress.Parse(ContantInfo.SockServ.ip);
-                try
-                {
-                    dnldSock.Connect(ip, Int32.Parse(ContantInfo.SockServ.port));
-                    MyLogger.WriteLine("download request connected to server!");
-
-                    //开启线程监听server 的 响应
-                    Thread dnldTh = new Thread(dnldRecv);
-                    dnldTh.IsBackground = true;
-                    dnldTh.Start();
-                }
-                catch (Exception err)
-                {
-                    MyLogger.WriteLine(err.Message);
-                }
+                MessageBox.Show("you have download the trial data!", "message");
+                dnldRunFlg = false;
+                return;
             }
             dnldHead = "dnld:#";
             dnldHead += pmHeadShowTrial.TrUserId + "_" + pmHeadShowTrial.TrDate + "#";

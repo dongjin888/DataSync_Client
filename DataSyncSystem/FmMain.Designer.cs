@@ -112,9 +112,9 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.Teal;
-            this.splitContainer1.Panel2.Controls.Add(this.panMain);
             this.splitContainer1.Panel2.Controls.Add(this.panMyLoad);
             this.splitContainer1.Panel2.Controls.Add(this.panSetting);
+            this.splitContainer1.Panel2.Controls.Add(this.panMain);
             this.splitContainer1.Size = new System.Drawing.Size(1390, 721);
             this.splitContainer1.SplitterDistance = 284;
             this.splitContainer1.TabIndex = 0;
