@@ -112,7 +112,6 @@ namespace DataSyncSystem
         #region 文件传输部件
         //文件上传
         Socket upldSock = null;
-        volatile bool compressOk = false;
         volatile bool ifRecv = false; 
         string upldHead = null;
         string upldPath = "";
@@ -121,6 +120,7 @@ namespace DataSyncSystem
         volatile bool isNewUpld = true;
         string upldHistStr = ""; // .upldhist.hist 中存储的字符串
         string pltfmpdctStr = "";
+        int upldDirChkCode;
 
         //文件下载
         FolderBrowserDialog dnldDialog = new FolderBrowserDialog();
@@ -131,6 +131,7 @@ namespace DataSyncSystem
 
         public volatile bool dnldRunFlg;
         volatile bool upldRunFlg;
+        volatile int compressCode = ContantInfo.Compress.WAIT;
 
         #endregion
 
@@ -467,18 +468,20 @@ namespace DataSyncSystem
             if(browser.ShowDialog() == DialogResult.OK)
             {
                 upldPath = browser.SelectedPath;
+
+                //检查路径的合法性
+                upldDirChkCode = 0;
+                if(!FileHandle.checkUpldDir(upldPath, ref upldDirChkCode))
+                {
+                    MyLogger.WriteLine("上传目录检查不合法:");
+                    MyLogger.WriteLine("------ " + ContantInfo.UpldDir.upldDirErrDict[upldDirChkCode] +" ----------");
+                    MessageBox.Show("上传目录不合法!!!:\r\n" + ContantInfo.UpldDir.upldDirErrDict[upldDirChkCode], "上传中断");
+                    return;
+                }
             }
             else
             {
                 MyLogger.WriteLine("用户取消了上传!");
-                return;
-            }
-
-            //检测info.txt 文件是否在目录中
-            FileInfo infoFile = new FileInfo(upldPath + "\\info.txt");
-            if (!infoFile.Exists)
-            {
-                MessageBox.Show("miss info.txt in you folder!", "error");
                 return;
             }
 
@@ -527,7 +530,7 @@ namespace DataSyncSystem
 
             //根据info.txt 中的内容获取本次上传的信息
             List<string> headLine = new List<string>();
-            headLine = InfoGet.getHeadList(infoFile.FullName);
+            headLine = InfoGet.getHeadList(upldPath+"\\info.txt");
             if(headLine.Count < 5)
             {
                 MessageBox.Show("info.txt info not complete!", "error");
@@ -551,8 +554,8 @@ namespace DataSyncSystem
             }
             else
             {
-                unique = upldHistStr;
-                pltfm = pltfmpdctStr.Split('_')[0];
+                unique = upldHistStr; 
+                pltfm = pltfmpdctStr.Split('_')[0]; // pltfmpdct=MPK_leoB
                 pdct = pltfmpdctStr.Split('_')[1];
             }
             string info = headLine[3].Split('=')[1];
@@ -601,7 +604,7 @@ namespace DataSyncSystem
             }
             catch
             {
-                upldRunFlg = false;
+                upldRunFlg = false; // 中断上面的recvTh 线程
                 MessageBox.Show("与服务端断开连接！", "message");
                 MyLogger.WriteLine("upldSock 发送消息头时 遇到异常");
             }
@@ -623,8 +626,6 @@ namespace DataSyncSystem
                     catch
                     {
                         MyLogger.WriteLine("upldSock Receive() 接收出错！");
-                        endFlg = true;
-                        
                         return;
                     }
                     msg = Encoding.UTF8.GetString(msgBuf);
@@ -646,9 +647,9 @@ namespace DataSyncSystem
 
                         //然后用循环检测文件压缩是否完成
                         int index = 0;
-                        if (!compressOk)
+                        if (compressCode == ContantInfo.Compress.WAIT)
                         {
-                            while (!compressOk)
+                            while (compressCode == ContantInfo.Compress.WAIT)
                             {
                                 fm.updateInfo(index);
                                 index++;
@@ -656,14 +657,26 @@ namespace DataSyncSystem
                                 Thread.Sleep(1000);
                             }
                             MyLogger.WriteLine("compress ok!");
+                            fm.updateInfo(-1); // 关闭等待压缩进度条
                         }
-                        fm.updateInfo(-1);
+                        else
+                        {
+                            fm.Close();
+                        }
 
-                        //开始传输 zipFileName 的 .zip 文件
-                        Thread upldTh = new Thread(upload);
-                        upldTh.IsBackground = true;
-                        upldTh.Start();
-                        MyLogger.WriteLine("开始文件上传线程....");
+                        if(compressCode == ContantInfo.Compress.PRESSOK) //压缩过程无错
+                        {
+                            //开始传输 zipFileName 的 .zip 文件
+                            Thread upldTh = new Thread(upload);
+                            upldTh.IsBackground = true;
+                            upldTh.Start();
+                            MyLogger.WriteLine("开始文件上传线程....");
+                        }
+                        else // 压缩出错
+                        {
+                            MessageBox.Show("压缩出错!", "上传中断");
+                            MyLogger.WriteLine("压缩出错!");
+                        }
 
                     }//msg.StartWith("head:");
 
@@ -686,7 +699,7 @@ namespace DataSyncSystem
                             service.insertTrial(trialInfo);
                         }
 
-                        //删除zipFile,这里出错(文件被占用)
+                        //删除zipFile
                         FileInfo zip = new FileInfo(zipFileName);
                         if (zip.Exists)
                         {
@@ -703,7 +716,7 @@ namespace DataSyncSystem
                     }
                 }//while(!endFlg)
                 MyLogger.WriteLine("客户端监听任务结束!");
-            } //while(
+            } //while()
         }
         private void compress()
         {
@@ -736,28 +749,49 @@ namespace DataSyncSystem
                     File.Copy(f.FullName, upldDirStr + f.Name);
                 }
             }
-                
+
             List<DirectoryInfo> sonFolder = new List<DirectoryInfo>();
             FileHandle.traceFolder(root, sonFolder);
-            foreach (DirectoryInfo d in sonFolder)
+            if(sonFolder.Count == 1) //只有root 目录，没有子目录 
             {
-                ZipFile.CreateFromDirectory(d.FullName, upldDirStr + d.Parent.Name + "_" + d.Name + ".zip");
+                //C:\data\DNData == > 上传目录/DNData.zip
+                ZipFile.CreateFromDirectory(sonFolder[0].FullName, upldDirStr + sonFolder[0].Name + ".zip");
+            }
+            else //有多个子目录
+            {
+                foreach (DirectoryInfo d in sonFolder)
+                {
+                    if (d.GetFiles().Length != 0) //压缩有文件的目录到临时上传文件中
+                    {
+                        // C:\data\DNData\20160817_Tag117_Slot3_DN\LHC_08-16-2016\Bin
+                        // LHC_08-16-2016_Bin.zip ==> 到上传目录中
+                        ZipFile.CreateFromDirectory(d.FullName, upldDirStr + d.Parent.Name + "_" + d.Name + ".zip");
+                    }
+                }
             }
 
-            //然后压缩整个 临时文件到parent 目录下
-            ZipFile.CreateFromDirectory(upldDir.FullName, zipFileName);
-            MyLogger.WriteLine("compress :" + zipFileName);
-            compressOk = true;
+            try
+            {
+                //然后压缩整个 临时文件到parent 目录下
+                ZipFile.CreateFromDirectory(upldDir.FullName, zipFileName);
+                compressCode = ContantInfo.Compress.PRESSOK;
+                MyLogger.WriteLine("[compressed]:" + zipFileName);
+            }
+            catch(Exception ex)
+            {
+                compressCode = ContantInfo.Compress.ERROR; // 0 表示压缩出错
+                MyLogger.WriteLine("[compressed error]:" +ex.Message);
+            }
 
             //删除 DataDir_upload 这个临时目录
             List<FileInfo> fileList = new List<FileInfo>();
             FileHandle.traceAllFile(upldDir, fileList);
-            //先删除 DataDir_upload 中的子.zip 文件
+            //> 先删除 DataDir_upload 中的子文件
             foreach(FileInfo f in fileList)
             {
                 File.Delete(f.FullName);
             }
-            //再删除 DataDir_upload 这个目录
+            //> 再删除 DataDir_upload 这个目录
             Directory.Delete(upldDir.FullName);
             MyLogger.WriteLine("临时文件夹删除完成!");
 
@@ -877,8 +911,7 @@ namespace DataSyncSystem
                         }
                     }
                 }
-
-                compressOk = false;
+                compressCode = ContantInfo.Compress.WAIT; // -1 是原始状态, 0 表示出错, 1 表示正常
             }
         }   
 
@@ -1715,6 +1748,33 @@ namespace DataSyncSystem
                 pmGridview.DataSource = dataView;
             }
         }
-        
+
+        private delegate void Enable();
+        public void enable()
+        {
+            if (this.InvokeRequired)
+            {
+                Enable en = new Enable(enable);
+                this.Invoke(en, new object[] {  });
+            }
+            else
+            {
+                this.Enabled = true;
+            }
+        }
+
+        private delegate void Disable();
+        public void disable()
+        {
+            if (this.InvokeRequired)
+            {
+                Disable dis = new Disable(disable);
+                this.Invoke(dis, new object[] { });
+            }
+            else
+            {
+                this.Enabled = false;
+            }
+        }
     }
 }

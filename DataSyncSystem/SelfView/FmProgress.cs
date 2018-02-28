@@ -13,7 +13,7 @@ namespace DataSyncSystem.SelfView
 {
     public partial class FmProgress : Form
     {
-        private Form parent;
+        private FmMain parent;
         private string progType;
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace DataSyncSystem.SelfView
 
             progress.Maximum = (int)maxValue/100;
             progType = type;
-            parent = par;
+            parent = (FmMain)par;
             StartPosition = FormStartPosition.CenterScreen;
 
             string msg = "";
@@ -58,20 +58,20 @@ namespace DataSyncSystem.SelfView
                 if (progress.Value == progress.Maximum)
                 {
                     Dispose();
-                    parent.Enabled = true;
+                    parent.enable();
                 }
             }
         }
 
         private void FmProgress_Load(object sender, EventArgs e)
         {
-            Control.CheckForIllegalCrossThreadCalls = false;
-            parent.Enabled = false;
+            CheckForIllegalCrossThreadCalls = false;
+            parent.disable();
         }
 
         private void FmProgress_FormClosed(object sender, FormClosedEventArgs e)
         {
-            parent.Enabled = true;
+            parent.enable();
         }
     }
 }

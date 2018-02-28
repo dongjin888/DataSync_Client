@@ -62,7 +62,6 @@ namespace DataSyncSystem.Utils
                     MyLogger.WriteLine("close socket exception!");
                     return;
                 }
-
                 if(byteCount == -1)
                 {
                     MyLogger.WriteLine("GetCsvSock exit!");
@@ -72,9 +71,10 @@ namespace DataSyncSystem.Utils
                 msg = Encoding.UTF8.GetString(msgBuf);
 
                 //回应错误 那个文件可能不存在
-                if (msg.StartsWith("errreqscv:"))
+                if (msg.StartsWith("errreqcsv:"))
                 {
                     MyLogger.WriteLine("<下载csv>:服务端回应请求错误! " + msg);
+                    MessageBox.Show(msg.Split('#')[1], "csv文件缺失");
                     continue;
                 }
 
@@ -84,8 +84,7 @@ namespace DataSyncSystem.Utils
                     MyLogger.WriteLine("<下载csv>服务端回应！" + msg);
 
                     //开始接收 csv 数据包
-
-                    //第一种方法
+                    //> 第一种方法
                     #region 接收csv 数据
                     bool ifDataEnd = false;
 

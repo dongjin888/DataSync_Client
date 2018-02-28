@@ -14,16 +14,17 @@ namespace DataSyncSystem.SelfView
 {
     public partial class FmCompress : Form
     {
-        Form parent;
+        FmMain parent;
 
-        string[] labs = { "...", "......", "........", ".........", "..........","..........." };
+        string[] labs = { "...", "......", "........", ".........", "..........","...........",
+                        ".............","..............."};
 
         public FmCompress(Form par)
         {
-            Control.CheckForIllegalCrossThreadCalls = false;
+            CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
-            parent = par;
-            parent.Enabled = false;
+            parent = (FmMain)par;
+            parent.disable();
             StartPosition = FormStartPosition.CenterScreen;
         }
 
@@ -39,7 +40,7 @@ namespace DataSyncSystem.SelfView
             {
                 if (index == -1)
                 {
-                    this.Dispose();
+                    Dispose();
                 }
                 else { 
                     this.labInfo.Text = "等待文件压缩" + labs[index % labs.Length];
@@ -51,7 +52,7 @@ namespace DataSyncSystem.SelfView
 
         private void FmCompress_FormClosing(object sender, FormClosingEventArgs e)
         {
-            parent.Enabled = true;
+            parent.enable();
         }
     }
 }
