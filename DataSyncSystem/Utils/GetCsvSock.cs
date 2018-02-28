@@ -168,8 +168,6 @@ namespace DataSyncSystem.Utils
             }
         }
 
-        
-
         public static void csv3(object obj)
         {
             string pCsvPath = obj as string;//文件路径
@@ -204,8 +202,7 @@ namespace DataSyncSystem.Utils
                 }
                 sr.Close();
                 //显示数据 
-                parent.pmGridview.DataSource = table.DefaultView;
-                parent.Refresh();
+                parent.showDataview(table.DefaultView);
             }
             catch (Exception vErr)
             {

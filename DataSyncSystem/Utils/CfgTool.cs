@@ -10,6 +10,9 @@ namespace DataSyncSystem.Utils
 {
     public class CfgTool
     {
+
+        static FileInfo cfgFile = new FileInfo(Environment.CurrentDirectory + "\\" + ".datasync.cfg");
+
         /// <summary>
         /// //读取配置文件中的dnldpath
         /// </summary>
@@ -18,7 +21,6 @@ namespace DataSyncSystem.Utils
         public static string getDnldPath(FolderBrowserDialog dnldDialog)
         {
             string dnldPath = null;
-            FileInfo cfgFile = new FileInfo(Environment.CurrentDirectory + "\\" + ".datasync.cfg");
             if (cfgFile.Exists)
             {
                 using (StreamReader sr = new StreamReader(new FileStream(cfgFile.FullName, FileMode.Open, FileAccess.Read)))
@@ -57,6 +59,35 @@ namespace DataSyncSystem.Utils
             return dnldPath;
         }
 
-        public 
+        /// <summary>
+        /// 读取configure 文件中的当前专注的领域，更好的方便用户使用软件
+        /// </summary>
+        /// <returns></returns>
+        public static string[] getCurFocus()
+        {
+            string[] curFocus = new string[2];
+
+            if (cfgFile.Exists)
+            {
+                using (StreamReader sr = new StreamReader(new FileStream(cfgFile.FullName, FileMode.Open, FileAccess.Read)))
+                {
+                    string tmp = "";
+                    while ((tmp = sr.ReadLine()) != null)
+                    {
+                        if (tmp.StartsWith("pltfm"))
+                        {
+                            curFocus[0] = tmp.Split('=')[1];
+                        }
+                        if (tmp.StartsWith("pdct"))
+                        {
+                            curFocus[1] = tmp.Split('=')[1];
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return curFocus;
+        }
     }
 }

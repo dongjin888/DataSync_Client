@@ -123,6 +123,7 @@
     <Compile Include="Utils\CfgTool.cs" />
     <Compile Include="Utils\ContantInfo.cs" />
     <Compile Include="Utils\CsvParser.cs" />
+    <Compile Include="Utils\EnDeCode.cs" />
     <Compile Include="Utils\FileHandle.cs" />
     <Compile Include="Utils\GetCsvSock.cs" />
     <Compile Include="Utils\InfoGet.cs" />

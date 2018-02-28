@@ -62,8 +62,6 @@ namespace DataSyncSystem.SelfView
             //连接socket 获取该trial的summary.csv 文件 先
             //获取到的summary.csv 文件会先保存在 当前软件目录下并以 userid_datestr.csv 的形式保存
 
-            //fmMain.pmGridview.Rows.Clear();
-
             GetCsvSock.dnldCsvFile(trial.TrUserId, trial.TrDate);
 
             #region 行不通的方法

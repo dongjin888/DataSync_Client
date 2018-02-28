@@ -118,6 +118,9 @@ namespace DataSyncSystem
         string upldPath = "";
         string zipFileName = "";
         TrialInfo trialInfo = null;
+        volatile bool isNewUpld = true;
+        string upldHistStr = ""; // .upldhist.hist 中存储的字符串
+        string pltfmpdctStr = "";
 
         //文件下载
         FolderBrowserDialog dnldDialog = new FolderBrowserDialog();
@@ -451,6 +454,8 @@ namespace DataSyncSystem
         //上传.zip 文件到服务器===============================================
         private void btUpload_Click(object sender, EventArgs e)
         {
+            isNewUpld = true;
+
             //首先，传文件头:
             // head:# activator=xxx(工程师) # operator=xx(工人) # unique=activator_datenow # 
             //        platform=xx # product=xx # info=xx # other=xx # 
@@ -477,6 +482,49 @@ namespace DataSyncSystem
                 return;
             }
 
+            //判断是否是新的上传
+            FileInfo histFile = new FileInfo(upldPath + "\\.upldhist.hist");
+            if (histFile.Exists)
+            {
+                isNewUpld = false; //不是新的上传
+
+                using(FileStream fs = new FileStream(histFile.FullName, FileMode.Open))
+                {
+                    using(StreamReader sr = new StreamReader(fs))
+                    {
+                        string line = "";
+                        while((line = sr.ReadLine()) != null)
+                        {
+                            if (line.StartsWith("token="))
+                            {
+                                upldHistStr = line.Split('=')[1];
+                            }
+                            if (line.StartsWith("pltfmpdct="))
+                            {
+                                pltfmpdctStr = line.Split('=')[1];
+                            }
+                        }
+                    }
+                }
+
+                //处理upldHistStr 还原出真实信息
+                if (!upldHistStr.Equals(""))
+                {
+                    try
+                    {
+                        upldHistStr = EnDeCode.deCode(upldHistStr);
+                    }catch(Exception ex)
+                    {
+                        isNewUpld = true;
+                        MyLogger.WriteLine(ex.Message);
+                    }
+                }
+                else
+                {
+                    isNewUpld = true;
+                }
+            }
+
             //根据info.txt 中的内容获取本次上传的信息
             List<string> headLine = new List<string>();
             headLine = InfoGet.getHeadList(infoFile.FullName);
@@ -491,9 +539,22 @@ namespace DataSyncSystem
             //        platform=xx # product=xx # info=xx # other=xx # 
             string activator = headLine[0].Split('=')[1]; //activator
             string oprator = Cache.userId;
-            string unique = activator+ "_" + TimeHandle.datetimeToMilSeconds(DateTime.Now); //activator_datenow
-            string pltfm = headLine[1].Split('=')[1]; 
-            string pdct = headLine[2].Split('=')[1];
+            string unique;
+            string pltfm;
+            string pdct;
+            //处理是重新上传还是全新的上传
+            if (isNewUpld)
+            {
+                unique = activator + "_" + TimeHandle.datetimeToMilSeconds(DateTime.Now); //activator_datenow
+                pltfm = headLine[1].Split('=')[1];
+                pdct = headLine[2].Split('=')[1];
+            }
+            else
+            {
+                unique = upldHistStr;
+                pltfm = pltfmpdctStr.Split('_')[0];
+                pdct = pltfmpdctStr.Split('_')[1];
+            }
             string info = headLine[3].Split('=')[1];
             string other = headLine[4].Split('=')[1];
             trialInfo.Activator = activator;
@@ -504,9 +565,11 @@ namespace DataSyncSystem
             trialInfo.Info = info;
             trialInfo.Other = other;
 
+            // 组装上传请求头
             upldHead = "upld:#";
             upldHead += activator + "#" + oprator + "#" + unique + "#" + pltfm + "#" + pdct + "#" + info + "#" + other+"#";
 
+            //判断upldSock 是否准备好
             if(upldSock == null)
             {
                 //先连接服务端,获得一个socket
@@ -515,22 +578,20 @@ namespace DataSyncSystem
                 try
                 {
                     upldSock.Connect(ip, Int32.Parse(ContantInfo.SockServ.port));
-                    MyLogger.WriteLine(upldSock.LocalEndPoint + " connected to server!");
-
-                    //开启线程监听server 的 响应
-                    Thread recvTh = new Thread(recv);
-                    recvTh.IsBackground = true;
-                    recvTh.Start();
                 }
                 catch (Exception err)
                 {
+                    MessageBox.Show("获取upldSock 连接失败，上传中断！", "warning");
                     MyLogger.WriteLine(err.Message);
+                    return;
                 }
+
+                //开启线程监听server 的 响应
+                Thread recvTh = new Thread(recv);
+                recvTh.IsBackground = true;
+                recvTh.Start();
             }
-            else
-            {
-                MyLogger.WriteLine("upldSock 不为null,不能重新获取连接！");
-            }
+
             try
             {
                 //传输head 
@@ -620,7 +681,10 @@ namespace DataSyncSystem
                         MyLogger.WriteLine("服务端返回接收结束响应!");
 
                         //向数据库中插入数据上传记录
-                        service.insertTrial(trialInfo);
+                        if (isNewUpld)
+                        {
+                            service.insertTrial(trialInfo);
+                        }
 
                         //删除zipFile,这里出错(文件被占用)
                         FileInfo zip = new FileInfo(zipFileName);
@@ -657,7 +721,7 @@ namespace DataSyncSystem
             }
 
             //upldDir 用来临时存放每个 子folder 压缩后，和root 中的子文件存放的目录
-            string upldDirStr = parent.FullName + "\\" + root.Name + "_upload\\";
+            string upldDirStr = parent.FullName + "\\" + root.Name + "_upload\\"; //DataDir 同级目录下的DataDir_upload
             DirectoryInfo upldDir = new DirectoryInfo(upldDirStr);
             if(!upldDir.Exists)
             {
@@ -667,10 +731,12 @@ namespace DataSyncSystem
             //先把root 中的子文件拷贝到临时目录
             foreach(FileInfo f in root.GetFiles())
             {
-                File.Copy(f.FullName, upldDirStr + f.Name);
+                if (!f.Name.Equals(".upldhist.hist"))
+                {
+                    File.Copy(f.FullName, upldDirStr + f.Name);
+                }
             }
-
-            // 再遍历root 中的所有子目录并压缩到临时目录
+                
             List<DirectoryInfo> sonFolder = new List<DirectoryInfo>();
             FileHandle.traceFolder(root, sonFolder);
             foreach (DirectoryInfo d in sonFolder)
@@ -683,13 +749,15 @@ namespace DataSyncSystem
             MyLogger.WriteLine("compress :" + zipFileName);
             compressOk = true;
 
-            //删除 upldDir 这个临时目录
+            //删除 DataDir_upload 这个临时目录
             List<FileInfo> fileList = new List<FileInfo>();
             FileHandle.traceAllFile(upldDir, fileList);
+            //先删除 DataDir_upload 中的子.zip 文件
             foreach(FileInfo f in fileList)
             {
                 File.Delete(f.FullName);
             }
+            //再删除 DataDir_upload 这个目录
             Directory.Delete(upldDir.FullName);
             MyLogger.WriteLine("临时文件夹删除完成!");
 
@@ -797,6 +865,19 @@ namespace DataSyncSystem
                     fs.Close();
                 }
                 MessageBox.Show("文件上传成功!","message");
+
+                if (isNewUpld)
+                {
+                    using(FileStream fs1 = new FileStream(upldPath+"\\.upldhist.hist", FileMode.Create))
+                    {
+                        using(StreamWriter sr1 = new StreamWriter(fs1))
+                        {
+                            sr1.WriteLine("pltfmpdct=" + trialInfo.Pltfm + "_" + trialInfo.Pdct);
+                            sr1.WriteLine("token=" + EnDeCode.enCode(trialInfo.Unique));
+                        }
+                    }
+                }
+
                 compressOk = false;
             }
         }   
@@ -1619,5 +1700,21 @@ namespace DataSyncSystem
         {
 
         }
+
+        //在getCsvSock 中下载好csv数据后进行更新的代理
+        private delegate void ShowDatagridView(DataView dataView);
+        public void showDataview(DataView dataView)
+        {
+            if (this.InvokeRequired)
+            {
+                ShowDatagridView show = new ShowDatagridView(showDataview);
+                this.Invoke(show, new object[] { dataView });
+            }
+            else
+            {
+                pmGridview.DataSource = dataView;
+            }
+        }
+        
     }
 }

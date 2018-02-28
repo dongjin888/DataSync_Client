@@ -19,7 +19,7 @@ namespace DataSyncSystem
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            FileInfo cfg = new FileInfo(Environment.CurrentDirectory + "\\" + ".syscfg.cfg");
+            FileInfo cfg = new FileInfo(Environment.CurrentDirectory+"\\.syscfg.cfg");
             FileStream stream = new FileStream(cfg.FullName, FileMode.Open);
             StreamReader sr = new StreamReader(stream);
             string tmp = "";
