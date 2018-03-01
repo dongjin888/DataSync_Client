@@ -744,7 +744,8 @@ namespace DataSyncSystem
             //先把root 中的子文件拷贝到临时目录
             foreach(FileInfo f in root.GetFiles())
             {
-                if (!f.Name.Equals(".upldhist.hist"))
+                //过滤掉重要的配置文件.upldhist.hist 及 info.txt
+                if ((!f.Name.Equals(".upldhist.hist")) && (!f.Name.Equals("info.txt")))
                 {
                     File.Copy(f.FullName, upldDirStr + f.Name);
                 }
@@ -1775,6 +1776,11 @@ namespace DataSyncSystem
             {
                 this.Enabled = false;
             }
+        }
+
+        private void pmTrialBtAnalyze_Click(object sender, EventArgs e)
+        {
+            GetCsvSock.queryDdgFiles(pmHeadShowTrial.TrUserId,pmHeadShowTrial.TrDate);
         }
     }
 }

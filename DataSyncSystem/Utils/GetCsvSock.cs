@@ -70,7 +70,7 @@ namespace DataSyncSystem.Utils
 
                 msg = Encoding.UTF8.GetString(msgBuf);
 
-                //回应错误 那个文件可能不存在
+                //错误响应reqcsv:
                 if (msg.StartsWith("errreqcsv:"))
                 {
                     MyLogger.WriteLine("<下载csv>:服务端回应请求错误! " + msg);
@@ -78,7 +78,7 @@ namespace DataSyncSystem.Utils
                     continue;
                 }
 
-                //正常响应
+                //正常响应reqcsv:
                 else if (msg.StartsWith("resreqcsv:"))
                 {
                     MyLogger.WriteLine("<下载csv>服务端回应！" + msg);
@@ -158,15 +158,51 @@ namespace DataSyncSystem.Utils
                     } // using(FileStream fs
                     #endregion
 
+                    //> 使用线程去读取csv文件 并装填到DataGridView 中
                     Thread th = new Thread(csv3);
                     th.IsBackground = true;
                     th.Start(name);
+                }
 
-                    //csv3(name);
+                // 错误响应 reqdbgfile:
+                else if (msg.StartsWith("errreqdbgfile"))
+                {
+                    MyLogger.WriteLine("<下载dbgfiles>:服务端回应请求错误! " + msg);
+                    MessageBox.Show(msg.Split('#')[1], "搜索错误!");
+                    continue;
+                }
+
+                //正常响应 reqdbgfile:
+                else if (msg.StartsWith("resreqdbgfile:"))
+                {
+                    string trialUnique = msg.Split('#')[1];
+                    MyLogger.WriteLine("接收服务端resreqdbgfile:\n"+msg);
+
+                    //接收dbgfiles 信息
+                    byte[] dbgFileBuf = new byte[1024 * 32]; //32k
+                    try
+                    {
+                        sock.Receive(dbgFileBuf);
+                    }
+                    catch
+                    {
+                        MyLogger.WriteLine("接收dbgfiles 出错!");
+                    }
+                    msg = Encoding.UTF8.GetString(dbgFileBuf);
+                    string[] dbgFileArr = msg.Split('#')[0].Split(','); // msg.Split('#')[0] => 文件列表
+                    FileStream fs = new FileStream(Environment.CurrentDirectory + "\\" + trialUnique + ".dict",
+                                                   FileMode.Create);
+                    StreamWriter sw = new StreamWriter(fs);
+                    foreach (string s in dbgFileArr)
+                        sw.WriteLine(s);
+                    sw.Close();
+                    fs.Close();
+                    MyLogger.WriteLine(Environment.CurrentDirectory + "\\" + trialUnique + ".dict 保存完成!");
                 }
             }
         }
 
+        // 读取csv 文件并装填到DataGridView 中
         public static void csv3(object obj)
         {
             string pCsvPath = obj as string;//文件路径
@@ -200,7 +236,7 @@ namespace DataSyncSystem.Utils
                     table.Rows.Add(row);
                 }
                 sr.Close();
-                //显示数据 
+                //使用代理更新FmMain 中的DataGridView 
                 parent.showDataview(table.DefaultView);
             }
             catch (Exception vErr)
@@ -213,7 +249,7 @@ namespace DataSyncSystem.Utils
             }
         }
 
-        //给外部调用的接口
+        //外部调用接口 [用来发送csv头部:reqcsv:#userId_trialDate#]
         public static void dnldCsvFile(string id, string date)
         {
             userId = id;
@@ -228,8 +264,25 @@ namespace DataSyncSystem.Utils
             }
             catch
             {
-                MyLogger.WriteLine("发送失败！");
+                MyLogger.WriteLine("发送reqcsv失败！");
                 MessageBox.Show("与服务端断开连接!", "message");
+            }
+            MyLogger.WriteLine("发送请求头:" + reqHead);
+        }
+
+        //外部调用接口 [发送该trail 中的所有bebug文件],包括bebug中的所有文件结构
+        public static void queryDdgFiles(string id,string date)
+        {
+            userId = id;
+            trialDate = date;
+            string reqHead = "reqdbgfile:#" + userId + "_" + trialDate + "#";
+            try
+            {
+                sock.Send(Encoding.UTF8.GetBytes(reqHead.ToCharArray()));
+            }catch(Exception ex)
+            {
+                MyLogger.WriteLine("发送reqdbgfile请求失败!"+ex.Message);
+                MessageBox.Show("与服务端断开连接!", "搜索失败");
             }
             MyLogger.WriteLine("发送请求头:" + reqHead);
         }
