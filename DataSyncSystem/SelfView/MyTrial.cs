@@ -62,7 +62,66 @@ namespace DataSyncSystem.SelfView
             //连接socket 获取该trial的summary.csv 文件 先
             //获取到的summary.csv 文件会先保存在 当前软件目录下并以 userid_datestr.csv 的形式保存
 
-            GetCsvSock.dnldCsvFile(trial.TrUserId, trial.TrDate);
+            FileInfo csvFile = new FileInfo(Environment.CurrentDirectory + "\\" +
+                               trial.TrUserId + "_" + trial.TrDate + ".csv");
+            if (!csvFile.Exists)
+            {
+                GetCsvSock.dnldCsvFile(trial.TrUserId, trial.TrDate);
+            }
+            else //文件存在
+            {
+                try
+                {
+                    String line;
+                    String[] split = null;
+                    DataTable table = new DataTable();
+                    DataRow row = null;
+
+                    StreamReader sr = new StreamReader(csvFile.FullName, Encoding.Default);
+                    //创建与数据源对应的数据列 
+                    line = sr.ReadLine();
+                    split = line.Split(',');
+                    foreach (String colname in split)
+                    {
+                        table.Columns.Add(colname, System.Type.GetType("System.String"));
+                    }
+                    //将数据填入数据表 
+                    int j = 0;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        j = 0;
+                        row = table.NewRow();
+                        split = line.Split(',');
+                        foreach (String colname in split)
+                        {
+                            row[j] = colname;
+                            j++;
+                        }
+                        table.Rows.Add(row);
+                    }
+                    sr.Close();
+                    //使用代理更新FmMain 中的DataGridView 
+                    fmMain.showDataview(table.DefaultView);
+                }
+                catch (Exception vErr)
+                {
+                    MessageBox.Show(vErr.Message);
+                }
+                finally
+                {
+                    GC.Collect();
+                }
+            }
+
+            // 判断dict 文件是否存在
+            if (!File.Exists(csvFile.FullName.Split('.')[0] + ".dict")){ //不存在，在getcsvSock 中更新可用
+                fmMain.disablePic();
+            }
+            else
+            {
+                fmMain.enablePic();
+            }
+            
 
             #region 行不通的方法
             //try 第二种方法

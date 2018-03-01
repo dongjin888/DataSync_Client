@@ -37,7 +37,6 @@
             this.labUserTel = new System.Windows.Forms.Label();
             this.labUserTeam = new System.Windows.Forms.Label();
             this.labUserName = new System.Windows.Forms.Label();
-            this.picHead = new System.Windows.Forms.PictureBox();
             this.panMain = new System.Windows.Forms.Panel();
             this.pmPanStatus = new System.Windows.Forms.Panel();
             this.pmLabNext0 = new System.Windows.Forms.Label();
@@ -74,11 +73,12 @@
             this.psCombPltfm = new System.Windows.Forms.ComboBox();
             this.psLabPltfm = new System.Windows.Forms.Label();
             this.psDnldFolderBrsDlg = new System.Windows.Forms.FolderBrowserDialog();
+            this.picHead = new System.Windows.Forms.PictureBox();
+            this.picboxDbgFiles = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picHead)).BeginInit();
             this.panMain.SuspendLayout();
             this.pmPanStatus.SuspendLayout();
             this.pmPanHeads.SuspendLayout();
@@ -87,6 +87,8 @@
             this.panSetting.SuspendLayout();
             this.psGrpDnld.SuspendLayout();
             this.psGrpRecent.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picHead)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxDbgFiles)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -199,16 +201,6 @@
             this.labUserName.Size = new System.Drawing.Size(45, 17);
             this.labUserName.TabIndex = 1;
             this.labUserName.Text = "Name";
-            // 
-            // picHead
-            // 
-            this.picHead.Image = global::DataSyncSystem.Properties.Resources.man;
-            this.picHead.Location = new System.Drawing.Point(104, 84);
-            this.picHead.Name = "picHead";
-            this.picHead.Size = new System.Drawing.Size(100, 97);
-            this.picHead.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picHead.TabIndex = 0;
-            this.picHead.TabStop = false;
             // 
             // panMain
             // 
@@ -330,6 +322,7 @@
             // pmPanHeads
             // 
             this.pmPanHeads.BackColor = System.Drawing.Color.SkyBlue;
+            this.pmPanHeads.Controls.Add(this.picboxDbgFiles);
             this.pmPanHeads.Controls.Add(this.pmGridview);
             this.pmPanHeads.Controls.Add(this.pmTrialBtDnld);
             this.pmPanHeads.Controls.Add(this.pmTrialBtAnalyze);
@@ -344,7 +337,7 @@
             // 
             this.pmGridview.AllowDrop = true;
             this.pmGridview.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.pmGridview.Location = new System.Drawing.Point(64, 184);
+            this.pmGridview.Location = new System.Drawing.Point(64, 176);
             this.pmGridview.Name = "pmGridview";
             this.pmGridview.RowTemplate.Height = 24;
             this.pmGridview.Size = new System.Drawing.Size(858, 354);
@@ -382,7 +375,7 @@
             this.groupBox1.Controls.Add(this.pmHeadLabDate);
             this.groupBox1.Controls.Add(this.pmHeadLabUserId);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.groupBox1.Location = new System.Drawing.Point(64, 25);
+            this.groupBox1.Location = new System.Drawing.Point(64, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(858, 148);
             this.groupBox1.TabIndex = 0;
@@ -608,6 +601,27 @@
             this.psLabPltfm.TabIndex = 0;
             this.psLabPltfm.Text = "platform";
             // 
+            // picHead
+            // 
+            this.picHead.Image = global::DataSyncSystem.Properties.Resources.man;
+            this.picHead.Location = new System.Drawing.Point(104, 84);
+            this.picHead.Name = "picHead";
+            this.picHead.Size = new System.Drawing.Size(100, 97);
+            this.picHead.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picHead.TabIndex = 0;
+            this.picHead.TabStop = false;
+            // 
+            // picboxDbgFiles
+            // 
+            this.picboxDbgFiles.Image = global::DataSyncSystem.Properties.Resources.search;
+            this.picboxDbgFiles.Location = new System.Drawing.Point(479, 548);
+            this.picboxDbgFiles.Name = "picboxDbgFiles";
+            this.picboxDbgFiles.Size = new System.Drawing.Size(61, 51);
+            this.picboxDbgFiles.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picboxDbgFiles.TabIndex = 5;
+            this.picboxDbgFiles.TabStop = false;
+            this.picboxDbgFiles.Click += new System.EventHandler(this.picboxDbgFiles_Click);
+            // 
             // FmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -625,7 +639,6 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picHead)).EndInit();
             this.panMain.ResumeLayout(false);
             this.pmPanStatus.ResumeLayout(false);
             this.pmPanStatus.PerformLayout();
@@ -638,6 +651,8 @@
             this.psGrpDnld.PerformLayout();
             this.psGrpRecent.ResumeLayout(false);
             this.psGrpRecent.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picHead)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxDbgFiles)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -690,5 +705,6 @@
         private System.Windows.Forms.FolderBrowserDialog psDnldFolderBrsDlg;
         private System.Windows.Forms.Label pmHeadLabOperator;
         public System.Windows.Forms.DataGridView pmGridview;
+        private System.Windows.Forms.PictureBox picboxDbgFiles;
     }
 }

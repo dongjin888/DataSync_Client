@@ -63,6 +63,12 @@
     <Compile Include="FmCsv.Designer.cs">
       <DependentUpon>FmCsv.cs</DependentUpon>
     </Compile>
+    <Compile Include="FmDbgFiles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FmDbgFiles.Designer.cs">
+      <DependentUpon>FmDbgFiles.cs</DependentUpon>
+    </Compile>
     <Compile Include="FmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,6 +141,9 @@
     <EmbeddedResource Include="FmCsv.resx">
       <DependentUpon>FmCsv.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FmDbgFiles.resx">
+      <DependentUpon>FmDbgFiles.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FmLogin.resx">
       <DependentUpon>FmLogin.cs</DependentUpon>
     </EmbeddedResource>
@@ -188,6 +197,26 @@
   <ItemGroup>
     <None Include="Resources\man.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\filter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dnld.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reflev.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dnldlev.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dnldon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

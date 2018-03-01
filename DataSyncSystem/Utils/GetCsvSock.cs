@@ -194,10 +194,15 @@ namespace DataSyncSystem.Utils
                                                    FileMode.Create);
                     StreamWriter sw = new StreamWriter(fs);
                     foreach (string s in dbgFileArr)
+                    {
                         sw.WriteLine(s);
+                    }
                     sw.Close();
                     fs.Close();
                     MyLogger.WriteLine(Environment.CurrentDirectory + "\\" + trialUnique + ".dict 保存完成!");
+
+                    //显示界面中点击按钮
+                    parent.enablePic();
                 }
             }
         }
@@ -238,6 +243,9 @@ namespace DataSyncSystem.Utils
                 sr.Close();
                 //使用代理更新FmMain 中的DataGridView 
                 parent.showDataview(table.DefaultView);
+
+                //下载完summary csv 文件，接着街下载dbgfiles
+                queryDdgFiles(userId, trialDate);
             }
             catch (Exception vErr)
             {

@@ -1750,6 +1750,7 @@ namespace DataSyncSystem
             }
         }
 
+        #region form dis-enable 代理
         private delegate void Enable();
         public void enable()
         {
@@ -1763,7 +1764,6 @@ namespace DataSyncSystem
                 this.Enabled = true;
             }
         }
-
         private delegate void Disable();
         public void disable()
         {
@@ -1777,10 +1777,57 @@ namespace DataSyncSystem
                 this.Enabled = false;
             }
         }
+        #endregion
 
+        //分析按钮的点击事件
         private void pmTrialBtAnalyze_Click(object sender, EventArgs e)
         {
-            GetCsvSock.queryDdgFiles(pmHeadShowTrial.TrUserId,pmHeadShowTrial.TrDate);
+            //GetCsvSock.queryDdgFiles(pmHeadShowTrial.TrUserId,pmHeadShowTrial.TrDate);
         }
+
+        //dbgFiles 图片按钮的点击事件[获取dbgfiles 文件列表]
+        private void picboxDbgFiles_Click(object sender, EventArgs e)
+        {
+            //下载文件列表
+            //在下载csv后面接接着下载dbgfiles 了，所以不用再下了
+            //GetCsvSock.queryDdgFiles(pmHeadShowTrial.TrUserId, pmHeadShowTrial.TrDate);
+
+            string file = Environment.CurrentDirectory + "\\" + pmHeadShowTrial.TrUserId + "_" + 
+                          pmHeadShowTrial.TrDate + ".dict";
+            MyLogger.WriteLine("dict " + file);
+            //弹出下载选项框
+            FmDbgFiles fm = new FmDbgFiles(file);
+            fm.ShowDialog(this);
+        }
+
+        #region picboxDbgFiles 代理
+        // picboxDbgFiles 不可用的更新代理
+        private delegate void DisablePic();
+        public void disablePic()
+        {
+            if (this.InvokeRequired)
+            {
+                DisablePic dis = new DisablePic(disablePic);
+                this.Invoke(dis, new object[] { });
+            }
+            else
+            {
+                picboxDbgFiles.Visible = false;
+            }
+        }
+        private delegate void EnablePic();
+        public void enablePic()
+        {
+            if (this.InvokeRequired)
+            {
+                EnablePic dis = new EnablePic(enablePic);
+                this.Invoke(dis, new object[] { });
+            }
+            else
+            {
+                picboxDbgFiles.Visible = true;
+            }
+        }
+        #endregion
     }
 }
