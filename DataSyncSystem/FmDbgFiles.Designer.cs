@@ -34,6 +34,10 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.rdoStrict = new System.Windows.Forms.RadioButton();
             this.rdoNotStrict = new System.Windows.Forms.RadioButton();
+            this.txtDnldFolder = new System.Windows.Forms.TextBox();
+            this.btBrowse = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.labSelectNum = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picboxDnld)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -41,7 +45,7 @@
             // txtFilter
             // 
             this.txtFilter.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtFilter.Location = new System.Drawing.Point(119, 30);
+            this.txtFilter.Location = new System.Drawing.Point(98, 34);
             this.txtFilter.Name = "txtFilter";
             this.txtFilter.Size = new System.Drawing.Size(254, 30);
             this.txtFilter.TabIndex = 1;
@@ -59,13 +63,14 @@
             this.listView1.TabIndex = 4;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.listView1_ItemCheck);
             // 
             // picboxDnld
             // 
             this.picboxDnld.Image = global::DataSyncSystem.Properties.Resources.dnldlev;
-            this.picboxDnld.Location = new System.Drawing.Point(363, 428);
+            this.picboxDnld.Location = new System.Drawing.Point(724, 413);
             this.picboxDnld.Name = "picboxDnld";
-            this.picboxDnld.Size = new System.Drawing.Size(100, 50);
+            this.picboxDnld.Size = new System.Drawing.Size(59, 40);
             this.picboxDnld.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picboxDnld.TabIndex = 3;
             this.picboxDnld.TabStop = false;
@@ -74,7 +79,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::DataSyncSystem.Properties.Resources.filter;
-            this.pictureBox1.Location = new System.Drawing.Point(51, 30);
+            this.pictureBox1.Location = new System.Drawing.Point(40, 34);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(55, 30);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -85,7 +90,7 @@
             // 
             this.rdoStrict.AutoSize = true;
             this.rdoStrict.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.rdoStrict.Location = new System.Drawing.Point(405, 30);
+            this.rdoStrict.Location = new System.Drawing.Point(362, 38);
             this.rdoStrict.Name = "rdoStrict";
             this.rdoStrict.Size = new System.Drawing.Size(68, 24);
             this.rdoStrict.TabIndex = 5;
@@ -97,7 +102,7 @@
             // 
             this.rdoNotStrict.AutoSize = true;
             this.rdoNotStrict.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.rdoNotStrict.Location = new System.Drawing.Point(499, 30);
+            this.rdoNotStrict.Location = new System.Drawing.Point(436, 39);
             this.rdoNotStrict.Name = "rdoNotStrict";
             this.rdoNotStrict.Size = new System.Drawing.Size(96, 24);
             this.rdoNotStrict.TabIndex = 6;
@@ -105,11 +110,56 @@
             this.rdoNotStrict.Text = "not strict";
             this.rdoNotStrict.UseVisualStyleBackColor = true;
             // 
+            // txtDnldFolder
+            // 
+            this.txtDnldFolder.Enabled = false;
+            this.txtDnldFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtDnldFolder.Location = new System.Drawing.Point(51, 420);
+            this.txtDnldFolder.Name = "txtDnldFolder";
+            this.txtDnldFolder.Size = new System.Drawing.Size(366, 26);
+            this.txtDnldFolder.TabIndex = 7;
+            // 
+            // btBrowse
+            // 
+            this.btBrowse.Location = new System.Drawing.Point(424, 420);
+            this.btBrowse.Name = "btBrowse";
+            this.btBrowse.Size = new System.Drawing.Size(75, 26);
+            this.btBrowse.TabIndex = 8;
+            this.btBrowse.Text = "Browse";
+            this.btBrowse.UseVisualStyleBackColor = true;
+            this.btBrowse.Click += new System.EventHandler(this.btBrowse_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(663, 55);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(80, 20);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "selected";
+            // 
+            // labSelectNum
+            // 
+            this.labSelectNum.AutoSize = true;
+            this.labSelectNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.labSelectNum.ForeColor = System.Drawing.Color.Red;
+            this.labSelectNum.Location = new System.Drawing.Point(747, 55);
+            this.labSelectNum.Name = "labSelectNum";
+            this.labSelectNum.Size = new System.Drawing.Size(19, 20);
+            this.labSelectNum.TabIndex = 10;
+            this.labSelectNum.Text = "0";
+            // 
             // FmDbgFiles
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(836, 490);
+            this.Controls.Add(this.labSelectNum);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.btBrowse);
+            this.Controls.Add(this.txtDnldFolder);
             this.Controls.Add(this.rdoNotStrict);
             this.Controls.Add(this.rdoStrict);
             this.Controls.Add(this.listView1);
@@ -134,5 +184,9 @@
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.RadioButton rdoStrict;
         private System.Windows.Forms.RadioButton rdoNotStrict;
+        private System.Windows.Forms.TextBox txtDnldFolder;
+        private System.Windows.Forms.Button btBrowse;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labSelectNum;
     }
 }

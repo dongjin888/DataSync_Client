@@ -1796,7 +1796,7 @@ namespace DataSyncSystem
                           pmHeadShowTrial.TrDate + ".dict";
             MyLogger.WriteLine("dict " + file);
             //弹出下载选项框
-            FmDbgFiles fm = new FmDbgFiles(file);
+            FmDbgFiles fm = new FmDbgFiles(pmHeadShowTrial.TrUserId, pmHeadShowTrial.TrDate);
             fm.ShowDialog(this);
         }
 

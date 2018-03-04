@@ -142,5 +142,31 @@ namespace DataSyncSystem.Utils
 
             return canUpld;
         }
+
+        // 判断一个路径是否可以写入
+        public static bool checkDirCanWrite(string path)
+        {
+            bool canWrite = false;
+            try
+            {
+                string testFile = path + "\\elif.test";
+                FileStream fs = new FileStream(testFile, FileMode.Create);
+                fs.Close();
+                canWrite = true;
+                try
+                {
+                    File.Delete(testFile);
+                }
+                catch
+                {
+                    MyLogger.WriteLine(testFile + " delete error!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MyLogger.WriteLine(path + " test failed!" + ex.Message);
+            }
+            return canWrite;
+        }
     }
 }

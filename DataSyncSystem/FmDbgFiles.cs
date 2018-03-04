@@ -18,7 +18,20 @@ namespace DataSyncSystem
         private string dbgFilesDict;
         private Dictionary<string, string> fileid2NameDict = new Dictionary<string, string>();
         private List<string> dictLine = new List<string>();
-        private List<string> dnldFileids = new List<string>();
+
+        private string userid;
+        private string date;
+
+        public static string dnldFolder = null;
+
+        static FmDbgFiles()
+        {
+            dnldFolder = Environment.CurrentDirectory;
+            if (!FileHandle.checkDirCanWrite(dnldFolder))
+            {
+                dnldFolder = "";
+            }
+        }
 
         public FmDbgFiles()
         {
@@ -26,22 +39,29 @@ namespace DataSyncSystem
             StartPosition = FormStartPosition.CenterScreen;
         }
 
-        public FmDbgFiles(string dbgFilesDict)
+        public FmDbgFiles(string usid,string dt)
         {
             InitializeComponent();
 
             rdoStrict.Checked = true; // 默认为严格搜索语法
 
             StartPosition = FormStartPosition.CenterScreen;
-            this.dbgFilesDict = dbgFilesDict;
+
+            userid = usid;
+            date = dt;
+            dbgFilesDict = Environment.CurrentDirectory + "\\" + usid + "_" +
+                          dt + ".dict";
 
             listView1.Columns.Add("Downlaod", -2, HorizontalAlignment.Center);
             listView1.Columns.Add("File-Names", -2, HorizontalAlignment.Left);
 
+            txtDnldFolder.Text = dnldFolder;
+
             //用线程去加载dbgFilesDict文件
-            Thread th = new Thread(loadDict);
-            th.IsBackground = true;
-            th.Start();
+            //Thread th = new Thread(loadDict);
+            //th.IsBackground = true;
+            //th.Start();
+            loadDict();
         }
 
         //加载dbgFilesDict [线程函数]
@@ -62,14 +82,14 @@ namespace DataSyncSystem
                     MyLogger.WriteLine(dictFile.FullName);
                     Thread.Sleep(500);
                     waitTimes++;
-                    if(waitTimes>= 6)
+                    if(waitTimes>= 3)
                     {
                         MyLogger.WriteLine("wait dict file timeout!");
                         break;
                     }
                 }
             }
-            if(waitTimes < 6) //dict 文件已经得到
+            if(waitTimes < 3) //dict 文件已经得到
             {
                 //读取dict 文件到 listview 中
                 using (FileStream fs = new FileStream(dbgFilesDict, FileMode.Open))
@@ -128,10 +148,31 @@ namespace DataSyncSystem
             picboxImgTh.Start();
 
             MyLogger.WriteLine("download list:");
-            foreach(ListViewItem item in listView1.CheckedItems)
+            List<string> dnldFileIdList = new List<string>();
+            foreach (ListViewItem item in listView1.CheckedItems)
             {
-                dnldFileids.Add(item.SubItems[0].Text); // subitems[0]:fileid  [1]:filename
+                dnldFileIdList.Add(item.SubItems[0].Text); // subitems[0]:fileid  [1]:filename
                 MyLogger.WriteLine(item.SubItems[0].Text + " +++ " + item.SubItems[1].Text);
+            }
+
+            //先判断txtDnldFolder是否有目录
+            if (!txtDnldFolder.Text.Trim().Equals(""))
+            {
+                //开始下载
+                //GetCsvSock.dnldFiles(userid, date, dnldFolder, dnldFileIdList, false);
+
+                //重置list选中状态
+                for(int i=0; i<listView1.Items.Count; i++)
+                {
+                    listView1.Items[i].Checked = false;
+                }
+
+                labSelectNum.Text = listView1.CheckedItems.Count + "";
+
+            }
+            else
+            {
+                MessageBox.Show("Please choose a download folder!", "download deny");
             }
         }
         #region 改变下载按钮特效
@@ -192,6 +233,38 @@ namespace DataSyncSystem
                 }
                 updateList(showLine);
             }
+        }
+
+        private void btBrowse_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog dia = new FolderBrowserDialog();
+            if(dia.ShowDialog() == DialogResult.OK)
+            {
+                if (!FileHandle.checkDirCanWrite(dia.SelectedPath))
+                {
+                    MessageBox.Show("Please choose another folder!\n You can save file to this folder", "operator error");
+                }
+                else
+                {
+                    txtDnldFolder.Text = dia.SelectedPath;
+                    dnldFolder = dia.SelectedPath;
+                }
+            }
+        }
+
+        private void listView1_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            int count = 0;
+            count = listView1.CheckedItems.Count;
+            if (e.CurrentValue == CheckState.Unchecked) //
+            {
+                count += 1;
+            }
+            else //之前选中
+            {
+                count -= 1;
+            }
+            labSelectNum.Text = count + "";
         }
     }
 }
