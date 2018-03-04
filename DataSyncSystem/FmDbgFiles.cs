@@ -158,8 +158,15 @@ namespace DataSyncSystem
             //先判断txtDnldFolder是否有目录
             if (!txtDnldFolder.Text.Trim().Equals(""))
             {
-                //开始下载
-                //GetCsvSock.dnldFiles(userid, date, dnldFolder, dnldFileIdList, false);
+                if(dnldFileIdList.Count >= 1)
+                {
+                    //开始下载
+                    GetCsvSock.dnldFiles(userid, date, dnldFolder, dnldFileIdList, false);
+                }
+                else
+                {
+                    MessageBox.Show("Please at least 1 file to download!", "operator error!");
+                }
 
                 //重置list选中状态
                 for(int i=0; i<listView1.Items.Count; i++)

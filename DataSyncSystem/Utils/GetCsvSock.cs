@@ -15,12 +15,15 @@ using System.Data;
 
 namespace DataSyncSystem.Utils
 {
-    public static class GetCsvSock
+    public class GetCsvSock
     {
         public static Socket sock = null;//静态成员，所有的GetCsvSock 实例都只是使用这个sock
         public static string userId;
         public static string trialDate;
         public static FmMain parent;
+
+        public static string dnldDir = Environment.CurrentDirectory;
+        public static bool bchDnldProg = false;
 
         //初始化socket
         static GetCsvSock()
@@ -75,6 +78,13 @@ namespace DataSyncSystem.Utils
                 {
                     MyLogger.WriteLine("<下载csv>:服务端回应请求错误! " + msg);
                     MessageBox.Show(msg.Split('#')[1], "csv文件缺失");
+
+                    //csv响应错误，也要请求文件dict
+                    if (!File.Exists(Environment.CurrentDirectory + userId + "_" + trialDate + ".dict"))
+                    {
+                        queryDdgFiles(userId, trialDate);
+                    }
+
                     continue;
                 }
 
@@ -204,6 +214,90 @@ namespace DataSyncSystem.Utils
                     //显示界面中点击按钮
                     parent.enablePic();
                 }
+
+                //错误响应 reqbunchfile
+                else if (msg.StartsWith("errreqbunchfile:"))
+                {
+                    MyLogger.WriteLine("<下载bunchfiles>:服务端回应请求错误! " + msg);
+                    MessageBox.Show(msg.Split('#')[1], "下载错误!");
+                    continue;
+                }
+
+                //正常响应 reqbunchfile
+                else if (msg.StartsWith("resreqbunchfile:"))
+                {
+                    //直接开始接收bunch files 文件信息
+                    int maxFileLen = 1024 * 512;//512 k
+                    byte[] fileBuf = new byte[maxFileLen];
+                    string fileName = null;
+                    int waitRecvFileNum = Int32.Parse(msg.Split('#')[1]); //要下载的文件个数
+
+                    //FmBchDldProgress prog = null;
+                    //if (bchDnldProg)
+                    //{
+                    //    prog = new FmBchDldProgress(waitRecvFileNum);
+                    //    prog.Show(parent);
+                    //}
+
+                    //监听每个文件上传请求
+                    while (waitRecvFileNum >= 1)
+                    {
+                        //监听文件头 信息
+                        int count = sock.Receive(msgBuf);
+                        msg = Encoding.UTF8.GetString(msgBuf);
+
+                        //file: # file_len # file_name #  
+                        if (msg.StartsWith("singleinfo:"))
+                        {
+                            fileName = msg.Split('#')[2];
+
+                            bool ifFileEnd = false;
+                            using (FileStream fs = new FileStream(dnldDir + "\\" + fileName, FileMode.Create))
+                            {
+                                //监听文件数据 loop
+                                while (!ifFileEnd)
+                                {
+                                    count = sock.Receive(fileBuf);
+                                    //正常数据
+                                    if (count > 128)
+                                    {
+                                        fs.Write(fileBuf, 0, count);
+                                    }
+                                    else
+                                    {
+                                        msg = Encoding.UTF8.GetString(fileBuf);
+
+                                        //文件结束标志  singleend:# file_name # file_left #
+                                        if (msg.StartsWith("singleend:"))
+                                        {
+                                            waitRecvFileNum = Int32.Parse(msg.Split('#')[2]);
+                                            MyLogger.WriteLine("还剩余文件：" + (waitRecvFileNum - 1) + " 待传输\n");
+
+                                            //结束
+                                            ifFileEnd = true;
+                                        }
+
+                                        //不能整段发送的剩余数据
+                                        else
+                                        {
+                                            fs.Write(fileBuf, 0, count);
+                                            fs.Close();
+                                            Console.WriteLine("保存文件:" + fileName + " 成功!\n");
+                                        }
+                                    }
+                                }// while(!iffileEnd)
+
+                                //if (prog != null)
+                                //{
+                                //    prog.updtProg(waitRecvFileNum);
+                                //}
+                            }// using file()
+                        }// else if (msg.StartsWith("resreqbunchfile:"))
+                    }// while(waitRecvNum > 1)
+
+                    //bunch files 传输完成!
+                    MyLogger.WriteLine("bunch files 传输完成！");
+                }
             }
         }
 
@@ -245,7 +339,10 @@ namespace DataSyncSystem.Utils
                 parent.showDataview(table.DefaultView);
 
                 //下载完summary csv 文件，接着街下载dbgfiles
-                queryDdgFiles(userId, trialDate);
+                if (!File.Exists(Environment.CurrentDirectory + userId + "_" + trialDate + ".dict"))
+                {
+                    queryDdgFiles(userId, trialDate);
+                }
             }
             catch (Exception vErr)
             {
@@ -293,6 +390,48 @@ namespace DataSyncSystem.Utils
                 MessageBox.Show("与服务端断开连接!", "搜索失败");
             }
             MyLogger.WriteLine("发送请求头:" + reqHead);
+        }
+
+        //外部调用接口 [发送dbgfiles下载请求]
+        //function(dnldFolder,userid+"_"+date, List<string> fileIds,bool progress);
+        public static void dnldFiles(string id, string date, string dnldFolder, List<string> fileIds, bool progress)
+        {
+            userId = id;
+            trialDate = date;
+            dnldDir = dnldFolder;
+            bchDnldProg = progress;
+
+            string req = "reqbunchfiles:#" + userId + "_" + trialDate + "#";
+            try
+            {
+                sock.Send(Encoding.UTF8.GetBytes(req.ToString().ToCharArray()));
+                MyLogger.WriteLine("发送请求头:" + req);
+
+                Thread.Sleep(400);
+
+                //加入要下载的文件ids
+                StringBuilder reqHead = new StringBuilder("bunchfileids:#");
+                foreach (string fileid in fileIds)
+                {
+                    reqHead.Append(fileid + ",");
+                }
+                reqHead.Append("#");
+
+                try
+                {
+                    sock.Send(Encoding.UTF8.GetBytes(reqHead.ToString().ToCharArray()));
+                    MyLogger.WriteLine("发送bunchfileids 成功!");
+
+                }catch(Exception x)
+                {
+                    MyLogger.WriteLine("发送bunchfileids 失败！"+x.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                MyLogger.WriteLine("发送reqdbgfile请求失败!" + ex.Message);
+                MessageBox.Show("与服务端断开连接!", "搜索失败");
+            }
         }
 
         public static void init(Form fm)
