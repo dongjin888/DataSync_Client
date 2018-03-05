@@ -24,7 +24,7 @@ namespace DataSyncSystem.SelfView
             CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
             parent = (FmMain)par;
-            parent.disable();
+            //parent.disable();
             StartPosition = FormStartPosition.CenterScreen;
         }
 
@@ -52,7 +52,7 @@ namespace DataSyncSystem.SelfView
 
         private void FmCompress_FormClosing(object sender, FormClosingEventArgs e)
         {
-            parent.enable();
+            //parent.enable();
         }
     }
 }

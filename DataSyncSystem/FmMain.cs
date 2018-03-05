@@ -537,7 +537,7 @@ namespace DataSyncSystem
                 return;
             }
 
-            //拼接传输头
+            #region 传输头处理
             // head:# activator=xxx(工程师) # operator=xx(工人) # unique=activator_datenow # 
             //        platform=xx # product=xx # info=xx # other=xx # 
             string activator = headLine[0].Split('=')[1]; //activator
@@ -567,6 +567,7 @@ namespace DataSyncSystem
             trialInfo.Pdct = pdct;
             trialInfo.Info = info;
             trialInfo.Other = other;
+            #endregion
 
             // 组装上传请求头
             upldHead = "upld:#";
@@ -581,18 +582,17 @@ namespace DataSyncSystem
                 try
                 {
                     upldSock.Connect(ip, Int32.Parse(ContantInfo.SockServ.port));
+
+                    //开启线程监听server 的 响应
+                    Thread recvTh = new Thread(recv);
+                    recvTh.IsBackground = true;
+                    recvTh.Start();
                 }
                 catch (Exception err)
                 {
                     MessageBox.Show("获取upldSock 连接失败，上传中断！", "warning");
                     MyLogger.WriteLine(err.Message);
-                    return;
                 }
-
-                //开启线程监听server 的 响应
-                Thread recvTh = new Thread(recv);
-                recvTh.IsBackground = true;
-                recvTh.Start();
             }
 
             try
@@ -656,15 +656,11 @@ namespace DataSyncSystem
                                 MyLogger.WriteLine("wait compress...");
                                 Thread.Sleep(1000);
                             }
-                            MyLogger.WriteLine("compress ok!");
-                            fm.updateInfo(-1); // 关闭等待压缩进度条
+                            MyLogger.WriteLine("compress ok!");        
                         }
-                        else
-                        {
-                            fm.Close();
-                        }
+                        fm.updateInfo(-1); // 关闭等待压缩进度条
 
-                        if(compressCode == ContantInfo.Compress.PRESSOK) //压缩过程无错
+                        if (compressCode == ContantInfo.Compress.PRESSOK) //压缩过程无错
                         {
                             //开始传输 zipFileName 的 .zip 文件
                             Thread upldTh = new Thread(upload);
@@ -1795,6 +1791,7 @@ namespace DataSyncSystem
             string file = Environment.CurrentDirectory + "\\" + pmHeadShowTrial.TrUserId + "_" + 
                           pmHeadShowTrial.TrDate + ".dict";
             MyLogger.WriteLine("dict " + file);
+
             //弹出下载选项框
             FmDbgFiles fm = new FmDbgFiles(pmHeadShowTrial.TrUserId, pmHeadShowTrial.TrDate);
             fm.ShowDialog(this);

@@ -128,8 +128,12 @@ namespace DataSyncSystem.Utils
                             //正常数据
                             if (count > 64)
                             {
-                                fs.Write(fileBuf, 0, count);
-                                fs.Flush();//------add 
+                                try
+                                {
+                                    fs.Write(fileBuf, 0, count);
+                                    fs.Flush();//------add 
+                                }
+                                catch { MyLogger.WriteLine("接收csv文件时，写入文件错误！"); }
                             }
                             else //count < 64
                             {
@@ -139,8 +143,12 @@ namespace DataSyncSystem.Utils
                                 if (msg.StartsWith("endcsv:"))
                                 {
                                     msg = "resendcsv:#" + name + "#"; // end:# unique #
-                                    sock.Send(Encoding.UTF8.GetBytes(msg.ToCharArray()));//response
-                                    MyLogger.WriteLine("客户端回应:" + msg);
+                                    try
+                                    {
+                                        sock.Send(Encoding.UTF8.GetBytes(msg.ToCharArray()));//response
+                                        MyLogger.WriteLine("客户端回应:" + msg);
+                                    }
+                                    catch { MyLogger.WriteLine("发送csv接收完成的回应时,socket错误！"); }
 
                                     //结束
                                     ifDataEnd = true;
@@ -159,10 +167,9 @@ namespace DataSyncSystem.Utils
                                     try { 
                                         fs.Write(fileBuf, 0, count);
                                         fs.Close();
+                                        MyLogger.WriteLine("csv 文件关闭");
                                     }
-                                    catch { }
-
-                                    MyLogger.WriteLine("csv 文件关闭");
+                                    catch { MyLogger.WriteLine("csv段数据接收并关闭文件时错误!"); }
                                 }
                             }
                         } // while (!ifDataEnd)
@@ -197,23 +204,30 @@ namespace DataSyncSystem.Utils
                     }
                     catch
                     {
-                        MyLogger.WriteLine("接收dbgfiles 出错!");
+                        MyLogger.WriteLine("接收resreqdbgfiles响应 出错!");
                     }
                     msg = Encoding.UTF8.GetString(dbgFileBuf);
                     string[] dbgFileArr = msg.Split('#')[0].Split(','); // msg.Split('#')[0] => 文件列表
-                    FileStream fs = new FileStream(Environment.CurrentDirectory + "\\" + trialUnique + ".dict",
-                                                   FileMode.Create);
-                    StreamWriter sw = new StreamWriter(fs);
-                    foreach (string s in dbgFileArr)
+                    try
                     {
-                        sw.WriteLine(s);
-                    }
-                    sw.Close();
-                    fs.Close();
-                    MyLogger.WriteLine(Environment.CurrentDirectory + "\\" + trialUnique + ".dict 保存完成!");
+                        FileStream fs = new FileStream(Environment.CurrentDirectory + "\\" + trialUnique + ".dict",
+                                                   FileMode.Create);
+                        StreamWriter sw = new StreamWriter(fs);
+                        foreach (string s in dbgFileArr)
+                        {
+                            sw.WriteLine(s);
+                        }
+                        sw.Close();
+                        fs.Close();
+                        MyLogger.WriteLine(Environment.CurrentDirectory + "\\" + trialUnique + ".dict 保存完成!");
 
-                    //显示界面中点击按钮
-                    parent.enablePic();
+                        //显示界面中点击按钮
+                        parent.enablePic();
+                    }
+                    catch(Exception ex) 
+                    {
+                        MyLogger.WriteLine("保存dbgfiles dict 文件时错误！" + ex.Message);
+                    }
                 }
 
                 //错误响应 reqbunchfile
@@ -234,7 +248,7 @@ namespace DataSyncSystem.Utils
                     int waitRecvFileNum = Int32.Parse(msg.Split('#')[1]); //要下载的文件个数
 
                     FmBchDnldProgrs prog = null;
-                    if (bchDnldProg)
+                    if (bchDnldProg) //如果要显示bunch files 下载进度条
                     {
                         prog = new FmBchDnldProgrs(waitRecvFileNum);
                         prog.Show(parent);
@@ -243,20 +257,29 @@ namespace DataSyncSystem.Utils
                     //监听每个文件上传请求
                     DateTime now = DateTime.Now;
                     string tm = now.ToLongTimeString();
-                    tm = tm.Substring(0, tm.Length - 3).Replace(':', '.');
+                    tm = tm.Substring(0, tm.Length - 3).Replace(':', '.'); //09:34:23 > 09.34.23
 
                     //另外的这种时间格式是用来进行数据分析的时候
                     //方便文件操作
                     if (!bchDnldProg)
                     {
-                        tm = userId + "_" + trialDate;
+                        tm = userId + "_" + trialDate; //1000248501_trial日期
                     }
 
                     while (waitRecvFileNum >= 1)
                     {
                         //监听文件头 信息
-                        int count = sock.Receive(msgBuf);
-                        msg = Encoding.UTF8.GetString(msgBuf);
+                        int count = 0;
+                        try
+                        {
+                            sock.Receive(msgBuf);
+                            msg = Encoding.UTF8.GetString(msgBuf);
+                        }
+                        catch
+                        {
+                            MyLogger.WriteLine("文件批量下载时，监听单个文件信息错误！");
+                            break;
+                        }
 
                         //file: # file_len # file_name #  
                         if (msg.StartsWith("singleinfo:"))
@@ -269,11 +292,25 @@ namespace DataSyncSystem.Utils
                                 //监听文件数据 loop
                                 while (!ifFileEnd)
                                 {
-                                    count = sock.Receive(fileBuf);
+                                    try
+                                    {
+                                        count = sock.Receive(fileBuf);
+                                    }
+                                    catch {
+                                        MyLogger.WriteLine("bunch file 下载时,接收文件信息时socket 错误！");
+                                        break;
+                                    }
                                     //正常数据
                                     if (count > 128)
                                     {
-                                        fs.Write(fileBuf, 0, count);
+                                        try
+                                        {
+                                            fs.Write(fileBuf, 0, count);
+                                        }
+                                        catch
+                                        {
+                                            MyLogger.WriteLine("bunch file 下载时,写入文件信息时错误！");
+                                        }
                                     }
                                     else
                                     {
@@ -282,8 +319,12 @@ namespace DataSyncSystem.Utils
                                         //文件结束标志  singleend:# file_name # file_left #
                                         if (msg.StartsWith("singleend:"))
                                         {
-                                            waitRecvFileNum = Int32.Parse(msg.Split('#')[2]);
-                                            MyLogger.WriteLine("还剩余文件：" + (waitRecvFileNum - 1) + " 待传输\n");
+                                            try
+                                            {
+                                                waitRecvFileNum = Int32.Parse(msg.Split('#')[2]);
+                                                MyLogger.WriteLine("还剩余文件：" + (waitRecvFileNum - 1) + " 待传输\n");
+                                            }
+                                            catch { MyLogger.WriteLine("parse 文件待传输数量时异常！"); }
 
                                             //结束
                                             ifFileEnd = true;
@@ -291,17 +332,25 @@ namespace DataSyncSystem.Utils
                                             //[add]
                                             if (fs.CanWrite)
                                             {
-                                                fs.Close();
-                                                MyLogger.WriteLine("保存文件:" + fileName + " 成功!\n");
+                                                try
+                                                {
+                                                    fs.Close();
+                                                    MyLogger.WriteLine("保存文件:" + fileName + " 成功!\n");
+                                                }
+                                                catch { MyLogger.WriteLine("bunfile 关闭接收文件时异常！"); }
                                             }
                                         }
 
                                         //不能整段发送的剩余数据
                                         else
                                         {
-                                            fs.Write(fileBuf, 0, count);
-                                            fs.Close();
-                                            MyLogger.WriteLine("保存文件:" + fileName + " 成功!\n");
+                                            try
+                                            {
+                                                fs.Write(fileBuf, 0, count);
+                                                fs.Close();
+                                                MyLogger.WriteLine("保存文件:" + fileName + " 成功!\n");
+                                            }
+                                            catch { MyLogger.WriteLine("bunfile 关闭接收文件时异常！"); }
                                         }
                                     }
                                 }// while(!iffileEnd)
@@ -327,6 +376,11 @@ namespace DataSyncSystem.Utils
         public static void csv3(object obj)
         {
             string pCsvPath = obj as string;//文件路径
+            if(!File.Exists(pCsvPath))
+            {
+                MyLogger.WriteLine("线程加载csv文件时错误！文件不存在");
+                return;
+            }
             try
             {
                 String line;
