@@ -57,6 +57,12 @@
     <Compile Include="Dao\Trial.cs" />
     <Compile Include="Dao\TrialInfo.cs" />
     <Compile Include="Dao\User.cs" />
+    <Compile Include="FmAnalyzer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FmAnalyzer.Designer.cs">
+      <DependentUpon>FmAnalyzer.cs</DependentUpon>
+    </Compile>
     <Compile Include="FmCsv.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,6 +113,9 @@
     <Compile Include="SelfView\FmProgress.Designer.cs">
       <DependentUpon>FmProgress.cs</DependentUpon>
     </Compile>
+    <Compile Include="SelfView\MyLable.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SelfView\MyPlatform.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -131,6 +140,7 @@
     <Compile Include="SelfView\UploadRecord.Designer.cs">
       <DependentUpon>UploadRecord.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\AnalyzerCfg.cs" />
     <Compile Include="Utils\Cache.cs" />
     <Compile Include="Utils\CfgTool.cs" />
     <Compile Include="Utils\ContantInfo.cs" />
@@ -144,6 +154,9 @@
     <Compile Include="Utils\PanViewTool.cs" />
     <Compile Include="Utils\ShowPage.cs" />
     <Compile Include="Utils\TimeHandle.cs" />
+    <EmbeddedResource Include="FmAnalyzer.resx">
+      <DependentUpon>FmAnalyzer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FmCsv.resx">
       <DependentUpon>FmCsv.cs</DependentUpon>
     </EmbeddedResource>

@@ -1778,7 +1778,9 @@ namespace DataSyncSystem
         //分析按钮的点击事件
         private void pmTrialBtAnalyze_Click(object sender, EventArgs e)
         {
-            //GetCsvSock.queryDdgFiles(pmHeadShowTrial.TrUserId,pmHeadShowTrial.TrDate);
+            //弹出分析选择框
+            FmAnalyzer analyze = new FmAnalyzer(pmHeadShowTrial.TrUserId, pmHeadShowTrial.TrDate);
+            analyze.Show();
         }
 
         //dbgFiles 图片按钮的点击事件[获取dbgfiles 文件列表]
