@@ -12,6 +12,7 @@ using System.Net;
 using System.IO.Compression;
 using System.Windows.Forms;
 using System.Data;
+using DataSyncSystem.SelfView;
 
 namespace DataSyncSystem.Utils
 {
@@ -232,14 +233,25 @@ namespace DataSyncSystem.Utils
                     string fileName = null;
                     int waitRecvFileNum = Int32.Parse(msg.Split('#')[1]); //要下载的文件个数
 
-                    //FmBchDldProgress prog = null;
-                    //if (bchDnldProg)
-                    //{
-                    //    prog = new FmBchDldProgress(waitRecvFileNum);
-                    //    prog.Show(parent);
-                    //}
+                    FmBchDnldProgrs prog = null;
+                    if (bchDnldProg)
+                    {
+                        prog = new FmBchDnldProgrs(waitRecvFileNum);
+                        prog.Show(parent);
+                    }
 
                     //监听每个文件上传请求
+                    DateTime now = DateTime.Now;
+                    string tm = now.ToLongTimeString();
+                    tm = tm.Substring(0, tm.Length - 3).Replace(':', '.');
+
+                    //另外的这种时间格式是用来进行数据分析的时候
+                    //方便文件操作
+                    if (!bchDnldProg)
+                    {
+                        tm = userId + "_" + trialDate;
+                    }
+
                     while (waitRecvFileNum >= 1)
                     {
                         //监听文件头 信息
@@ -252,7 +264,7 @@ namespace DataSyncSystem.Utils
                             fileName = msg.Split('#')[2];
 
                             bool ifFileEnd = false;
-                            using (FileStream fs = new FileStream(dnldDir + "\\" + fileName, FileMode.Create))
+                            using (FileStream fs = new FileStream(dnldDir + "\\"+tm +"-"+ fileName, FileMode.Create))
                             {
                                 //监听文件数据 loop
                                 while (!ifFileEnd)
@@ -275,6 +287,13 @@ namespace DataSyncSystem.Utils
 
                                             //结束
                                             ifFileEnd = true;
+
+                                            //[add]
+                                            if (fs.CanWrite)
+                                            {
+                                                fs.Close();
+                                                MyLogger.WriteLine("保存文件:" + fileName + " 成功!\n");
+                                            }
                                         }
 
                                         //不能整段发送的剩余数据
@@ -282,21 +301,24 @@ namespace DataSyncSystem.Utils
                                         {
                                             fs.Write(fileBuf, 0, count);
                                             fs.Close();
-                                            Console.WriteLine("保存文件:" + fileName + " 成功!\n");
+                                            MyLogger.WriteLine("保存文件:" + fileName + " 成功!\n");
                                         }
                                     }
                                 }// while(!iffileEnd)
 
-                                //if (prog != null)
-                                //{
-                                //    prog.updtProg(waitRecvFileNum);
-                                //}
+                                if (prog != null)
+                                {
+                                   prog.updtProg(waitRecvFileNum,fileName);
+                                }
                             }// using file()
                         }// else if (msg.StartsWith("resreqbunchfile:"))
                     }// while(waitRecvNum > 1)
 
-                    //bunch files 传输完成!
-                    MyLogger.WriteLine("bunch files 传输完成！");
+                    if(prog != null) //prog等于null，表示文件是为analyze后台下载的
+                    {
+                        //bunch files 传输完成!
+                        MessageBox.Show("下载完成！", "message");
+                    }
                 }
             }
         }

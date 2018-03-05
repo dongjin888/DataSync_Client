@@ -161,7 +161,7 @@ namespace DataSyncSystem
                 if(dnldFileIdList.Count >= 1)
                 {
                     //开始下载
-                    GetCsvSock.dnldFiles(userid, date, dnldFolder, dnldFileIdList, false);
+                    GetCsvSock.dnldFiles(userid, date, dnldFolder, dnldFileIdList, true);
                 }
                 else
                 {
@@ -173,8 +173,8 @@ namespace DataSyncSystem
                 {
                     listView1.Items[i].Checked = false;
                 }
-
                 labSelectNum.Text = listView1.CheckedItems.Count + "";
+
 
             }
             else
@@ -185,7 +185,7 @@ namespace DataSyncSystem
         #region 改变下载按钮特效
         private void imgChg()
         {
-            Thread.Sleep(200);
+            Thread.Sleep(300);
             updateFreshImg();
         }
         private delegate void UpdateDnldImg();

@@ -1,6 +1,6 @@
 ﻿namespace DataSyncSystem.SelfView
 {
-    partial class FmCompress
+    partial class FmBchDnldProgrs
     {
         /// <summary>
         /// Required designer variable.
@@ -29,31 +29,51 @@
         private void InitializeComponent()
         {
             this.labInfo = new System.Windows.Forms.Label();
+            this.progress = new System.Windows.Forms.ProgressBar();
+            this.labPersent = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labInfo
             // 
+            this.labInfo.AutoEllipsis = true;
             this.labInfo.AutoSize = true;
-            this.labInfo.BackColor = System.Drawing.Color.Black;
+            this.labInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.labInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.labInfo.ForeColor = System.Drawing.Color.White;
-            this.labInfo.Location = new System.Drawing.Point(116, 38);
+            this.labInfo.Location = new System.Drawing.Point(70, 103);
+            this.labInfo.MaximumSize = new System.Drawing.Size(540, 60);
             this.labInfo.Name = "labInfo";
             this.labInfo.Size = new System.Drawing.Size(40, 20);
-            this.labInfo.TabIndex = 0;
+            this.labInfo.TabIndex = 3;
             this.labInfo.Text = "info";
+            this.labInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // FmCompress
+            // progress
+            // 
+            this.progress.Location = new System.Drawing.Point(12, 37);
+            this.progress.Name = "progress";
+            this.progress.Size = new System.Drawing.Size(603, 42);
+            this.progress.TabIndex = 2;
+            // 
+            // labPersent
+            // 
+            this.labPersent.AutoSize = true;
+            this.labPersent.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.labPersent.Location = new System.Drawing.Point(634, 50);
+            this.labPersent.Name = "labPersent";
+            this.labPersent.Size = new System.Drawing.Size(0, 20);
+            this.labPersent.TabIndex = 4;
+            // 
+            // FmBchDnldProgrs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(510, 97);
+            this.ClientSize = new System.Drawing.Size(710, 143);
+            this.Controls.Add(this.labPersent);
             this.Controls.Add(this.labInfo);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "FmCompress";
-            this.Text = "Wait Compress";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FmCompress_FormClosing);
+            this.Controls.Add(this.progress);
+            this.Name = "FmBchDnldProgrs";
+            this.Text = "FmBchDnldProgrs";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -62,5 +82,7 @@
         #endregion
 
         private System.Windows.Forms.Label labInfo;
+        private System.Windows.Forms.ProgressBar progress;
+        private System.Windows.Forms.Label labPersent;
     }
 }
