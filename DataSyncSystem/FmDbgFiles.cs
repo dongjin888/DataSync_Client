@@ -161,7 +161,7 @@ namespace DataSyncSystem
                 if(dnldFileIdList.Count >= 1)
                 {
                     //开始下载
-                    GetCsvSock.dnldFiles(userid, date, dnldFolder, dnldFileIdList, true);
+                    GetCsvSock.dnldFiles(userid, date, dnldFolder, dnldFileIdList, true, null);
                 }
                 else
                 {

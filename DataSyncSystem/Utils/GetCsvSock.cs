@@ -13,6 +13,7 @@ using System.IO.Compression;
 using System.Windows.Forms;
 using System.Data;
 using DataSyncSystem.SelfView;
+using DataSyncSystem.Utils;
 
 namespace DataSyncSystem.Utils
 {
@@ -25,6 +26,8 @@ namespace DataSyncSystem.Utils
 
         public static string dnldDir = Environment.CurrentDirectory;
         public static bool bchDnldProg = false;
+
+        private static IAnalyzCsvDnlded callback;
 
         //初始化socket
         static GetCsvSock()
@@ -266,6 +269,7 @@ namespace DataSyncSystem.Utils
                         tm = userId + "_" + trialDate; //1000248501_trial日期
                     }
 
+                    List<string> dnldFiles = new List<string>();
                     while (waitRecvFileNum >= 1)
                     {
                         //监听文件头 信息
@@ -287,7 +291,8 @@ namespace DataSyncSystem.Utils
                             fileName = msg.Split('#')[2];
 
                             bool ifFileEnd = false;
-                            using (FileStream fs = new FileStream(dnldDir + "\\"+tm +"-"+ fileName, FileMode.Create))
+                            string fmTmp = dnldDir + "\\" + tm + "-" + fileName;
+                            using (FileStream fs = new FileStream(fmTmp, FileMode.Create))
                             {
                                 //监听文件数据 loop
                                 while (!ifFileEnd)
@@ -360,13 +365,19 @@ namespace DataSyncSystem.Utils
                                    prog.updtProg(waitRecvFileNum,fileName);
                                 }
                             }// using file()
+                            dnldFiles.Add(fmTmp);
                         }// else if (msg.StartsWith("resreqbunchfile:"))
                     }// while(waitRecvNum > 1)
-
-                    if(prog != null) //prog等于null，表示文件是为analyze后台下载的
+                    
+                    if(prog != null) // 不是后台下载
                     {
                         //bunch files 传输完成!
                         MessageBox.Show("下载完成！", "message");
+                    }
+                    else //prog等于null，表示文件是为analyze后台下载的
+                    {
+                        //下载完待分析的文件后，callback通知分析
+                        callback.dnldOkCallBack(dnldFiles);
                     }
                 }
             }
@@ -470,11 +481,16 @@ namespace DataSyncSystem.Utils
 
         //外部调用接口 [发送dbgfiles下载请求]
         //function(dnldFolder,userid+"_"+date, List<string> fileIds,bool progress);
-        public static void dnldFiles(string id, string date, string dnldFolder, List<string> fileIds, bool progress)
+        public static void dnldFiles(string id, string date, string dnldFolder, List<string> fileIds, bool progress
+            ,IAnalyzCsvDnlded callbk)
         {
             userId = id;
             trialDate = date;
-            dnldDir = dnldFolder;
+            if(dnldFolder != null)
+            {
+                dnldDir = dnldFolder;
+            }
+            callback = callbk;
             bchDnldProg = progress;
 
             string req = "reqbunchfiles:#" + userId + "_" + trialDate + "#";

@@ -32,9 +32,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AnalysisTool">
+      <HintPath>..\packages\AnalysisTool.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic">
+      <HintPath>..\packages\VisualBasic.PowerPacks.Vs.1.0.0\lib\Microsoft.VisualBasic.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\VisualBasic.PowerPacks.Vs.1.0.0\lib\Microsoft.VisualBasic.PowerPacks.Vs.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.10.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\MySQL\MySQL Connector Net 6.10.5\Assemblies\v4.5.2\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot, Version=1.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.Core.1.0.0\lib\net45\OxyPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.WindowsForms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=245eacd6b5d2d338, processorArchitecture=MSIL">
+      <HintPath>..\packages\OxyPlot.WindowsForms.1.0.0\lib\net45\OxyPlot.WindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -113,6 +129,12 @@
     <Compile Include="SelfView\FmProgress.Designer.cs">
       <DependentUpon>FmProgress.cs</DependentUpon>
     </Compile>
+    <Compile Include="SelfView\FmWaitAnlyzFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelfView\FmWaitAnlyzFile.Designer.cs">
+      <DependentUpon>FmWaitAnlyzFile.cs</DependentUpon>
+    </Compile>
     <Compile Include="SelfView\MyLable.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -148,6 +170,7 @@
     <Compile Include="Utils\EnDeCode.cs" />
     <Compile Include="Utils\FileHandle.cs" />
     <Compile Include="Utils\GetCsvSock.cs" />
+    <Compile Include="Utils\IAnalyzCsvDnlded.cs" />
     <Compile Include="Utils\InfoGet.cs" />
     <Compile Include="Utils\MyLogger.cs" />
     <Compile Include="Utils\MyMd5.cs" />
@@ -191,6 +214,9 @@
     <EmbeddedResource Include="SelfView\FmProgress.resx">
       <DependentUpon>FmProgress.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SelfView\FmWaitAnlyzFile.resx">
+      <DependentUpon>FmWaitAnlyzFile.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SelfView\MyPlatform.resx">
       <DependentUpon>MyPlatform.cs</DependentUpon>
     </EmbeddedResource>
@@ -203,6 +229,7 @@
     <EmbeddedResource Include="SelfView\UploadRecord.resx">
       <DependentUpon>UploadRecord.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

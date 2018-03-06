@@ -22,3 +22,12 @@ C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyn
 C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.FmDbgFiles.resources
 C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.SelfView.FmBchDnldProgrs.resources
 C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.FmAnalyzer.resources
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\bin\Debug\AnalysisTool.dll
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\bin\Debug\Microsoft.VisualBasic.PowerPacks.Vs.dll
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\bin\Debug\OxyPlot.dll
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\bin\Debug\OxyPlot.WindowsForms.dll
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\bin\Debug\OxyPlot.pdb
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\bin\Debug\OxyPlot.xml
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\bin\Debug\OxyPlot.WindowsForms.pdb
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\bin\Debug\OxyPlot.WindowsForms.xml
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.SelfView.FmWaitAnlyzFile.resources

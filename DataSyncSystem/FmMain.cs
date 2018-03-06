@@ -1779,7 +1779,7 @@ namespace DataSyncSystem
         private void pmTrialBtAnalyze_Click(object sender, EventArgs e)
         {
             //弹出分析选择框
-            FmAnalyzer analyze = new FmAnalyzer(pmHeadShowTrial.TrUserId, pmHeadShowTrial.TrDate);
+            FmAnalyzer analyze = new FmAnalyzer(pmHeadShowTrial.TrUserId, pmHeadShowTrial.TrDate,this);
             analyze.Show();
         }
 

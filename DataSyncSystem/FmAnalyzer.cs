@@ -18,20 +18,26 @@ namespace DataSyncSystem
         private string userid;
         private string date;
 
+        private Control parent;
+
         // 显示每种tool 的控件
         private List<Control> controls = new List<Control>();
 
-        public FmAnalyzer()
+        public FmAnalyzer(Control par)
         {
             InitializeComponent();
 
             StartPosition = FormStartPosition.CenterScreen;
+
+            parent = par;
         }
 
-        public FmAnalyzer(string uid,string dt)
+        public FmAnalyzer(string uid,string dt,Control par)
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
+
+            parent = par;
 
             userid = uid;
             date = dt;
@@ -98,13 +104,19 @@ namespace DataSyncSystem
 
             //得到配置文件信息
             List<string> cfg = AnalyzerCfg.toolDict[lab.Text.Trim()];
+
             List<string> fileNameList = new List<string>();
 
             string dictName = Environment.CurrentDirectory + "\\" + userid + "_" + date + ".dict";
+            if(!File.Exists(dictName))
+            {
+                MessageBox.Show("This trial didn't have the .dict file!", "operator!");
+                return;
+            }
             FileStream fs = new FileStream(dictName, FileMode.Open);
             StreamReader sr = new StreamReader(fs);
             string line = null;
-            while((line = sr.ReadLine()) != null)
+            while((line = sr.ReadLine()) != null &&!line.Equals(""))
             {
                 fileNameList.Add(line);
             }
@@ -116,41 +128,49 @@ namespace DataSyncSystem
             foreach(string str in filekeywords)
             {
                 //分割keywords[] 去find文件
-                findAnalyzeFileId(str.Split(':').ToList(), findFileIds,fileNameList);
+                findAnalyzeFileId(str.Split(':').ToList(),fileNameList, findFileIds);
             }
-        }
-
-        private void findAnalyzeFileId(List<string> keys,List<string> find,List<string> fileNames)
-        {
             
-        }
-
-        //TestLog_MfgMIWMfg_ExtraData2_Parsed
-        //TestLog_MfgGTMMfg_MCSB_ParseResults
-        private List<string> cutFileName(string name)
-        {
-            List<string> ret = new List<string>();
-            char c;
-            int s = 0;
-            for(int i=0; i<name.Length; i++)
+            if(findFileIds.Count == 0)
             {
-                s = i;
-                while(name[i] >= 'a' && name[i] <= 'z')
-                {
-                    i++;
-                }
-                Console.WriteLine(name.Substring(s, i));
-
-                s = i;
-                //一连串大写
-                while(name[i]>='A' && name[i] <= 'Z')
-                {
-                    i++;
-                }
-                Console.WriteLine(name.Substring(s, i));
+                MessageBox.Show("Didn't find any file for tfc analyze!", "operator error");
+                return;
             }
 
-            return ret;
+            if(findFileIds.Count > 0)
+            {
+                foreach (string id in findFileIds)
+                    MyLogger.WriteLine("find id:"+id);
+
+                //GetCsvSock 获取要下载的文件
+                ImpAnalyzeCsvDnlded callback = new ImpAnalyzeCsvDnlded();
+                callback.AnalyzeName = lab.Text.Trim();
+                callback.Parent = parent;
+                GetCsvSock.dnldFiles(userid, date,null, findFileIds, false,callback);
+            }
+        }
+
+        private void findAnalyzeFileId(List<string> oneFilekeys,List<string> names,List<string> res)
+        {
+            string[] splits = null;
+            foreach (string name in names)
+            {
+                splits = name.Split('*');
+                int ct = 0;
+                foreach (string key in oneFilekeys)
+                {
+                    string tmp = key.ToLower();
+                    if (!tmp.Equals(""))
+                    {
+                        if (splits[1].ToLower().Contains(tmp))
+                        {
+                            ct++;
+                        }
+                    }
+                }
+                if (ct == oneFilekeys.Count)
+                    res.Add(splits[0]);
+            }
         }
     }
 }
