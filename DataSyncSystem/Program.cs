@@ -45,6 +45,7 @@ namespace DataSyncSystem
             Form fmMain = new FmMain();
             fmMain.FormBorderStyle = FormBorderStyle.FixedDialog;
 
+            string userLevel = "";
             Form fmLogin = new FmLogin();
             fmLogin.FormBorderStyle = FormBorderStyle.FixedDialog;
 
@@ -55,6 +56,11 @@ namespace DataSyncSystem
             {
                 //主界面开始运行
                 Application.Run(fmMain);
+
+            }else if(fmLoginRes == DialogResult.Yes)
+            {
+                //
+                //Application.Run(new FmFactory());
             }
         }
     }

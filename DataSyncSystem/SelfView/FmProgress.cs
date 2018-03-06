@@ -51,7 +51,10 @@ namespace DataSyncSystem.SelfView
             }
             else
             {
-                this.progress.Value = (int)pos / 100;
+                int tmp = (int)pos / 100;
+                if (tmp > progress.Maximum)
+                    tmp = progress.Maximum;
+                this.progress.Value = tmp;
                 this.progress.Refresh();
                 labInfo.Text = "当前进度:" + (int)(((float)progress.Value / progress.Maximum) * 100) + "/100";
                 Application.DoEvents(); //这句代码用于labinfo 信息的显示，否则labinfo 不能正确显示出来

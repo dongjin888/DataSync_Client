@@ -111,6 +111,7 @@
             this.MinimizeBox = false;
             this.Name = "FmLogin";
             this.Text = "User Login";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FmLogin_FormClosing);
             this.Load += new System.EventHandler(this.FmLogin_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

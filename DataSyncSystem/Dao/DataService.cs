@@ -43,7 +43,7 @@ namespace DataSyncSystem.Dao
         }
 
         #region 验证用户
-        public bool checkUser(string userId,string md5EncryptedStr)
+        public bool checkUser(string userId,string md5EncryptedStr,ref string level)
         {
             bool ret = false;
             if (con != null)
@@ -52,7 +52,7 @@ namespace DataSyncSystem.Dao
                 {
                     if (con.State != ConnectionState.Open) { con.Open(); }
 
-                    string query = @"select userpass from tabUsers where userId=@userId;";
+                    string query = @"select userpass,userlevel from tabUsers where userId=@userId;";
                     MySqlCommand cmd = new MySqlCommand();
                     cmd.Connection = con;
                     cmd.CommandText = query;
@@ -70,6 +70,7 @@ namespace DataSyncSystem.Dao
                             if (pass.Equals(md5EncryptedStr))
                             {
                                 ret = true;
+                                level = reader.GetString(1);
                             }
                         }
                     }

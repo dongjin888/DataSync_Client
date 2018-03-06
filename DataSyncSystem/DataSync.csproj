@@ -91,6 +91,12 @@
     <Compile Include="FmDbgFiles.Designer.cs">
       <DependentUpon>FmDbgFiles.cs</DependentUpon>
     </Compile>
+    <Compile Include="FmFactory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FmFactory.Designer.cs">
+      <DependentUpon>FmFactory.cs</DependentUpon>
+    </Compile>
     <Compile Include="FmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -185,6 +191,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FmDbgFiles.resx">
       <DependentUpon>FmDbgFiles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FmFactory.resx">
+      <DependentUpon>FmFactory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FmLogin.resx">
       <DependentUpon>FmLogin.cs</DependentUpon>

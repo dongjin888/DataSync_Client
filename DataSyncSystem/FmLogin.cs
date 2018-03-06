@@ -14,6 +14,7 @@ namespace DataSyncSystem
 {
     public partial class FmLogin : Form
     {
+        DataService service = null;
 
         public FmLogin()
         {
@@ -23,7 +24,7 @@ namespace DataSyncSystem
 
         private void FmLogin_Load(object sender, EventArgs e)
         {
-
+            service = new DataService();
         }
 
         //登录事件
@@ -36,25 +37,24 @@ namespace DataSyncSystem
             //输入合法
             if(userId !="" && userPass!="")
             {
-                //开发时临时身份检查
-                if(userId.Equals("123") && userPass.Equals("123"))
-                {
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
-
-                    Cache.userId = "1000248501";
-                }
-                /*正常的身份检查
                 string encryptedPass = MyMd5.getMd5EncryptedStr(userPass);
-                DataService service = new DataService();
+                string userLevel = "";
+
                 //用户身份合法
-                if (service.checkUser(userId, encryptedPass))
+                if (service.checkUser(userId, encryptedPass,ref userLevel))
                 {
-                    this.DialogResult = DialogResult.OK;
-                    this.Close();
+                    if (userLevel.Equals("normallv"))
+                    {
+                        this.DialogResult = DialogResult.OK;
+                    }
+                    else if (userLevel.Equals("lowlv"))
+                    {
+                        this.DialogResult = DialogResult.Yes;
+                    }
 
                     //保持用户id 到cache
                     Cache.userId = userId;
+                    this.Close();
                 }
                 //用户身份不合法
                 else
@@ -63,8 +63,6 @@ namespace DataSyncSystem
                     labLoginStatus.Text = "用户名或密码错误!";
                     txtName.Focus();
                 }
-                service.closeCon();
-                */
             }
             //输入不合法
             else
@@ -92,6 +90,14 @@ namespace DataSyncSystem
             {
                 labLoginStatus.Visible = false;
                 labLoginStatus.Text = "";
+            }
+        }
+
+        private void FmLogin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(service != null)
+            {
+                service.closeCon();
             }
         }
     }
