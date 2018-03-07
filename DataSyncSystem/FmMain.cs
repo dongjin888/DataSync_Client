@@ -689,19 +689,26 @@ namespace DataSyncSystem
                     {
                         endFlg = true;
                         MyLogger.WriteLine("服务端返回接收结束响应!");
+                        MessageBox.Show("上传成功!", "message");
 
                         //向数据库中插入数据上传记录
-                        if (isNewUpld)
-                        {
-                            service.insertTrial(trialInfo);
-                        }
+                        //if (isNewUpld)
+                        //{
+                        //    service.insertTrial(trialInfo);
+                        //}
+
                     }
 
                     //接收服务端返回的错误信息
                     if (msg.StartsWith("errupld:"))
                     {
                         endFlg = true;
-                        MessageBox.Show("上传出错!", "message");
+                        MessageBox.Show(msg.Split('#')[1], "message");
+
+                        //删除upld 目录中的.upldhist.hist
+                        string histNmae = upldPath + "\\.upldhist.hist";
+                        if (File.Exists(histNmae))
+                            File.Delete(histNmae);
                     }
                 }//while(!endFlg)
                 MyLogger.WriteLine("客户端监听任务结束!");
@@ -745,7 +752,7 @@ namespace DataSyncSystem
                 catch { MyLogger.WriteLine("删除已有的zip文件错误!"); }
             }
 
-            if(sonFolder.Count > 1) // 目录中有子目录
+            if(sonFolder.Count>1 || (sonFolder.Count==1 && !sonFolder[0].Name.Equals(root.Name))) // 目录中有子目录
             {
                 foreach (DirectoryInfo d in sonFolder)
                 {
@@ -885,7 +892,7 @@ namespace DataSyncSystem
                     //结束
                     fs.Close();
                 }
-                MessageBox.Show("文件上传成功!","message");
+                //MessageBox.Show("文件上传成功!","message");
 
                 if (isNewUpld)
                 {

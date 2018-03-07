@@ -19,10 +19,10 @@ namespace DataSyncSystem.Utils
             public static string port = "5000";
         }
 
-        public static class Fs
-        {
-            public static string path = @"c:\upload\";
-        }
+        //public static class Fs
+        //{
+            //public static string path = @"c:\upload\";
+        //}
 
         public static class UpldDir
         {

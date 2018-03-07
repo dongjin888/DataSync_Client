@@ -21,6 +21,7 @@ namespace DataSyncSystem.Utils
                     //不是注释，不是空行
                     if (!tmp.StartsWith("#") && !tmp.Equals(""))
                     {
+                        MyLogger.WriteLine("info line:" + tmp);
                         ret.Add(tmp);
                     }
                 }

@@ -40,7 +40,7 @@ namespace DataSyncSystem
             ContantInfo.Database.CONSQLSTR = parts[0];
             ContantInfo.SockServ.ip = parts[1];
             ContantInfo.SockServ.port = parts[2];
-            ContantInfo.Fs.path = parts[3];
+            //ContantInfo.Fs.path = parts[3];
             
             Form fmMain = new FmMain();
             fmMain.FormBorderStyle = FormBorderStyle.FixedDialog;

@@ -747,6 +747,7 @@ namespace DataSyncSystem.Dao
         #endregion
 
         #region 插入一条trial 记录
+        /*
         public void insertTrial(TrialInfo trialInfo)
         {
             if (con != null)
@@ -786,7 +787,7 @@ namespace DataSyncSystem.Dao
                     MyLogger.WriteLine("insert tabtrials error!");
                 }
             }
-        }
+        }*/
         #endregion
     }
 }
