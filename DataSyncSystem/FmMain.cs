@@ -113,13 +113,13 @@ namespace DataSyncSystem
         //文件上传
         Socket upldSock = null;
         volatile bool ifRecv = false; 
-        string upldHead = null;
-        string upldPath = "";
-        string zipFileName = "";
+        string upldHead = null; // upld请求头
+        string upldPath = "";  // upld 的路径
+        string zipFileName = "";  // upld的临时文件压缩的目录 
         TrialInfo trialInfo = null;
-        volatile bool isNewUpld = true;
+        volatile bool isNewUpld = true;  // 表示是否是新的上传
         string upldHistStr = ""; // .upldhist.hist 中存储的字符串
-        string pltfmpdctStr = "";
+        string pltfmpdctStr = ""; // .upldhist.hist 中存储的pltfm , pdct 
         int upldDirChkCode;
 
         //文件下载
@@ -260,14 +260,14 @@ namespace DataSyncSystem
             if(dnldSock != null)
             {
                 try
-                    {
-                        dnldSock.Shutdown(SocketShutdown.Both);
-                        dnldSock.Close();
-                    }
-                    catch
-                    {
-                        MyLogger.WriteLine("关闭dnldSock 遇到异常!");
-                    }
+                {
+                    dnldSock.Shutdown(SocketShutdown.Both);
+                    dnldSock.Close();
+                }
+                catch
+                {
+                    MyLogger.WriteLine("关闭dnldSock 遇到异常!");
+                }
             }
 
             //关闭负责上传的socket
@@ -476,7 +476,7 @@ namespace DataSyncSystem
                 {
                     MyLogger.WriteLine("上传目录检查不合法:");
                     MyLogger.WriteLine("------ " + ContantInfo.UpldDir.upldDirErrDict[upldDirChkCode] +" ----------");
-                    MessageBox.Show("上传目录不合法!!!:\r\n" + ContantInfo.UpldDir.upldDirErrDict[upldDirChkCode], "上传中断");
+                    MessageBox.Show("上传目录不合法:\r\n" + ContantInfo.UpldDir.upldDirErrDict[upldDirChkCode], "上传中断");
                     return;
                 }
             }
@@ -690,13 +690,6 @@ namespace DataSyncSystem
                         endFlg = true;
                         MyLogger.WriteLine("服务端返回接收结束响应!");
                         MessageBox.Show("上传成功!", "message");
-
-                        //向数据库中插入数据上传记录
-                        //if (isNewUpld)
-                        //{
-                        //    service.insertTrial(trialInfo);
-                        //}
-
                     }
 
                     //接收服务端返回的错误信息

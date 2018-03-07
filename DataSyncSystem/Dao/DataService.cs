@@ -11,7 +11,7 @@ using System.Data;
 
 namespace DataSyncSystem.Dao
 {
-    class DataService
+    public class DataService
     {
         private MySqlConnection  con = null;
 
@@ -83,6 +83,67 @@ namespace DataSyncSystem.Dao
             return ret;
         }
         #endregion
+
+        public List<string> getTeamList()
+        {
+            List<string> ret = null;
+            if (con != null)
+            {
+                try
+                {
+                    if (con.State != ConnectionState.Open) { con.Open(); }
+
+                    string queryStr = @"select teamname from tabTeams;";
+                    MySqlCommand cmd = new MySqlCommand();
+                    cmd.Connection = con;
+                    cmd.CommandText = queryStr;
+                    ret = new List<string>();
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ret.Add(reader.GetString(0));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MyLogger.WriteLine("dataservice-getTeamList() get error!\n   " + ex.Message);
+                }
+            }
+            return ret;
+        }
+        public List<string> getUserNmLstByTeam(string team)
+        {
+            List<string> ret = null;
+            if (con != null)
+            {
+                try
+                {
+                    if (con.State != ConnectionState.Open) { con.Open(); }
+
+                    string queryStr = @"select username from tabUsers where
+                                        teamname=@team;";
+                    MySqlCommand cmd = new MySqlCommand();
+                    cmd.Connection = con;
+                    cmd.Parameters.AddWithValue("@team", team);
+                    cmd.CommandText = queryStr;
+                    ret = new List<string>();
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ret.Add(reader.GetString(0));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MyLogger.WriteLine("dataservice-getTeamList() get error!\n   " + ex.Message);
+                }
+            }
+            return ret;
+        }
 
         #region 根据userId 用户工号获取用户对象
         public User getUserByUserId(string userId)
@@ -486,6 +547,7 @@ namespace DataSyncSystem.Dao
             return ret;
         }
         #endregion
+
         #region 获取platfom 名字List<string>
         public List<string> getPltfmNames()
         {
@@ -517,6 +579,7 @@ namespace DataSyncSystem.Dao
             return ret;
         }
         #endregion
+        
         #region 获取某个plafm 下的pdct 名字List<string>
         public List<string> getPdctNamesByPltfm(string pltfmName)
         {

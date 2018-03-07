@@ -40,12 +40,7 @@ namespace DataSyncSystem
             ContantInfo.Database.CONSQLSTR = parts[0];
             ContantInfo.SockServ.ip = parts[1];
             ContantInfo.SockServ.port = parts[2];
-            //ContantInfo.Fs.path = parts[3];
-            
-            Form fmMain = new FmMain();
-            fmMain.FormBorderStyle = FormBorderStyle.FixedDialog;
 
-            string userLevel = "";
             Form fmLogin = new FmLogin();
             fmLogin.FormBorderStyle = FormBorderStyle.FixedDialog;
 
@@ -55,12 +50,18 @@ namespace DataSyncSystem
             if (fmLoginRes == DialogResult.OK)
             {
                 //主界面开始运行
+                Form fmMain = new FmMain();
+                fmMain.FormBorderStyle = FormBorderStyle.FixedDialog;
+
                 Application.Run(fmMain);
 
             }else if(fmLoginRes == DialogResult.Yes)
             {
-                //
-                //Application.Run(new FmFactory());
+                //工厂界面
+                FmFactory fmFactory = new FmFactory();
+                fmFactory.FormBorderStyle = FormBorderStyle.FixedDialog;
+
+                Application.Run(fmFactory);
             }
         }
     }
