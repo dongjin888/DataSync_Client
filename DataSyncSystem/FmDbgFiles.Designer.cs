@@ -134,18 +134,18 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(663, 55);
+            this.label1.Location = new System.Drawing.Point(657, 55);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(80, 20);
+            this.label1.Size = new System.Drawing.Size(98, 20);
             this.label1.TabIndex = 9;
-            this.label1.Text = "selected";
+            this.label1.Text = " selected  ";
             // 
             // labSelectNum
             // 
             this.labSelectNum.AutoSize = true;
             this.labSelectNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.labSelectNum.ForeColor = System.Drawing.Color.Red;
-            this.labSelectNum.Location = new System.Drawing.Point(747, 55);
+            this.labSelectNum.Location = new System.Drawing.Point(746, 55);
             this.labSelectNum.Name = "labSelectNum";
             this.labSelectNum.Size = new System.Drawing.Size(19, 20);
             this.labSelectNum.TabIndex = 10;

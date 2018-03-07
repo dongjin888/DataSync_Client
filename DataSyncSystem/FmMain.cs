@@ -349,9 +349,10 @@ namespace DataSyncSystem
 
                 //页脚信息
                 int lastX = plUploadPgStartX;
-                ShowPage.showPg(plUploadPgNow, plUploadPgAll, plUploadPgShow, panMyLoad, lastX, plUploadPgStartY, new EventHandler(uploadPage_Click));
+                ShowPage.showPg(plUploadPgNow, plUploadPgAll, plUploadPgShow, panMyLoad, lastX, 
+                                plUploadPgStartY, new EventHandler(uploadPage_Click));
 
-                /**
+                /*
                 #region 画出页脚信息
                 #region "<<"
                 if (plUploadPgNow > 1)
@@ -540,19 +541,19 @@ namespace DataSyncSystem
             #region 传输头处理
             // head:# activator=xxx(工程师) # operator=xx(工人) # unique=activator_datenow # 
             //        platform=xx # product=xx # info=xx # other=xx # 
-            string activator = headLine[0].Split('=')[1]; //activator
+            string activator = headLine[0].Split('=')[1]; //activator 
             string oprator = Cache.userId;
             string unique;
             string pltfm;
             string pdct;
-            //处理是重新上传还是全新的上传
-            if (isNewUpld)
+
+            if (isNewUpld) //新的上传
             {
                 unique = activator + "_" + TimeHandle.datetimeToMilSeconds(DateTime.Now); //activator_datenow
                 pltfm = headLine[1].Split('=')[1];
                 pdct = headLine[2].Split('=')[1];
             }
-            else
+            else //非新的上传
             {
                 unique = upldHistStr; 
                 pltfm = pltfmpdctStr.Split('_')[0]; // pltfmpdct=MPK_leoB
@@ -694,14 +695,6 @@ namespace DataSyncSystem
                         {
                             service.insertTrial(trialInfo);
                         }
-
-                        //删除zipFile
-                        FileInfo zip = new FileInfo(zipFileName);
-                        if (zip.Exists)
-                        {
-                            File.Delete(zip.FullName);
-                            MyLogger.WriteLine("临时zip文件删除成功!\n");
-                        }
                     }
 
                     //接收服务端返回的错误信息
@@ -720,25 +713,20 @@ namespace DataSyncSystem
             DirectoryInfo root = new DirectoryInfo(upldPath);
             DirectoryInfo parent = root.Parent;
 
-            //先检查是否不用压缩
-            zipFileName = parent.FullName + "\\" + root.Name + ".zip";
-            FileInfo existZip = new FileInfo(zipFileName);
-            if (existZip.Exists)
-            {
-                File.Delete(existZip.FullName); //防止存在的文件不是按我想要的格式进行压缩
-                MyLogger.WriteLine("删除已有的.zip 文件");
-            }
+            //先遍历上传目录中所有的子目录
+            List<DirectoryInfo> sonFolder = new List<DirectoryInfo>();
+            FileHandle.traceFolder(root, sonFolder);
 
-            //upldDir 用来临时存放每个 子folder 压缩后，和root 中的子文件存放的目录
-            string upldDirStr = parent.FullName + "\\" + root.Name + "_upload\\"; //DataDir 同级目录下的DataDir_upload
+            // 在上传目录中创建一个上传文件夹
+            string upldDirStr = root.FullName + "\\never_same_with_this\\"; 
             DirectoryInfo upldDir = new DirectoryInfo(upldDirStr);
-            if(!upldDir.Exists)
+            if (!upldDir.Exists)
             {
                 Directory.CreateDirectory(upldDirStr);
                 MyLogger.WriteLine("uploadDir:" + upldPath);
             }
             //先把root 中的子文件拷贝到临时目录
-            foreach(FileInfo f in root.GetFiles())
+            foreach (FileInfo f in root.GetFiles())
             {
                 //过滤掉重要的配置文件.upldhist.hist 及 info.txt
                 if ((!f.Name.Equals(".upldhist.hist")) && (!f.Name.Equals("info.txt")))
@@ -747,18 +735,21 @@ namespace DataSyncSystem
                 }
             }
 
-            List<DirectoryInfo> sonFolder = new List<DirectoryInfo>();
-            FileHandle.traceFolder(root, sonFolder);
-            if(sonFolder.Count == 1) //只有root 目录，没有子目录 
+            zipFileName = root.FullName + "\\never_same_with_this.zip";
+            if (File.Exists(zipFileName))
             {
-                //C:\data\DNData == > 上传目录/DNData.zip
-                ZipFile.CreateFromDirectory(sonFolder[0].FullName, upldDirStr + sonFolder[0].Name + ".zip");
+                try
+                {
+                    File.Delete(zipFileName);
+                }
+                catch { MyLogger.WriteLine("删除已有的zip文件错误!"); }
             }
-            else //有多个子目录
+
+            if(sonFolder.Count > 1) // 目录中有子目录
             {
                 foreach (DirectoryInfo d in sonFolder)
                 {
-                    if (d.GetFiles().Length != 0) //压缩有文件的目录到临时上传文件中
+                    if (d.GetFiles().Length != 0) //压缩有文件的目录 到临时上传文件中
                     {
                         // C:\data\DNData\20160817_Tag117_Slot3_DN\LHC_08-16-2016\Bin
                         // LHC_08-16-2016_Bin.zip ==> 到上传目录中
@@ -774,24 +765,23 @@ namespace DataSyncSystem
                 compressCode = ContantInfo.Compress.PRESSOK;
                 MyLogger.WriteLine("[compressed]:" + zipFileName);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 compressCode = ContantInfo.Compress.ERROR; // 0 表示压缩出错
-                MyLogger.WriteLine("[compressed error]:" +ex.Message);
+                MyLogger.WriteLine("[compressed error]:" + ex.Message);
             }
 
             //删除 DataDir_upload 这个临时目录
             List<FileInfo> fileList = new List<FileInfo>();
             FileHandle.traceAllFile(upldDir, fileList);
             //> 先删除 DataDir_upload 中的子文件
-            foreach(FileInfo f in fileList)
+            foreach (FileInfo f in fileList)
             {
                 File.Delete(f.FullName);
             }
             //> 再删除 DataDir_upload 这个目录
             Directory.Delete(upldDir.FullName);
             MyLogger.WriteLine("临时文件夹删除完成!");
-
         }
         private void upload()
         {
@@ -909,7 +899,14 @@ namespace DataSyncSystem
                     }
                 }
                 compressCode = ContantInfo.Compress.WAIT; // -1 是原始状态, 0 表示出错, 1 表示正常
+            } // using(FileStreaam fs = new FileStream())
+
+            try
+            {
+                File.Delete(zipFileName);
+                MyLogger.WriteLine("zip文件删除成功!\n");
             }
+            catch { MyLogger.WriteLine("zip文件删除异常!\n"); }
         }   
 
         #region 主页panMain 中最上方 lab 的点击事件
@@ -980,6 +977,7 @@ namespace DataSyncSystem
         #endregion
 
         #region panel main 中的pltfm , pdct , trials , trial 的paint事件
+
         private void pmPanPltfms_Paint(object sender, PaintEventArgs e)
         {
             int judge = 0;
@@ -1006,8 +1004,9 @@ namespace DataSyncSystem
 
                 //画出页脚
                 int lastX = pmPltfmPgStartX;
-                ShowPage.showPg(pmPltfmPgNow, pmPltfmPgAll, pmPltfmPgShow, pmPanPltfms, lastX, pmPltfmPgStartY, new EventHandler(pltfmsPage_Click));
-                /**
+                ShowPage.showPg(pmPltfmPgNow, pmPltfmPgAll, pmPltfmPgShow, pmPanPltfms, lastX, 
+                                 pmPltfmPgStartY, new EventHandler(pltfmsPage_Click));
+                /*
                 #region 画出分页信息
 
                 #region 上一页 "<<"
@@ -1139,8 +1138,9 @@ namespace DataSyncSystem
 
                 //画出页脚
                 int lastX = pmPdctPgStartX;
-                ShowPage.showPg(pmPdctPgNow, pmPdctPgAll, pmPdctPgShow, pmPanPdcts, lastX, pmPdctPgStartY, new EventHandler(pdctsPage_Click));
-                /**
+                ShowPage.showPg(pmPdctPgNow, pmPdctPgAll, pmPdctPgShow, pmPanPdcts, lastX, 
+                                pmPdctPgStartY, new EventHandler(pdctsPage_Click));
+                /*
                 if (pmPdctPgNow > 1)
                 {
                     Button btPre = new Button();
@@ -1259,8 +1259,9 @@ namespace DataSyncSystem
 
                 //画出页脚
                 int lastX = pmTrialPgStartX;
-                ShowPage.showPg(pmTrialPgNow, pmTrialPgAll, pmTrialPgShow, pmPanTrials, lastX, pmTrialPgStartY, new EventHandler(trialsPage_Click));
-                /**
+                ShowPage.showPg(pmTrialPgNow, pmTrialPgAll, pmTrialPgShow, pmPanTrials, lastX,
+                               pmTrialPgStartY, new EventHandler(trialsPage_Click));
+                /*
                 #region 画出页信息
 
                 #region "<<"
@@ -1381,6 +1382,7 @@ namespace DataSyncSystem
                 Console.WriteLine("获取的Trial记录暂时为空！");
             }
         }
+        
         #endregion
 
         //下载某次Trial的数据( 这里目前下载的是 data.zip )=======================
