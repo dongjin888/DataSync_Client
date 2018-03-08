@@ -33,7 +33,7 @@ namespace DataSyncSystem
         volatile bool isNewUpld = true;  // 表示是否是新的上传
         string upldHistStr = ""; // .upldhist.hist 中存储的字符串
         string pltfmpdctStr = ""; // .upldhist.hist 中存储的pltfm , pdct 
-        volatile bool upldRunFlg;
+        volatile bool upldRunFlg ;
         volatile int compressCode = ContantInfo.Compress.WAIT;
         #endregion
 
@@ -88,6 +88,9 @@ namespace DataSyncSystem
                 {
                     upldSock.Connect(ip, Int32.Parse(ContantInfo.SockServ.port));
 
+                    MyLogger.WriteLine("=========== start thread! ==========");
+                    upldRunFlg = true;
+
                     //开启线程监听server 的 响应
                     Thread recvTh = new Thread(recv);
                     recvTh.IsBackground = true;
@@ -124,6 +127,7 @@ namespace DataSyncSystem
                         return;
                     }
                     msg = Encoding.UTF8.GetString(msgBuf);
+                    MyLogger.WriteLine(msg);
 
                     //接收到服务端 接收文件的响应
                     if (msg.StartsWith("resupld:"))
@@ -186,6 +190,7 @@ namespace DataSyncSystem
                         MessageBox.Show("上传成功!", "message");
 
                         //上传完成后，重新设置
+                        txtFolder.Text = "";
                         trialInfo = new TrialInfo();
                         groupInfo.Visible = false;
                     }
@@ -200,6 +205,10 @@ namespace DataSyncSystem
                         string histNmae = upldPath + "\\.upldhist.hist";
                         if (File.Exists(histNmae))
                             File.Delete(histNmae);
+
+                        txtFolder.Text = "";
+                        trialInfo = new TrialInfo();
+                        groupInfo.Visible = false;
                     }
                 }//while(!endFlg)
                 MyLogger.WriteLine("客户端监听任务结束!");
@@ -244,7 +253,7 @@ namespace DataSyncSystem
                         {
                             try
                             {
-                                upldHistStr = EnDeCode.deCode(upldHistStr);
+                                upldHistStr = EnDeCode.decode(upldHistStr);
                                 trialInfo.Activator = upldHistStr.Split('_')[0];
                                 trialInfo.Unique = upldHistStr;
                             }
@@ -270,7 +279,7 @@ namespace DataSyncSystem
                         }
 
                     }
-#endregion
+                    #endregion
 
                     //填写Trial info
                     FmWriteInfo fm = new FmWriteInfo(false, service, ref trialInfo,isNewUpld);
@@ -286,11 +295,13 @@ namespace DataSyncSystem
                     }
                     else
                     {
+                        txtFolder.Text = "";
                         groupInfo.Visible = false;
                     }
                 }
                 else
                 {
+                    txtFolder.Text = "";
                     MessageBox.Show("upload dir error:\r\n" + ContantInfo.UpldDir.upldDirErrDict[checkUpldDirCode], "message");
                 }
             }
@@ -323,12 +334,12 @@ namespace DataSyncSystem
                 upldHead += trialInfo.Activator + "#" + trialInfo.Operator + "#" +
                             trialInfo.Unique + "#" + trialInfo.Pltfm + "#" + 
                             trialInfo.Pdct + "#" + trialInfo.Info + "#" + trialInfo.Other + "#";
-
+                MyLogger.WriteLine("upldhead:"+upldHead);
+                //return;
                 //发送上传请求头
                 try
                 {
                     upldSock.Send(Encoding.UTF8.GetBytes(upldHead.ToCharArray()));
-                    upldRunFlg = true;
                     MyLogger.WriteLine("client upldSock 发送了请求头：" + upldHead);
                 }
                 catch
@@ -526,7 +537,7 @@ namespace DataSyncSystem
                         using (StreamWriter sr1 = new StreamWriter(fs1))
                         {
                             sr1.WriteLine("pltfmpdct=" + trialInfo.Pltfm + "_" + trialInfo.Pdct);
-                            sr1.WriteLine("token=" + EnDeCode.enCode(trialInfo.Unique));
+                            sr1.WriteLine("token=" + EnDeCode.encode(trialInfo.Unique));
                         }
                     }
                 }

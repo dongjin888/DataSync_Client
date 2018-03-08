@@ -113,29 +113,30 @@ namespace DataSyncSystem.Dao
             }
             return ret;
         }
-        public List<string> getUserNmLstByTeam(string team)
+        public Dictionary<string, string> getUserNmDictByTeam(string team)
         {
-            List<string> ret = null;
+            Dictionary<string,string> ret = null;
             if (con != null)
             {
                 try
                 {
                     if (con.State != ConnectionState.Open) { con.Open(); }
 
-                    string queryStr = @"select username from tabUsers where
+                    string queryStr = @"select userid,username from tabUsers where
                                         teamname=@team;";
                     MySqlCommand cmd = new MySqlCommand();
                     cmd.Connection = con;
                     cmd.Parameters.AddWithValue("@team", team);
                     cmd.CommandText = queryStr;
-                    ret = new List<string>();
+                    ret = new Dictionary<string, string>();
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            ret.Add(reader.GetString(0));
+                            ret.Add(reader.GetString(0),reader.GetString(1)); //userid == username
                         }
                     }
+                    
                 }
                 catch (Exception ex)
                 {

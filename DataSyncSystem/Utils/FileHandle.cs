@@ -25,7 +25,6 @@ namespace DataSyncSystem.Utils
             }
         }
 
-
         //遍历所有文件
         public static void traceAllFile(DirectoryInfo root, List<FileInfo> files)
         {
@@ -46,7 +45,7 @@ namespace DataSyncSystem.Utils
             }
         }
 
-        //删除目录
+        // 循环删除目录
         public static void cycDeleteDir(DirectoryInfo dir)
         {
             if (dir.GetDirectories().Length > 0)
@@ -67,8 +66,6 @@ namespace DataSyncSystem.Utils
             //删除文件
             Directory.Delete(dir.FullName);
         }
-
-
 
         // 判断待上传的文件夹是否符合规范
         public static bool checkUpldDir(string upldPath,ref int checkCode)
@@ -91,10 +88,8 @@ namespace DataSyncSystem.Utils
 
             DirectoryInfo root = new DirectoryInfo(upldPath);
             DirectoryInfo parent = root.Parent;
-
             List<FileInfo> files = new List<FileInfo>();
             traceAllFile(root, files);
-
             if(files.Count == 0) // 上传目录中没有一个文件
             {
                 checkCode = ContantInfo.UpldDir.NULLDIR;
@@ -105,38 +100,21 @@ namespace DataSyncSystem.Utils
             traceFolder(root, sonFolder);
 
             //检测 info.txt 文件 
-            bool hasInfo = false;
             bool hasCsv = false;
-            byte checkTime = 0;
             foreach(FileInfo f in root.GetFiles())
             {
-                if (f.Name.Equals("info.txt")) //info.txt 
+                string[] split = f.FullName.Split('.');
+                if (split[split.Length - 1].Equals("csv") || split[split.Length - 1].Equals("Csv"))
                 {
-                    hasInfo = true;
-                    checkTime++;
+                    hasCsv = true;
+                    break;
                 }
-                else // xxx.csv 文件
-                {
-                    string[] split = f.FullName.Split('.');
-                    if (split[split.Length - 1].Equals("csv") || split[split.Length - 1].Equals("Csv"))
-                    {
-                        hasCsv = true;
-                        checkTime++;
-                    }
-                }
-                if (checkTime == 2) break;
-            }
-            if (!hasInfo)
-            {
-                checkCode = ContantInfo.UpldDir.NOINFO;
-                return false;
             }
             if (!hasCsv)
             {
                 checkCode = ContantInfo.UpldDir.NOSUM;
             }
             
-
             if(sonFolder.Count==1 && sonFolder[0].FullName.Equals(upldPath)) //root没有子目录
             {
                 if (root.GetFiles().Length == 0) //root目录中没有文件

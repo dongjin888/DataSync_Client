@@ -21,7 +21,7 @@ namespace DataSyncSystem
         bool isNewUpld;
 
         List<string> teamList = new List<string>();
-        List<string> teamUserList = new List<string>();
+        Dictionary<string,string> teamUserDict = new Dictionary<string, string>();
         List<string> pltfmList = new List<string>();
         List<string> pdctList = new List<string>();
 
@@ -89,14 +89,14 @@ namespace DataSyncSystem
                     }
                 }
 
-                teamUserList = service.getUserNmLstByTeam(teamList[0]);
-                if (teamUserList != null)
+                teamUserDict = service.getUserNmDictByTeam(teamList[0]);
+                if (teamUserDict != null)
                 {
-                    foreach (string user in teamUserList)
+                    foreach (var entry in teamUserDict)
                     {
-                        combActivator.Items.Add(user);
+                        combActivator.Items.Add(entry.Value);
                     }
-                    if (combActivator.Text.Equals("") && teamUserList.Count >= 1)
+                    if (combActivator.Text.Equals("") && teamUserDict.Count >= 1)
                     {
                         combActivator.SelectedIndex = 0;
                         combActivator.Refresh();
@@ -145,13 +145,13 @@ namespace DataSyncSystem
             string selectTeam = (string)combTeam.SelectedItem;
             if(selectTeam != null)
             {
-                teamUserList = service.getUserNmLstByTeam(selectTeam);
-                if(teamUserList != null && teamUserList.Count > 0)
+                teamUserDict = service.getUserNmDictByTeam(selectTeam);
+                if(teamUserDict != null && teamUserDict.Count > 0)
                 {
                     combActivator.Items.Clear();
-                    foreach (string user in teamUserList)
+                    foreach (var entry in teamUserDict)
                     {
-                        combActivator.Items.Add(user);
+                        combActivator.Items.Add(entry.Value);
                     }
                     combActivator.SelectedIndex = 0;
                     combActivator.Refresh();
@@ -207,7 +207,24 @@ namespace DataSyncSystem
                     return;
                 }
             }
-            trialInfo.Activator = combActivator.Text;
+            if (isNewUpld) //新的上传
+            {
+                string uid = getUidByName(teamUserDict, combActivator.Text);
+                if (uid != null)
+                {
+                    trialInfo.Activator = uid;
+                }
+                else
+                {
+                    this.DialogResult = DialogResult.Cancel;
+                    MessageBox.Show("Cant get Activator userid!", "error!");
+                    return;
+                }
+            }
+            else //旧的上传
+            {
+                trialInfo.Activator = combActivator.Text.Trim();
+            }
             trialInfo.Operator = combOperator.Text;
             trialInfo.Pltfm = combPltfm.Text;
             trialInfo.Pdct = combPdct.Text;
@@ -215,19 +232,33 @@ namespace DataSyncSystem
             trialInfo.Other = txtOther.Text.Trim();
             if (trialInfo.Info.Equals(""))
                 if (isNewUpld)
-                    trialInfo.Info = trialInfo.Activator + "'s trial info";
+                    trialInfo.Info = combActivator.Text + "'s trial info";
                 else
-                    trialInfo.Info = trialInfo.Activator + "'s overupload";
+                    trialInfo.Info = combActivator.Text + "'s overupload";
             if (trialInfo.Other.Equals(""))
                 if (isNewUpld)
-                    trialInfo.Other = trialInfo.Activator + "'s trial other";
+                    trialInfo.Other = combActivator.Text + "'s trial other";
                 else
-                    trialInfo.Other = trialInfo.Activator + "'s overupload other";
+                    trialInfo.Other = combActivator.Text + "'s overupload other";
             if (isNewUpld)
                 trialInfo.Unique = trialInfo.Activator + "_" + TimeHandle.datetimeToMilSeconds(DateTime.Now);
 
             this.DialogResult = DialogResult.OK;
             this.Dispose();
+        }
+
+        private string getUidByName(Dictionary<string,string> uidNameDict,string value)
+        {
+            string ret = null;
+            foreach(var entry in uidNameDict)
+            {
+                if (entry.Value.Equals(value))
+                {
+                    ret = entry.Key;
+                    break;
+                }
+            }
+            return ret;
         }
 
         //作为新的上传
@@ -250,18 +281,15 @@ namespace DataSyncSystem
                 }
             }
 
-            teamUserList = service.getUserNmLstByTeam(teamList[0]);
-            if (teamUserList != null)
+            teamUserDict = service.getUserNmDictByTeam(teamList[0]);
+            if (teamUserDict != null)
             {
-                foreach (string user in teamUserList)
+                foreach (var entry in teamUserDict)
                 {
-                    combActivator.Items.Add(user);
+                    combActivator.Items.Add(entry.Value);
                 }
-                if (combActivator.Text.Equals("") && teamUserList.Count >= 1)
-                {
-                    combActivator.SelectedIndex = 0;
-                    combActivator.Refresh();
-                }
+                combActivator.SelectedIndex = 0;
+                combActivator.Refresh();
             }
 
             pltfmList = service.getPltfmNames();
@@ -301,6 +329,7 @@ namespace DataSyncSystem
 
             btAsNew.BackColor = Color.Silver;
             btAsNew.Enabled = false ;
+            txtOther.Text = "";
         }
     }
 }

@@ -120,7 +120,6 @@ namespace DataSyncSystem
         volatile bool isNewUpld = true;  // 表示是否是新的上传
         string upldHistStr = ""; // .upldhist.hist 中存储的字符串
         string pltfmpdctStr = ""; // .upldhist.hist 中存储的pltfm , pdct 
-        int upldDirChkCode;
 
         //文件下载
         FolderBrowserDialog dnldDialog = new FolderBrowserDialog();
@@ -177,14 +176,16 @@ namespace DataSyncSystem
 
             //设置panSetting 中界面的显示
             setPsPanel();
-            GetCsvSock.init(this);
-            initDnldSock();
         }
 
         #region form 的初始化和消亡设置
         private void FmMain_Load(object sender, EventArgs e)
         {
             CheckForIllegalCrossThreadCalls = false;
+
+            GetCsvSock.init(this);
+            initDnldSock();
+            initUpldSock();
 
             //界面打开先显示panel1 
             panMain.Visible = true;
@@ -454,14 +455,30 @@ namespace DataSyncSystem
         #endregion
 
         //上传.zip 文件到服务器===============================================
+        private void initUpldSock()
+        {
+            //先连接服务端,获得一个socket
+            upldSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            IPAddress ip = IPAddress.Parse(ContantInfo.SockServ.ip);
+            try
+            {
+                upldSock.Connect(ip, Int32.Parse(ContantInfo.SockServ.port));
+                upldRunFlg = true;
+
+                //开启线程监听server 的 响应
+                Thread recvTh = new Thread(recv);
+                recvTh.IsBackground = true;
+                recvTh.Start();
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show("upload socket连接失败！", "warning");
+                MyLogger.WriteLine(err.Message);
+            }
+        }
         private void btUpload_Click(object sender, EventArgs e)
         {
             isNewUpld = true;
-
-            //首先，传文件头:
-            // head:# activator=xxx(工程师) # operator=xx(工人) # unique=activator_datenow # 
-            //        platform=xx # product=xx # info=xx # other=xx # 
-            //一共七个head
             trialInfo = new TrialInfo();
 
             //首先选择Data folder
@@ -471,143 +488,118 @@ namespace DataSyncSystem
                 upldPath = browser.SelectedPath;
 
                 //检查路径的合法性
-                upldDirChkCode = 0;
-                if(!FileHandle.checkUpldDir(upldPath, ref upldDirChkCode))
+                int upldDirChkCode = 0;
+                if(FileHandle.checkUpldDir(upldPath, ref upldDirChkCode))
                 {
-                    MyLogger.WriteLine("上传目录检查不合法:");
-                    MyLogger.WriteLine("------ " + ContantInfo.UpldDir.upldDirErrDict[upldDirChkCode] +" ----------");
-                    MessageBox.Show("上传目录不合法:\r\n" + ContantInfo.UpldDir.upldDirErrDict[upldDirChkCode], "上传中断");
-                    return;
+                    #region 检查upldhist.hist
+                    FileInfo histFile = new FileInfo(upldPath + "\\.upldhist.hist");
+                    if (histFile.Exists)
+                    {
+                        isNewUpld = false; //不是新的上传
+                        using (FileStream fs = new FileStream(histFile.FullName, FileMode.Open))
+                        {
+                            using (StreamReader sr = new StreamReader(fs))
+                            {
+                                string line = "";
+                                while ((line = sr.ReadLine()) != null)
+                                {
+                                    if (line.StartsWith("token="))
+                                    {
+                                        upldHistStr = line.Split('=')[1];
+                                    }
+                                    if (line.StartsWith("pltfmpdct="))
+                                    {
+                                        pltfmpdctStr = line.Split('=')[1];
+                                    }
+                                }
+                            }
+                        }
+                        //处理upldHistStr 还原出真实信息
+                        if (!upldHistStr.Equals("")) // userid_datestring
+                        {
+                            try
+                            {
+                                upldHistStr = EnDeCode.decode(upldHistStr);
+                                trialInfo.Activator = upldHistStr.Split('_')[0];
+                                trialInfo.Unique = upldHistStr;
+                            }
+                            catch (Exception ex)
+                            {
+                                isNewUpld = true;
+                                MyLogger.WriteLine(ex.Message);
+                            }
+                        }
+                        else // 
+                        {
+                            isNewUpld = true;
+                        }
+
+                        if (!pltfmpdctStr.Equals(""))
+                        {
+                            trialInfo.Pltfm = pltfmpdctStr.Split('_')[0];
+                            trialInfo.Pdct = pltfmpdctStr.Split('_')[1];
+                        }
+                        else
+                        {
+                            isNewUpld = true;
+                        }
+
+                    }
+                    #endregion
+
+                    //填写Trial info
+                    FmWriteInfo fm = new FmWriteInfo(false, service, ref trialInfo, isNewUpld);
+                    if (fm.ShowDialog() == DialogResult.OK)
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        sb.Append("Activator:" + trialInfo.Activator + "\n");
+                        sb.Append("Operator:" + trialInfo.Operator + "\n");
+                        sb.Append("Platform:" + trialInfo.Pltfm + "\n");
+                        sb.Append("Product:" + trialInfo.Pdct + "\n");
+                        sb.Append("Info:" + trialInfo.Info + "\n");
+                        sb.Append("Other:" + trialInfo.Other + "\n");
+
+                        if(MessageBox.Show(sb.ToString(), "trial info check",MessageBoxButtons.OKCancel) != DialogResult.Cancel)
+                        {
+                            //组装上传请求头
+                            upldHead = "upld:#";
+                            upldHead += trialInfo.Activator + "#" + trialInfo.Operator + "#" +
+                                        trialInfo.Unique + "#" + trialInfo.Pltfm + "#" +
+                                        trialInfo.Pdct + "#" + trialInfo.Info + "#" + trialInfo.Other + "#";
+                            MyLogger.WriteLine("upldhead:" + upldHead);
+
+                            //发送上传请求头
+                            try
+                            {
+                                upldSock.Send(Encoding.UTF8.GetBytes(upldHead.ToCharArray()));
+                                MyLogger.WriteLine("client upldSock 发送了请求头：" + upldHead);
+                            }
+                            catch
+                            {
+                                upldRunFlg = false; // 中断上面的recvTh 线程
+                                MessageBox.Show("与服务端断开连接！", "message");
+                                MyLogger.WriteLine("-------upldSock 发送消息头时 遇到异常--------");
+                            }
+                        }
+                        else
+                        {
+                            MyLogger.WriteLine("upload cancel !");
+                        }
+                    }
+                    else // trial info not complete
+                    {
+                        MessageBox.Show("Trial info not complete !", "upload cancel");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("upload dir error:\r\n" + ContantInfo.UpldDir.upldDirErrDict[upldDirChkCode], "message");
                 }
             }
             else
             {
                 MyLogger.WriteLine("用户取消了上传!");
                 return;
-            }
-
-            //判断是否是新的上传
-            FileInfo histFile = new FileInfo(upldPath + "\\.upldhist.hist");
-            if (histFile.Exists)
-            {
-                isNewUpld = false; //不是新的上传
-
-                using(FileStream fs = new FileStream(histFile.FullName, FileMode.Open))
-                {
-                    using(StreamReader sr = new StreamReader(fs))
-                    {
-                        string line = "";
-                        while((line = sr.ReadLine()) != null)
-                        {
-                            if (line.StartsWith("token="))
-                            {
-                                upldHistStr = line.Split('=')[1];
-                            }
-                            if (line.StartsWith("pltfmpdct="))
-                            {
-                                pltfmpdctStr = line.Split('=')[1];
-                            }
-                        }
-                    }
-                }
-
-                //处理upldHistStr 还原出真实信息
-                if (!upldHistStr.Equals(""))
-                {
-                    try
-                    {
-                        upldHistStr = EnDeCode.deCode(upldHistStr);
-                    }catch(Exception ex)
-                    {
-                        isNewUpld = true;
-                        MyLogger.WriteLine(ex.Message);
-                    }
-                }
-                else
-                {
-                    isNewUpld = true;
-                }
-            }
-
-            //根据info.txt 中的内容获取本次上传的信息
-            List<string> headLine = new List<string>();
-            headLine = InfoGet.getHeadList(upldPath+"\\info.txt");
-            if(headLine.Count < 5)
-            {
-                MessageBox.Show("info.txt info not complete!", "error");
-                return;
-            }
-
-            #region 传输头处理
-            // head:# activator=xxx(工程师) # operator=xx(工人) # unique=activator_datenow # 
-            //        platform=xx # product=xx # info=xx # other=xx # 
-            string activator = headLine[0].Split('=')[1]; //activator 
-            string oprator = Cache.userId;
-            string unique;
-            string pltfm;
-            string pdct;
-
-            if (isNewUpld) //新的上传
-            {
-                unique = activator + "_" + TimeHandle.datetimeToMilSeconds(DateTime.Now); //activator_datenow
-                pltfm = headLine[1].Split('=')[1];
-                pdct = headLine[2].Split('=')[1];
-            }
-            else //非新的上传
-            {
-                unique = upldHistStr; 
-                pltfm = pltfmpdctStr.Split('_')[0]; // pltfmpdct=MPK_leoB
-                pdct = pltfmpdctStr.Split('_')[1];
-            }
-            string info = headLine[3].Split('=')[1];
-            string other = headLine[4].Split('=')[1];
-            trialInfo.Activator = activator;
-            trialInfo.Operator = oprator;
-            trialInfo.Unique = unique;
-            trialInfo.Pltfm = pltfm;
-            trialInfo.Pdct = pdct;
-            trialInfo.Info = info;
-            trialInfo.Other = other;
-            #endregion
-
-            // 组装上传请求头
-            upldHead = "upld:#";
-            upldHead += activator + "#" + oprator + "#" + unique + "#" + pltfm + "#" + pdct + "#" + info + "#" + other+"#";
-
-            //判断upldSock 是否准备好
-            if(upldSock == null)
-            {
-                //先连接服务端,获得一个socket
-                upldSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                IPAddress ip = IPAddress.Parse(ContantInfo.SockServ.ip);
-                try
-                {
-                    upldSock.Connect(ip, Int32.Parse(ContantInfo.SockServ.port));
-
-                    //开启线程监听server 的 响应
-                    Thread recvTh = new Thread(recv);
-                    recvTh.IsBackground = true;
-                    recvTh.Start();
-                }
-                catch (Exception err)
-                {
-                    MessageBox.Show("获取upldSock 连接失败，上传中断！", "warning");
-                    MyLogger.WriteLine(err.Message);
-                }
-            }
-
-            try
-            {
-                //传输head 
-                upldSock.Send(Encoding.UTF8.GetBytes(upldHead.ToCharArray()));
-                upldRunFlg = true;
-                MyLogger.WriteLine("client upldSock 发送了请求头：" + upldHead);
-            }
-            catch
-            {
-                upldRunFlg = false; // 中断上面的recvTh 线程
-                MessageBox.Show("与服务端断开连接！", "message");
-                MyLogger.WriteLine("upldSock 发送消息头时 遇到异常");
             }
         }
         private void recv()
@@ -753,7 +745,11 @@ namespace DataSyncSystem
                     {
                         // C:\data\DNData\20160817_Tag117_Slot3_DN\LHC_08-16-2016\Bin
                         // LHC_08-16-2016_Bin.zip ==> 到上传目录中
-                        ZipFile.CreateFromDirectory(d.FullName, upldDirStr + d.Parent.Name + "_" + d.Name + ".zip");
+                        try
+                        {
+                            ZipFile.CreateFromDirectory(d.FullName, upldDirStr + d.Parent.Name + "_" + d.Name + ".zip");
+                        }
+                        catch { MyLogger.WriteLine("compress error !\n" + (upldDirStr + d.Parent.Name + "_" + d.Name + ".zip")); }
                     }
                 }
             }
@@ -894,7 +890,7 @@ namespace DataSyncSystem
                         using(StreamWriter sr1 = new StreamWriter(fs1))
                         {
                             sr1.WriteLine("pltfmpdct=" + trialInfo.Pltfm + "_" + trialInfo.Pdct);
-                            sr1.WriteLine("token=" + EnDeCode.enCode(trialInfo.Unique));
+                            sr1.WriteLine("token=" + EnDeCode.encode(trialInfo.Unique));
                         }
                     }
                 }
@@ -1830,5 +1826,21 @@ namespace DataSyncSystem
             }
         }
         #endregion
+
+        private void picChgPswd_MouseHover(object sender, EventArgs e)
+        {
+            picChgPswd.Image = Properties.Resources.stBlue;
+        }
+
+        private void picChgPswd_MouseLeave(object sender, EventArgs e)
+        {
+            picChgPswd.Image = Properties.Resources.stBlack;
+        }
+
+        private void picChgPswd_Click(object sender, EventArgs e)
+        {
+            FmChgPswd fm = new FmChgPswd(service, curUser);
+            fm.ShowDialog();
+        }
     }
 }

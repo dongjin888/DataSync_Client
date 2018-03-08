@@ -8,75 +8,130 @@ namespace DataSyncSystem.Utils
 {
     public class EnDeCode
     {
-        private static char[] codes = null;
-        private static Dictionary<char, char> dict = new Dictionary<char, char>();
-        public static void init()
-        {
-            dict.Add('G', '0');
-            dict.Add('k', '1');
-            dict.Add('B', '2');
-            dict.Add('C', '3');
-            dict.Add('d', '4');
-            dict.Add('Y', '5');
-            dict.Add('z', '6');
-            dict.Add('f', '7');
-            dict.Add('T', '8');
-            dict.Add('t', '9');
-            dict.Add('u', '_');
-            codes = new char[] { 'G', 'k', 'B', 'C', 'd', 'Y', 'z', 'f', 'T', 't' };
-        }
+        static List<char> codes = new List<char>();
+        static int listIndex = 0;
+        static Dictionary<char, int> lightDict = new Dictionary<char, int>();
+        static Dictionary<char, int> darkDict = new Dictionary<char, int>();
 
         static EnDeCode()
         {
-            init();
+            init(34);
+        }
+        private static void init(int times)
+        {
+            //small
+            for (int i = 97; i <= 110; i++) //122
+            {
+                codes.Add((char)i);
+                lightDict.Add((char)i, listIndex);
+                listIndex++;
+            }
+            // big
+            for (int i = 65; i <= 78; i++) //90
+            {
+                codes.Add((char)i);
+                lightDict.Add((char)i, listIndex);
+                listIndex++;
+            }
+
+            // num
+            for (int i = 48; i <= 53; i++) //57
+            {
+                codes.Add((char)i);
+                lightDict.Add((char)i, listIndex);
+                listIndex++;
+            }
+
+            // -big
+            for (int i = 79; i <= 90; i++) //90
+            {
+                codes.Add((char)i);
+                lightDict.Add((char)i, listIndex);
+                listIndex++;
+            }
+            // -num
+            for (int i = 54; i <= 57; i++) //57
+            {
+                codes.Add((char)i);
+                lightDict.Add((char)i, listIndex);
+                listIndex++;
+            }
+            // -small
+            for (int i = 111; i <= 122; i++) //122
+            {
+                codes.Add((char)i);
+                lightDict.Add((char)i, listIndex);
+                listIndex++;
+            }
+
+            char[] arr = new char[codes.Count];
+            int index = 0;
+            foreach (char c in codes)
+                arr[index++] = c;
+
+            //移位
+            int shiftTimes = times;
+            for (int i = 0; i < shiftTimes; i++)
+            {
+                char first = arr[0];
+                for (int j = 0; j < arr.Length; j++)
+                {
+                    if (j + 1 != arr.Length)
+                        arr[j] = arr[j + 1];
+                    else
+                        arr[j] = first;
+                }
+            }
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                darkDict.Add(arr[i], i);
+            }
         }
 
-        public static string enCode(string numStr)
+        public static string encode(string str)
         {
-            if (!numStr.Contains("_"))
+            if (!str.Contains("_"))
             {
-                throw new Exception("待编码的字符串格式错误!");
+                throw new Exception("original string format error!");
             }
             else
             {
-                string res = "";
-                numStr = numStr.Split('_')[1] + "_" + numStr.Split('_')[0];
-                foreach (char c in numStr)
-                {
-                    if (c >= '0' && c <= '9')
-                    {
-                        res += codes[Int32.Parse(c + "")];
-                    }
-                    else if (c == '_')
-                    {
-                        res += 'u';
-                    }
-                    else
-                    {
-                        throw new Exception("待编码的字符串格式错误!");
-                    }
-                }
-                return res;
+                string[] splits = str.Split('_');
+                str = splits[1] + "_" + splits[0];
             }
+
+            StringBuilder encSb = new StringBuilder();
+            foreach (char c in str)
+            {
+                if (c != '_')
+                    encSb.Append(darkDict.ElementAt(lightDict[c]).Key);
+                else
+                    encSb.Append(c);
+            }
+            return encSb.ToString();
+        }
+        public static string decode(string str)
+        {
+            if (!str.Contains("_"))
+            {
+                throw new Exception("original string format error!");
+            }
+            else
+            {
+                string[] splits = str.Split('_');
+                str = splits[1] + "_" + splits[0];
+            }
+            StringBuilder decSb = new StringBuilder();
+            foreach (char c in str)
+            {
+                if (c != '_')
+                    decSb.Append(lightDict.ElementAt(darkDict[c]).Key);
+                else
+                    decSb.Append(c);
+            }
+            return decSb.ToString();
         }
 
-        public static string deCode(string codeStr)
-        {
-            string res = "";
-            foreach (char c in codeStr)
-            {
-                res += dict[c];
-            }
-            try
-            {
-                res = res.Split('_')[1] + "_" + res.Split('_')[0];
-            }
-            catch
-            {
-                res = "";
-                throw new Exception("解码错误!");
-            }
-            return res;
-        }
     }
 }

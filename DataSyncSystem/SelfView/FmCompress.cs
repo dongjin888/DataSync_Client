@@ -14,8 +14,6 @@ namespace DataSyncSystem.SelfView
 {
     public partial class FmCompress : Form
     {
-        FmMain parent;
-
         string[] labs = { "...", "......", "........", ".........", "..........","...........",
                         ".............","..............."};
 
@@ -23,8 +21,6 @@ namespace DataSyncSystem.SelfView
         {
             CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
-            parent = (FmMain)par;
-            //parent.disable();
             StartPosition = FormStartPosition.CenterScreen;
         }
 
@@ -52,7 +48,7 @@ namespace DataSyncSystem.SelfView
 
         private void FmCompress_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //parent.enable();
+            
         }
     }
 }

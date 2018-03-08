@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.picChgPswd = new System.Windows.Forms.PictureBox();
             this.btUpload = new System.Windows.Forms.Button();
             this.btExit = new System.Windows.Forms.Button();
             this.btMyLoad = new System.Windows.Forms.Button();
@@ -38,6 +39,18 @@
             this.labUserTeam = new System.Windows.Forms.Label();
             this.labUserName = new System.Windows.Forms.Label();
             this.picHead = new System.Windows.Forms.PictureBox();
+            this.panSetting = new System.Windows.Forms.Panel();
+            this.psBtSure = new System.Windows.Forms.Button();
+            this.psBtSetting = new System.Windows.Forms.Button();
+            this.psGrpDnld = new System.Windows.Forms.GroupBox();
+            this.psBtChseDnldPath = new System.Windows.Forms.Button();
+            this.psTxtDnldPath = new System.Windows.Forms.TextBox();
+            this.psLabDnldPath = new System.Windows.Forms.Label();
+            this.psGrpRecent = new System.Windows.Forms.GroupBox();
+            this.psCombPdct = new System.Windows.Forms.ComboBox();
+            this.psLabPdct = new System.Windows.Forms.Label();
+            this.psCombPltfm = new System.Windows.Forms.ComboBox();
+            this.psLabPltfm = new System.Windows.Forms.Label();
             this.panMain = new System.Windows.Forms.Panel();
             this.pmPanStatus = new System.Windows.Forms.Panel();
             this.pmLabNext0 = new System.Windows.Forms.Label();
@@ -62,33 +75,22 @@
             this.pmPanPdcts = new System.Windows.Forms.Panel();
             this.pmPanPltfms = new System.Windows.Forms.Panel();
             this.panMyLoad = new System.Windows.Forms.Panel();
-            this.panSetting = new System.Windows.Forms.Panel();
-            this.psBtSure = new System.Windows.Forms.Button();
-            this.psBtSetting = new System.Windows.Forms.Button();
-            this.psGrpDnld = new System.Windows.Forms.GroupBox();
-            this.psBtChseDnldPath = new System.Windows.Forms.Button();
-            this.psTxtDnldPath = new System.Windows.Forms.TextBox();
-            this.psLabDnldPath = new System.Windows.Forms.Label();
-            this.psGrpRecent = new System.Windows.Forms.GroupBox();
-            this.psCombPdct = new System.Windows.Forms.ComboBox();
-            this.psLabPdct = new System.Windows.Forms.Label();
-            this.psCombPltfm = new System.Windows.Forms.ComboBox();
-            this.psLabPltfm = new System.Windows.Forms.Label();
             this.psDnldFolderBrsDlg = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picChgPswd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picHead)).BeginInit();
+            this.panSetting.SuspendLayout();
+            this.psGrpDnld.SuspendLayout();
+            this.psGrpRecent.SuspendLayout();
             this.panMain.SuspendLayout();
             this.pmPanStatus.SuspendLayout();
             this.pmPanHeads.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picboxDbgFiles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pmGridview)).BeginInit();
             this.groupBox1.SuspendLayout();
-            this.panSetting.SuspendLayout();
-            this.psGrpDnld.SuspendLayout();
-            this.psGrpRecent.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -101,6 +103,7 @@
             // 
             this.splitContainer1.Panel1.AccessibleName = "";
             this.splitContainer1.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.splitContainer1.Panel1.Controls.Add(this.picChgPswd);
             this.splitContainer1.Panel1.Controls.Add(this.btUpload);
             this.splitContainer1.Panel1.Controls.Add(this.btExit);
             this.splitContainer1.Panel1.Controls.Add(this.btMyLoad);
@@ -120,6 +123,19 @@
             this.splitContainer1.Size = new System.Drawing.Size(1390, 721);
             this.splitContainer1.SplitterDistance = 284;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // picChgPswd
+            // 
+            this.picChgPswd.Image = global::DataSyncSystem.Properties.Resources.stBlack;
+            this.picChgPswd.Location = new System.Drawing.Point(210, 140);
+            this.picChgPswd.Name = "picChgPswd";
+            this.picChgPswd.Size = new System.Drawing.Size(35, 41);
+            this.picChgPswd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picChgPswd.TabIndex = 9;
+            this.picChgPswd.TabStop = false;
+            this.picChgPswd.Click += new System.EventHandler(this.picChgPswd_Click);
+            this.picChgPswd.MouseLeave += new System.EventHandler(this.picChgPswd_MouseLeave);
+            this.picChgPswd.MouseHover += new System.EventHandler(this.picChgPswd_MouseHover);
             // 
             // btUpload
             // 
@@ -145,7 +161,7 @@
             // btMyLoad
             // 
             this.btMyLoad.BackColor = System.Drawing.Color.White;
-            this.btMyLoad.Location = new System.Drawing.Point(70, 437);
+            this.btMyLoad.Location = new System.Drawing.Point(70, 460);
             this.btMyLoad.Name = "btMyLoad";
             this.btMyLoad.Size = new System.Drawing.Size(134, 34);
             this.btMyLoad.TabIndex = 6;
@@ -156,7 +172,7 @@
             // btSetting
             // 
             this.btSetting.BackColor = System.Drawing.Color.White;
-            this.btSetting.Location = new System.Drawing.Point(70, 490);
+            this.btSetting.Location = new System.Drawing.Point(70, 513);
             this.btSetting.Name = "btSetting";
             this.btSetting.Size = new System.Drawing.Size(134, 32);
             this.btSetting.TabIndex = 5;
@@ -167,7 +183,7 @@
             // btMain
             // 
             this.btMain.BackColor = System.Drawing.Color.White;
-            this.btMain.Location = new System.Drawing.Point(70, 387);
+            this.btMain.Location = new System.Drawing.Point(70, 410);
             this.btMain.Name = "btMain";
             this.btMain.Size = new System.Drawing.Size(134, 33);
             this.btMain.TabIndex = 4;
@@ -178,27 +194,30 @@
             // labUserTel
             // 
             this.labUserTel.AutoSize = true;
-            this.labUserTel.Location = new System.Drawing.Point(101, 312);
+            this.labUserTel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.labUserTel.Location = new System.Drawing.Point(119, 275);
             this.labUserTel.Name = "labUserTel";
-            this.labUserTel.Size = new System.Drawing.Size(28, 17);
+            this.labUserTel.Size = new System.Drawing.Size(31, 17);
             this.labUserTel.TabIndex = 3;
             this.labUserTel.Text = "Tel";
             // 
             // labUserTeam
             // 
             this.labUserTeam.AutoSize = true;
-            this.labUserTeam.Location = new System.Drawing.Point(101, 268);
+            this.labUserTeam.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.labUserTeam.Location = new System.Drawing.Point(121, 238);
             this.labUserTeam.Name = "labUserTeam";
-            this.labUserTeam.Size = new System.Drawing.Size(44, 17);
+            this.labUserTeam.Size = new System.Drawing.Size(48, 17);
             this.labUserTeam.TabIndex = 2;
             this.labUserTeam.Text = "Team";
             // 
             // labUserName
             // 
             this.labUserName.AutoSize = true;
-            this.labUserName.Location = new System.Drawing.Point(101, 219);
+            this.labUserName.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.labUserName.Location = new System.Drawing.Point(121, 201);
             this.labUserName.Name = "labUserName";
-            this.labUserName.Size = new System.Drawing.Size(45, 17);
+            this.labUserName.Size = new System.Drawing.Size(49, 17);
             this.labUserName.TabIndex = 1;
             this.labUserName.Text = "Name";
             // 
@@ -211,6 +230,141 @@
             this.picHead.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picHead.TabIndex = 0;
             this.picHead.TabStop = false;
+            // 
+            // panSetting
+            // 
+            this.panSetting.AutoScroll = true;
+            this.panSetting.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.panSetting.Controls.Add(this.psBtSure);
+            this.panSetting.Controls.Add(this.psBtSetting);
+            this.panSetting.Controls.Add(this.psGrpDnld);
+            this.panSetting.Controls.Add(this.psGrpRecent);
+            this.panSetting.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panSetting.Location = new System.Drawing.Point(0, 0);
+            this.panSetting.Name = "panSetting";
+            this.panSetting.Size = new System.Drawing.Size(1102, 721);
+            this.panSetting.TabIndex = 2;
+            this.panSetting.Visible = false;
+            // 
+            // psBtSure
+            // 
+            this.psBtSure.BackColor = System.Drawing.Color.Black;
+            this.psBtSure.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.psBtSure.ForeColor = System.Drawing.Color.White;
+            this.psBtSure.Location = new System.Drawing.Point(668, 661);
+            this.psBtSure.Name = "psBtSure";
+            this.psBtSure.Size = new System.Drawing.Size(75, 34);
+            this.psBtSure.TabIndex = 3;
+            this.psBtSure.Text = "ok";
+            this.psBtSure.UseVisualStyleBackColor = false;
+            this.psBtSure.Click += new System.EventHandler(this.psBtSure_Click);
+            // 
+            // psBtSetting
+            // 
+            this.psBtSetting.BackColor = System.Drawing.Color.Black;
+            this.psBtSetting.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.psBtSetting.ForeColor = System.Drawing.Color.White;
+            this.psBtSetting.Location = new System.Drawing.Point(284, 657);
+            this.psBtSetting.Name = "psBtSetting";
+            this.psBtSetting.Size = new System.Drawing.Size(94, 34);
+            this.psBtSetting.TabIndex = 2;
+            this.psBtSetting.Text = "setting";
+            this.psBtSetting.UseVisualStyleBackColor = false;
+            this.psBtSetting.Click += new System.EventHandler(this.psBtSetting_Click);
+            // 
+            // psGrpDnld
+            // 
+            this.psGrpDnld.Controls.Add(this.psBtChseDnldPath);
+            this.psGrpDnld.Controls.Add(this.psTxtDnldPath);
+            this.psGrpDnld.Controls.Add(this.psLabDnldPath);
+            this.psGrpDnld.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.psGrpDnld.Location = new System.Drawing.Point(183, 263);
+            this.psGrpDnld.Name = "psGrpDnld";
+            this.psGrpDnld.Size = new System.Drawing.Size(780, 100);
+            this.psGrpDnld.TabIndex = 1;
+            this.psGrpDnld.TabStop = false;
+            this.psGrpDnld.Text = "download setting";
+            // 
+            // psBtChseDnldPath
+            // 
+            this.psBtChseDnldPath.Location = new System.Drawing.Point(532, 48);
+            this.psBtChseDnldPath.Name = "psBtChseDnldPath";
+            this.psBtChseDnldPath.Size = new System.Drawing.Size(95, 32);
+            this.psBtChseDnldPath.TabIndex = 6;
+            this.psBtChseDnldPath.Text = "choose";
+            this.psBtChseDnldPath.UseVisualStyleBackColor = true;
+            this.psBtChseDnldPath.Click += new System.EventHandler(this.psBtChseDnldPath_Click);
+            // 
+            // psTxtDnldPath
+            // 
+            this.psTxtDnldPath.Location = new System.Drawing.Point(222, 49);
+            this.psTxtDnldPath.Name = "psTxtDnldPath";
+            this.psTxtDnldPath.Size = new System.Drawing.Size(282, 26);
+            this.psTxtDnldPath.TabIndex = 5;
+            // 
+            // psLabDnldPath
+            // 
+            this.psLabDnldPath.AutoSize = true;
+            this.psLabDnldPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.psLabDnldPath.ForeColor = System.Drawing.Color.White;
+            this.psLabDnldPath.Location = new System.Drawing.Point(66, 51);
+            this.psLabDnldPath.Name = "psLabDnldPath";
+            this.psLabDnldPath.Size = new System.Drawing.Size(129, 20);
+            this.psLabDnldPath.TabIndex = 4;
+            this.psLabDnldPath.Text = "download path";
+            // 
+            // psGrpRecent
+            // 
+            this.psGrpRecent.Controls.Add(this.psCombPdct);
+            this.psGrpRecent.Controls.Add(this.psLabPdct);
+            this.psGrpRecent.Controls.Add(this.psCombPltfm);
+            this.psGrpRecent.Controls.Add(this.psLabPltfm);
+            this.psGrpRecent.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.psGrpRecent.Location = new System.Drawing.Point(183, 61);
+            this.psGrpRecent.Name = "psGrpRecent";
+            this.psGrpRecent.Size = new System.Drawing.Size(780, 120);
+            this.psGrpRecent.TabIndex = 0;
+            this.psGrpRecent.TabStop = false;
+            this.psGrpRecent.Text = "recent focus";
+            // 
+            // psCombPdct
+            // 
+            this.psCombPdct.FormattingEnabled = true;
+            this.psCombPdct.Location = new System.Drawing.Point(460, 44);
+            this.psCombPdct.Name = "psCombPdct";
+            this.psCombPdct.Size = new System.Drawing.Size(121, 28);
+            this.psCombPdct.TabIndex = 3;
+            // 
+            // psLabPdct
+            // 
+            this.psLabPdct.AutoSize = true;
+            this.psLabPdct.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.psLabPdct.ForeColor = System.Drawing.Color.White;
+            this.psLabPdct.Location = new System.Drawing.Point(373, 48);
+            this.psLabPdct.Name = "psLabPdct";
+            this.psLabPdct.Size = new System.Drawing.Size(72, 20);
+            this.psLabPdct.TabIndex = 2;
+            this.psLabPdct.Text = "product";
+            // 
+            // psCombPltfm
+            // 
+            this.psCombPltfm.FormattingEnabled = true;
+            this.psCombPltfm.Location = new System.Drawing.Point(191, 44);
+            this.psCombPltfm.Name = "psCombPltfm";
+            this.psCombPltfm.Size = new System.Drawing.Size(121, 28);
+            this.psCombPltfm.TabIndex = 1;
+            this.psCombPltfm.SelectedIndexChanged += new System.EventHandler(this.psCombPltfm_SelectedIndexChanged);
+            // 
+            // psLabPltfm
+            // 
+            this.psLabPltfm.AutoSize = true;
+            this.psLabPltfm.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.psLabPltfm.ForeColor = System.Drawing.Color.White;
+            this.psLabPltfm.Location = new System.Drawing.Point(97, 48);
+            this.psLabPltfm.Name = "psLabPltfm";
+            this.psLabPltfm.Size = new System.Drawing.Size(78, 20);
+            this.psLabPltfm.TabIndex = 0;
+            this.psLabPltfm.Text = "platform";
             // 
             // panMain
             // 
@@ -487,141 +641,6 @@
             this.panMyLoad.Visible = false;
             this.panMyLoad.Paint += new System.Windows.Forms.PaintEventHandler(this.panMyLoad_Paint);
             // 
-            // panSetting
-            // 
-            this.panSetting.AutoScroll = true;
-            this.panSetting.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.panSetting.Controls.Add(this.psBtSure);
-            this.panSetting.Controls.Add(this.psBtSetting);
-            this.panSetting.Controls.Add(this.psGrpDnld);
-            this.panSetting.Controls.Add(this.psGrpRecent);
-            this.panSetting.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panSetting.Location = new System.Drawing.Point(0, 0);
-            this.panSetting.Name = "panSetting";
-            this.panSetting.Size = new System.Drawing.Size(1102, 721);
-            this.panSetting.TabIndex = 2;
-            this.panSetting.Visible = false;
-            // 
-            // psBtSure
-            // 
-            this.psBtSure.BackColor = System.Drawing.Color.Black;
-            this.psBtSure.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.psBtSure.ForeColor = System.Drawing.Color.White;
-            this.psBtSure.Location = new System.Drawing.Point(668, 661);
-            this.psBtSure.Name = "psBtSure";
-            this.psBtSure.Size = new System.Drawing.Size(75, 34);
-            this.psBtSure.TabIndex = 3;
-            this.psBtSure.Text = "ok";
-            this.psBtSure.UseVisualStyleBackColor = false;
-            this.psBtSure.Click += new System.EventHandler(this.psBtSure_Click);
-            // 
-            // psBtSetting
-            // 
-            this.psBtSetting.BackColor = System.Drawing.Color.Black;
-            this.psBtSetting.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.psBtSetting.ForeColor = System.Drawing.Color.White;
-            this.psBtSetting.Location = new System.Drawing.Point(284, 657);
-            this.psBtSetting.Name = "psBtSetting";
-            this.psBtSetting.Size = new System.Drawing.Size(94, 34);
-            this.psBtSetting.TabIndex = 2;
-            this.psBtSetting.Text = "setting";
-            this.psBtSetting.UseVisualStyleBackColor = false;
-            this.psBtSetting.Click += new System.EventHandler(this.psBtSetting_Click);
-            // 
-            // psGrpDnld
-            // 
-            this.psGrpDnld.Controls.Add(this.psBtChseDnldPath);
-            this.psGrpDnld.Controls.Add(this.psTxtDnldPath);
-            this.psGrpDnld.Controls.Add(this.psLabDnldPath);
-            this.psGrpDnld.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.psGrpDnld.Location = new System.Drawing.Point(183, 263);
-            this.psGrpDnld.Name = "psGrpDnld";
-            this.psGrpDnld.Size = new System.Drawing.Size(780, 100);
-            this.psGrpDnld.TabIndex = 1;
-            this.psGrpDnld.TabStop = false;
-            this.psGrpDnld.Text = "download setting";
-            // 
-            // psBtChseDnldPath
-            // 
-            this.psBtChseDnldPath.Location = new System.Drawing.Point(532, 48);
-            this.psBtChseDnldPath.Name = "psBtChseDnldPath";
-            this.psBtChseDnldPath.Size = new System.Drawing.Size(95, 32);
-            this.psBtChseDnldPath.TabIndex = 6;
-            this.psBtChseDnldPath.Text = "choose";
-            this.psBtChseDnldPath.UseVisualStyleBackColor = true;
-            this.psBtChseDnldPath.Click += new System.EventHandler(this.psBtChseDnldPath_Click);
-            // 
-            // psTxtDnldPath
-            // 
-            this.psTxtDnldPath.Location = new System.Drawing.Point(222, 49);
-            this.psTxtDnldPath.Name = "psTxtDnldPath";
-            this.psTxtDnldPath.Size = new System.Drawing.Size(282, 26);
-            this.psTxtDnldPath.TabIndex = 5;
-            // 
-            // psLabDnldPath
-            // 
-            this.psLabDnldPath.AutoSize = true;
-            this.psLabDnldPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.psLabDnldPath.ForeColor = System.Drawing.Color.White;
-            this.psLabDnldPath.Location = new System.Drawing.Point(66, 51);
-            this.psLabDnldPath.Name = "psLabDnldPath";
-            this.psLabDnldPath.Size = new System.Drawing.Size(129, 20);
-            this.psLabDnldPath.TabIndex = 4;
-            this.psLabDnldPath.Text = "download path";
-            // 
-            // psGrpRecent
-            // 
-            this.psGrpRecent.Controls.Add(this.psCombPdct);
-            this.psGrpRecent.Controls.Add(this.psLabPdct);
-            this.psGrpRecent.Controls.Add(this.psCombPltfm);
-            this.psGrpRecent.Controls.Add(this.psLabPltfm);
-            this.psGrpRecent.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.psGrpRecent.Location = new System.Drawing.Point(183, 61);
-            this.psGrpRecent.Name = "psGrpRecent";
-            this.psGrpRecent.Size = new System.Drawing.Size(780, 120);
-            this.psGrpRecent.TabIndex = 0;
-            this.psGrpRecent.TabStop = false;
-            this.psGrpRecent.Text = "recent focus";
-            // 
-            // psCombPdct
-            // 
-            this.psCombPdct.FormattingEnabled = true;
-            this.psCombPdct.Location = new System.Drawing.Point(460, 44);
-            this.psCombPdct.Name = "psCombPdct";
-            this.psCombPdct.Size = new System.Drawing.Size(121, 28);
-            this.psCombPdct.TabIndex = 3;
-            // 
-            // psLabPdct
-            // 
-            this.psLabPdct.AutoSize = true;
-            this.psLabPdct.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.psLabPdct.ForeColor = System.Drawing.Color.White;
-            this.psLabPdct.Location = new System.Drawing.Point(373, 48);
-            this.psLabPdct.Name = "psLabPdct";
-            this.psLabPdct.Size = new System.Drawing.Size(72, 20);
-            this.psLabPdct.TabIndex = 2;
-            this.psLabPdct.Text = "product";
-            // 
-            // psCombPltfm
-            // 
-            this.psCombPltfm.FormattingEnabled = true;
-            this.psCombPltfm.Location = new System.Drawing.Point(191, 44);
-            this.psCombPltfm.Name = "psCombPltfm";
-            this.psCombPltfm.Size = new System.Drawing.Size(121, 28);
-            this.psCombPltfm.TabIndex = 1;
-            this.psCombPltfm.SelectedIndexChanged += new System.EventHandler(this.psCombPltfm_SelectedIndexChanged);
-            // 
-            // psLabPltfm
-            // 
-            this.psLabPltfm.AutoSize = true;
-            this.psLabPltfm.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.psLabPltfm.ForeColor = System.Drawing.Color.White;
-            this.psLabPltfm.Location = new System.Drawing.Point(97, 48);
-            this.psLabPltfm.Name = "psLabPltfm";
-            this.psLabPltfm.Size = new System.Drawing.Size(78, 20);
-            this.psLabPltfm.TabIndex = 0;
-            this.psLabPltfm.Text = "platform";
-            // 
             // FmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -639,7 +658,13 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picChgPswd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picHead)).EndInit();
+            this.panSetting.ResumeLayout(false);
+            this.psGrpDnld.ResumeLayout(false);
+            this.psGrpDnld.PerformLayout();
+            this.psGrpRecent.ResumeLayout(false);
+            this.psGrpRecent.PerformLayout();
             this.panMain.ResumeLayout(false);
             this.pmPanStatus.ResumeLayout(false);
             this.pmPanStatus.PerformLayout();
@@ -648,11 +673,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pmGridview)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.panSetting.ResumeLayout(false);
-            this.psGrpDnld.ResumeLayout(false);
-            this.psGrpDnld.PerformLayout();
-            this.psGrpRecent.ResumeLayout(false);
-            this.psGrpRecent.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -706,5 +726,6 @@
         private System.Windows.Forms.Label pmHeadLabOperator;
         public System.Windows.Forms.DataGridView pmGridview;
         private System.Windows.Forms.PictureBox picboxDbgFiles;
+        private System.Windows.Forms.PictureBox picChgPswd;
     }
 }
