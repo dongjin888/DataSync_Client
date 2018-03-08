@@ -83,6 +83,12 @@ namespace DataSyncSystem.Utils
 
             bool canUpld = true;
 
+            if (!checkDirCanWrite(upldPath))
+            {
+                checkCode = ContantInfo.UpldDir.CANTACCESS;
+                return false;
+            }
+
             DirectoryInfo root = new DirectoryInfo(upldPath);
             DirectoryInfo parent = root.Parent;
 

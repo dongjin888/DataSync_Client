@@ -79,6 +79,12 @@
     <Compile Include="FmAnalyzer.Designer.cs">
       <DependentUpon>FmAnalyzer.cs</DependentUpon>
     </Compile>
+    <Compile Include="FmChgPswd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FmChgPswd.Designer.cs">
+      <DependentUpon>FmChgPswd.cs</DependentUpon>
+    </Compile>
     <Compile Include="FmCsv.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -192,6 +198,9 @@
     <EmbeddedResource Include="FmAnalyzer.resx">
       <DependentUpon>FmAnalyzer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FmChgPswd.resx">
+      <DependentUpon>FmChgPswd.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FmCsv.resx">
       <DependentUpon>FmCsv.cs</DependentUpon>
     </EmbeddedResource>
@@ -284,6 +293,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\dnldon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hide.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eye.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

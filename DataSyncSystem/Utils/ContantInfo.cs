@@ -31,6 +31,7 @@ namespace DataSyncSystem.Utils
             public static int NOINFO = 2;
             public static int NOSUM = 3;
             public static int NOKEYDIR = 4;
+            public static int CANTACCESS = 5;
 
             static UpldDir()
             {
@@ -38,6 +39,7 @@ namespace DataSyncSystem.Utils
                 upldDirErrDict.Add(NOINFO, "目录中没有info.txt文件!");
                 upldDirErrDict.Add(NOSUM, "目录中没有summary.csv文件!");
                 upldDirErrDict.Add(NOKEYDIR, "目录中没有[bin,csv,sv]子目录!");
+                upldDirErrDict.Add(CANTACCESS, "对该目录没有权限");
             }
         }
 

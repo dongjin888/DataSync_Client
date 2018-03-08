@@ -33,3 +33,4 @@ C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\bin\Debug\OxyPlot
 C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.SelfView.FmWaitAnlyzFile.resources
 C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.FmFactory.resources
 C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.FmWriteInfo.resources
+C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.FmChgPswd.resources

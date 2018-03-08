@@ -33,7 +33,6 @@ namespace DataSyncSystem
         volatile bool isNewUpld = true;  // 表示是否是新的上传
         string upldHistStr = ""; // .upldhist.hist 中存储的字符串
         string pltfmpdctStr = ""; // .upldhist.hist 中存储的pltfm , pdct 
-        int upldDirChkCode;
         volatile bool upldRunFlg;
         volatile int compressCode = ContantInfo.Compress.WAIT;
         #endregion
@@ -48,9 +47,10 @@ namespace DataSyncSystem
         {
             // 获取当前用户信息
             curUser = service.getUserByUserId(Cache.userId);
-            labTitle.Text += "Name:" + curUser.UserName + "  ";
-            labTitle.Text += "Team:" + curUser.TeamName + "  ";
-            labTitle.Text += "Id:" + curUser.UserId + "  ";
+
+            labName.Text = curUser.UserName;
+            labTeam.Text = curUser.TeamName;
+            labUserid.Text = curUser.UserId;
 
             // 初始化socket
             initUpldSock();
@@ -75,6 +75,7 @@ namespace DataSyncSystem
             }
         }
 
+        //初始化传输端口
         private void initUpldSock()
         {
             //判断upldSock 是否准备好
@@ -91,6 +92,8 @@ namespace DataSyncSystem
                     Thread recvTh = new Thread(recv);
                     recvTh.IsBackground = true;
                     recvTh.Start();
+
+                    labStatus.Text = "connected!";
                 }
                 catch (Exception err)
                 {
@@ -181,6 +184,10 @@ namespace DataSyncSystem
                         endFlg = true;
                         MyLogger.WriteLine("服务端返回接收结束响应!");
                         MessageBox.Show("上传成功!", "message");
+
+                        //上传完成后，重新设置
+                        trialInfo = new TrialInfo();
+                        groupInfo.Visible = false;
                     }
 
                     //接收服务端返回的错误信息
@@ -198,7 +205,6 @@ namespace DataSyncSystem
                 MyLogger.WriteLine("客户端监听任务结束!");
             } //while()
         }
-
         private void btBrowser_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog dia = new FolderBrowserDialog();
@@ -207,24 +213,131 @@ namespace DataSyncSystem
                 upldPath = dia.SelectedPath;
                 txtFolder.Text = upldPath;
 
-                //检查目录中是否含有info.txt
-                FmWriteInfo fm = new FmWriteInfo(false, service, ref trialInfo);
-                if(fm.ShowDialog() == DialogResult.OK)
+                int checkUpldDirCode = 0;
+                if(FileHandle.checkUpldDir(upldPath,ref checkUpldDirCode))
                 {
-                    labActivator.Text = trialInfo.Activator;
-                    labOperator.Text = trialInfo.Operator;
-                    labPltfm.Text = trialInfo.Pltfm;
-                    labPdct.Text = trialInfo.Pdct;
-                    labInfo.Text = trialInfo.Info;
-                    labOther.Text = trialInfo.Other;
-                    groupInfo.Visible = true;
+                    #region 检查upldhist.hist
+                    FileInfo histFile = new FileInfo(upldPath + "\\.upldhist.hist");
+                    if (histFile.Exists)
+                    {
+                        isNewUpld = false; //不是新的上传
+                        using (FileStream fs = new FileStream(histFile.FullName, FileMode.Open))
+                        {
+                            using (StreamReader sr = new StreamReader(fs))
+                            {
+                                string line = "";
+                                while ((line = sr.ReadLine()) != null)
+                                {
+                                    if (line.StartsWith("token="))
+                                    {
+                                        upldHistStr = line.Split('=')[1];
+                                    }
+                                    if (line.StartsWith("pltfmpdct="))
+                                    {
+                                        pltfmpdctStr = line.Split('=')[1];
+                                    }
+                                }
+                            }
+                        }
+                        //处理upldHistStr 还原出真实信息
+                        if (!upldHistStr.Equals("")) // userid_datestring
+                        {
+                            try
+                            {
+                                upldHistStr = EnDeCode.deCode(upldHistStr);
+                                trialInfo.Activator = upldHistStr.Split('_')[0];
+                                trialInfo.Unique = upldHistStr;
+                            }
+                            catch (Exception ex)
+                            {
+                                isNewUpld = true;
+                                MyLogger.WriteLine(ex.Message);
+                            }
+                        }
+                        else // 
+                        {
+                            isNewUpld = true;
+                        }
+
+                        if (!pltfmpdctStr.Equals(""))
+                        {
+                            trialInfo.Pltfm = pltfmpdctStr.Split('_')[0];
+                            trialInfo.Pdct = pltfmpdctStr.Split('_')[1];
+                        }
+                        else
+                        {
+                            isNewUpld = true;
+                        }
+
+                    }
+#endregion
+
+                    //填写Trial info
+                    FmWriteInfo fm = new FmWriteInfo(false, service, ref trialInfo,isNewUpld);
+                    if (fm.ShowDialog() == DialogResult.OK)
+                    {
+                        labActivator.Text = trialInfo.Activator;
+                        labOperator.Text = trialInfo.Operator;
+                        labPltfm.Text = trialInfo.Pltfm;
+                        labPdct.Text = trialInfo.Pdct;
+                        labInfo.Text = trialInfo.Info;
+                        labOther.Text = trialInfo.Other;
+                        groupInfo.Visible = true;
+                    }
+                    else
+                    {
+                        groupInfo.Visible = false;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("upload dir error:\r\n" + ContantInfo.UpldDir.upldDirErrDict[checkUpldDirCode], "message");
                 }
             }
+            else
+            {
+                MyLogger.WriteLine("Upload Canceld !");
+            }
         }
-
         private void btUpld_Click(object sender, EventArgs e)
         {
+            if (!groupInfo.Visible)
+            {
+                MessageBox.Show("Trial info not exist!", "error");
+                return;
+            }
+            else
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("activator:" + trialInfo.Activator + "\n");
+                sb.Append("operator:" + trialInfo.Operator + "\n");
+                sb.Append("pltfm:" + trialInfo.Pltfm + "\n");
+                sb.Append("pdct:" + trialInfo.Pdct + "\n");
+                sb.Append("unique:"+trialInfo.Unique+" "+
+                    TimeHandle.milSecondsToDatetime(long.Parse(trialInfo.Unique.Split('_')[1]))+"\n");
+                sb.Append("info:" + trialInfo.Info+"\n");
+                sb.Append("other:" + trialInfo.Other+"\n");
 
+                //组装上传请求头
+                upldHead = "upld:#";
+                upldHead += trialInfo.Activator + "#" + trialInfo.Operator + "#" +
+                            trialInfo.Unique + "#" + trialInfo.Pltfm + "#" + 
+                            trialInfo.Pdct + "#" + trialInfo.Info + "#" + trialInfo.Other + "#";
+
+                //发送上传请求头
+                try
+                {
+                    upldSock.Send(Encoding.UTF8.GetBytes(upldHead.ToCharArray()));
+                    upldRunFlg = true;
+                    MyLogger.WriteLine("client upldSock 发送了请求头：" + upldHead);
+                }
+                catch
+                {
+                    upldRunFlg = false; // 中断上面的recvTh 线程
+                    MessageBox.Show("与服务端断开连接！", "message");
+                    MyLogger.WriteLine("-------upldSock 发送消息头时 遇到异常--------");
+                }
+            }
         }
         private void compress()
         {
@@ -428,9 +541,10 @@ namespace DataSyncSystem
             catch { MyLogger.WriteLine("zip文件删除异常!\n"); }
         }
 
+        //重新设置 trial info 信息
         private void btInfoModify_Click(object sender, EventArgs e)
         {
-            FmWriteInfo fm = new FmWriteInfo(false, service, ref trialInfo);
+            FmWriteInfo fm = new FmWriteInfo(false, service, ref trialInfo,isNewUpld);
             if(fm.ShowDialog() == DialogResult.OK)
             {
                 labActivator.Text = trialInfo.Activator;
@@ -441,6 +555,17 @@ namespace DataSyncSystem
                 labOther.Text = trialInfo.Other;
                 groupInfo.Visible = true;
             }
+            else
+            {
+                groupInfo.Visible = false;
+            }
+        }
+
+        //更改密码的按钮事件
+        private void btChgPswd_Click(object sender, EventArgs e)
+        {
+            FmChgPswd fm = new FmChgPswd(service, curUser);
+            fm.ShowDialog();
         }
     }
 }

@@ -852,5 +852,34 @@ namespace DataSyncSystem.Dao
             }
         }*/
         #endregion
+
+        public void chgPswd(string userId,string md5Str)
+        {
+            if (con != null)
+            {
+                try
+                {
+                    if (con.State != ConnectionState.Open) { con.Open(); }
+
+                    string queryStr = @"update tabusers set userpass=@pswd where userid=@uid ;";
+                    MySqlCommand cmd = new MySqlCommand();
+                    cmd.Connection = con;
+                    cmd.CommandText = queryStr;
+                    cmd.Parameters.AddWithValue("@pswd", md5Str);
+                    cmd.Parameters.AddWithValue("@uid", userId);
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                    }catch(Exception ex)
+                    {
+                        throw new Exception("change pswd error!"+ex.Message);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+        }
     }
 }
