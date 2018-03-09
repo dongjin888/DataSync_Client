@@ -22,19 +22,19 @@ namespace DataSyncSystem
     {
         public User curUser = null; 
         DataService service = new DataService();
-        public static Dictionary<string, string> userDict = null;
+        public static Dictionary<string, string> userDict = null; //这个用来通过userid 友好的显示名字
 
         #region panMain 中需要的功能部件
         //显示相关的控制辅助
-        private Label[] pmLabs = new Label[7];
+        private Label[] pmLabs = new Label[7]; // 0root 1>> 2pltfm 3>> 4pdct  5>> 6trial 
         public string[] pmLabTexts = new string[7];
-        private Panel[] pmPans = new Panel[4];
-        public int pmCurLab = 1;
-        public int pmCurPan = 0;
+        private Panel[] pmPans = new Panel[4]; // 0pltfm 1pdct 2trials 3trial 
+        public int pmCurLab = 1; //显示到 1>>
+        public int pmCurPan = 0; //显示 0pltfm
 
         //pmPanPltfms panel中所需的功能部件
         public List<Platform> pmPltfmList = null;
-        public int pmPltfmPgSize = 9;
+        public int pmPltfmPgSize = 9; //每页显示9条数据
         public int pmPltfmPgNow = 1;
         public int pmPltfmPgAll = 0;
         /****控制画图相关部件 ***/
@@ -42,15 +42,15 @@ namespace DataSyncSystem
         public int pmPltfmStartY = 30;
         public int pmPltfmWoffset = 60;
         public int pmPltfmHoffset = 25;
-        public int pmPltfmLineSize = 3;
+        public int pmPltfmLineSize = 3; //每行显示3个
         //页脚开始位置信息
         public int pmPltfmPgStartX = 210;
         public int pmPltfmPgStartY = 465;
-        public int pmPltfmPgShow = 3;
+        public int pmPltfmPgShow = 3;  // 页脚显示多少页
 
         //pmPanPdcts panel 中所需的功能部件
         public List<Product> pmPdctList = null;
-        public int pmPdctPgSize = 9;
+        public int pmPdctPgSize = 9; //每页显示9条数据
         public int pmPdctPgNow = 1;
         public int pmPdctPgAll = 0;
         /****控制画图相关部件 ***/
@@ -58,15 +58,15 @@ namespace DataSyncSystem
         public int pmPdctStartY = 30;
         public int pmPdctWoffset = 60;
         public int pmPdctHoffset = 25;
-        public int pmPdctLineSize = 3;
+        public int pmPdctLineSize = 3;//每行显示3个
         //页脚开始位置信息
         public int pmPdctPgStartX = 210;
         public int pmPdctPgStartY = 465;
-        public int pmPdctPgShow = 3;
+        public int pmPdctPgShow = 3;  // 页脚显示多少页
 
         //pmPanTrials panel 中所需的功能部件
         public List<Trial> pmTrialsList = null;
-        public int pmTrialPgSize = 9;
+        public int pmTrialPgSize = 9; //每页显示9条数据
         public int pmTrialPgNow = 1;
         public int pmTrialPgAll = 0;
         /****控制画图相关部件 ***/
@@ -74,11 +74,11 @@ namespace DataSyncSystem
         public int pmTrialStartY = 35;
         public int pmTrialWoffset = 60;
         public int pmTrialHoffset = 35;
-        public int pmTrialLineSize = 3;
+        public int pmTrialLineSize = 3; //控制换行相关
         //页脚开始位置信息
-        public int pmTrialPgStartX = 190;
-        public int pmTrialPgStartY = 465;
-        public int pmTrialPgShow = 4;
+        public int pmTrialPgStartX = 130;
+        public int pmTrialPgStartY = 430;
+        public int pmTrialPgShow = 3; //页脚显示4个页码
 
         //pmPanHeads panel 中所需的功能部件
         public Trial pmHeadShowTrial = null;
@@ -98,7 +98,7 @@ namespace DataSyncSystem
         public int plUploadPgSize = 8; //每页显示多少条数据
         public int plUploadPgStartX = 125;
         public int plUploadPgStartY = 550;
-        public int plUploadPgShow = 5;
+        public int plUploadPgShow = 4; //页脚显示多少页码
 
         #endregion
 
@@ -160,9 +160,6 @@ namespace DataSyncSystem
             pmPans[1] = pmPanPdcts;
             pmPans[2] = pmPanTrials;
             pmPans[3] = pmPanHeads;
-
-            setCurPmLab();
-            setCurPmPan();
             #endregion
 
             #region 初始化用于设置显示控制的panMyUpload 中的labels 数组及 Pannels 数组
@@ -205,7 +202,7 @@ namespace DataSyncSystem
             plUploaderId = curUser.UserId;
             plUploadList = service.getTrialPageList(plUploaderId, plUploadPgNow, plUploadPgSize, ref plUploadPgAll);
 
-            //setting panel 中预先设置内容
+            #region 根据用户配置预先显示panel main 中的内容
             FileInfo cfg = new FileInfo(Environment.CurrentDirectory + "\\" + ".datasync.cfg");
             if (cfg.Exists)
             {
@@ -216,20 +213,44 @@ namespace DataSyncSystem
                 {
                     if (tmp.StartsWith("pltfm"))
                     {
-                        psCombPltfm.Text = tmp.Split('=')[1];
+                        tmp = tmp.Split('=')[1];
+                        psCombPltfm.Text = tmp;
+                        Cache.pltfm = tmp;
                     }
                     if (tmp.StartsWith("pdct"))
                     {
-                        psCombPdct.Text = tmp.Split('=')[1];
+                        tmp = tmp.Split('=')[1];
+                        psCombPdct.Text = tmp;
+                        Cache.pdct = tmp;
                     }
                     if (tmp.StartsWith("path"))
                     {
-                        psTxtDnldPath.Text = tmp.Split('=')[1];
+                        tmp = tmp.Split('=')[1];
+                        psTxtDnldPath.Text = tmp;
+                        Cache.dnldPath = tmp;
                     }
                 }
                 sr.Close();
                 fs.Close();
             }
+            if(!Cache.pltfm.Equals(""))
+            {
+                pmPdctList = service.getPdctPageList(pmPdctPgNow, pmPdctPgSize, Cache.pltfm, ref pmPdctPgAll);
+                pmCurLab += 2;
+                pmCurPan += 1;
+                pmLabTexts[pmCurLab - 1] = Cache.pltfm;
+                if (!Cache.pdct.Equals(""))
+                {
+                    pmTrialsList = service.getTrPgByPdct(Cache.pltfm, Cache.pdct, pmTrialPgNow, pmTrialPgSize,
+                                                         ref pmTrialPgAll);
+                    pmCurLab += 2;
+                    pmCurPan += 1;
+                    pmLabTexts[pmCurLab - 1] = Cache.pdct;
+                }
+            }
+            setCurPmLab();
+            setCurPmPan();
+            #endregion
 
             userDict = service.getAllUserDict();
         }
@@ -911,6 +932,20 @@ namespace DataSyncSystem
         #region 主页panMain 中最上方 lab 的点击事件
         private void pmLabRoot_Click(object sender, EventArgs e)
         {
+            //初始化pmPltfm 的page显示
+            //初始化pmTrials 的page显示
+            //>> 直接从pmTrial调到这里
+            if(pmCurLab >= 4)
+            {
+                pmTrialPgNow = 1;
+                pmPdctPgNow = 1;
+
+            }
+            else //从平台过来的
+            {
+                pmPdctPgNow = 0;
+            }
+
             pmCurLab = 1;
             pmCurPan = 0;
             setCurPmLab();
@@ -919,6 +954,9 @@ namespace DataSyncSystem
 
         private void pmLabPlatform_Click(object sender, EventArgs e)
         {
+            //初始化pmTrial 的page显示
+            pmTrialPgNow = 1;
+
             pmCurLab = 2 + 1;
             pmCurPan = 1;
             setCurPmLab();
@@ -1836,32 +1874,6 @@ namespace DataSyncSystem
         }
         #endregion
 
-        private void picChgPswd_MouseLeave(object sender, EventArgs e)
-        {
-            picChgPswd.Image = Properties.Resources.stLv;
-        }
-
-        private void picChgPswd_Click(object sender, EventArgs e)
-        {
-            FmChgPswd fm = new FmChgPswd(service, curUser);
-            fm.ShowDialog();
-        }
-
-        private void picChgPswd_MouseEnter(object sender, EventArgs e)
-        {
-            picChgPswd.Image = Properties.Resources.stHv;
-        }
-
-        private void picboxDbgFiles_MouseEnter(object sender, EventArgs e)
-        {
-            picboxDbgFiles.Image = Properties.Resources.schHv;
-        }
-
-        private void picboxDbgFiles_MouseLeave(object sender, EventArgs e)
-        {
-            picboxDbgFiles.Image = Properties.Resources.schLv;
-        }
-
         private void picboxAnalyz_Click(object sender, EventArgs e)
         {
             //弹出分析选择框
@@ -1909,6 +1921,33 @@ namespace DataSyncSystem
                 dnldRunFlg = false;
                 MyLogger.WriteLine("发送下载请求头时 遇到异常！");
             }
+        }
+
+        #region 按钮点击图片变化事件
+        private void picChgPswd_MouseLeave(object sender, EventArgs e)
+        {
+            picChgPswd.Image = Properties.Resources.stLv;
+        }
+
+        private void picChgPswd_Click(object sender, EventArgs e)
+        {
+            FmChgPswd fm = new FmChgPswd(service, curUser);
+            fm.ShowDialog();
+        }
+
+        private void picChgPswd_MouseEnter(object sender, EventArgs e)
+        {
+            picChgPswd.Image = Properties.Resources.stHv;
+        }
+
+        private void picboxDbgFiles_MouseEnter(object sender, EventArgs e)
+        {
+            picboxDbgFiles.Image = Properties.Resources.schHv;
+        }
+
+        private void picboxDbgFiles_MouseLeave(object sender, EventArgs e)
+        {
+            picboxDbgFiles.Image = Properties.Resources.schLv;
         }
 
         private void picboxAnalyz_MouseEnter(object sender, EventArgs e)
@@ -1966,5 +2005,7 @@ namespace DataSyncSystem
             pmLabRoot.BackColor = Color.Black;
             pmLabRoot.ForeColor = Color.White;
         }
+
+        #endregion
     }
 }

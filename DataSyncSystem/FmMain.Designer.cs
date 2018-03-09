@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FmMain));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.picChgPswd = new System.Windows.Forms.PictureBox();
             this.btUpload = new System.Windows.Forms.Button();
             this.btExit = new System.Windows.Forms.Button();
             this.btMyLoad = new System.Windows.Forms.Button();
@@ -38,29 +39,7 @@
             this.labUserTel = new System.Windows.Forms.Label();
             this.labUserTeam = new System.Windows.Forms.Label();
             this.labUserName = new System.Windows.Forms.Label();
-            this.panMain = new System.Windows.Forms.Panel();
-            this.pmPanStatus = new System.Windows.Forms.Panel();
-            this.pmLabNext0 = new System.Windows.Forms.Label();
-            this.pmLabRoot = new System.Windows.Forms.Label();
-            this.pmLabNext2 = new System.Windows.Forms.Label();
-            this.pmLabNext1 = new System.Windows.Forms.Label();
-            this.pmLabTrial = new System.Windows.Forms.Label();
-            this.pmLabProduct = new System.Windows.Forms.Label();
-            this.pmLabPlatform = new System.Windows.Forms.Label();
-            this.pmPanHeads = new System.Windows.Forms.Panel();
-            this.pmGridview = new System.Windows.Forms.DataGridView();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.pmHeadLabOperator = new System.Windows.Forms.Label();
-            this.pmHeadLabInfo = new System.Windows.Forms.Label();
-            this.pmHeadLabDate = new System.Windows.Forms.Label();
-            this.pmHeadLabUserId = new System.Windows.Forms.Label();
-            this.pmPanTrials = new System.Windows.Forms.Panel();
-            this.pmPanPdcts = new System.Windows.Forms.Panel();
-            this.pmPanPltfms = new System.Windows.Forms.Panel();
+            this.picHead = new System.Windows.Forms.PictureBox();
             this.panMyLoad = new System.Windows.Forms.Panel();
             this.panSetting = new System.Windows.Forms.Panel();
             this.psBtSure = new System.Windows.Forms.Button();
@@ -74,29 +53,50 @@
             this.psLabPdct = new System.Windows.Forms.Label();
             this.psCombPltfm = new System.Windows.Forms.ComboBox();
             this.psLabPltfm = new System.Windows.Forms.Label();
-            this.psDnldFolderBrsDlg = new System.Windows.Forms.FolderBrowserDialog();
-            this.picChgPswd = new System.Windows.Forms.PictureBox();
-            this.picHead = new System.Windows.Forms.PictureBox();
+            this.panMain = new System.Windows.Forms.Panel();
+            this.pmPanStatus = new System.Windows.Forms.Panel();
+            this.pmLabNext0 = new System.Windows.Forms.Label();
+            this.pmLabRoot = new System.Windows.Forms.Label();
+            this.pmLabNext2 = new System.Windows.Forms.Label();
+            this.pmLabNext1 = new System.Windows.Forms.Label();
+            this.pmLabTrial = new System.Windows.Forms.Label();
+            this.pmLabProduct = new System.Windows.Forms.Label();
+            this.pmLabPlatform = new System.Windows.Forms.Label();
+            this.pmPanHeads = new System.Windows.Forms.Panel();
             this.picboxDnld = new System.Windows.Forms.PictureBox();
             this.picboxAnalyz = new System.Windows.Forms.PictureBox();
             this.picboxDbgFiles = new System.Windows.Forms.PictureBox();
+            this.pmGridview = new System.Windows.Forms.DataGridView();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.pmHeadLabOperator = new System.Windows.Forms.Label();
+            this.pmHeadLabInfo = new System.Windows.Forms.Label();
+            this.pmHeadLabDate = new System.Windows.Forms.Label();
+            this.pmHeadLabUserId = new System.Windows.Forms.Label();
+            this.pmPanTrials = new System.Windows.Forms.Panel();
+            this.pmPanPdcts = new System.Windows.Forms.Panel();
+            this.pmPanPltfms = new System.Windows.Forms.Panel();
+            this.psDnldFolderBrsDlg = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.panMain.SuspendLayout();
-            this.pmPanStatus.SuspendLayout();
-            this.pmPanHeads.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pmGridview)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picChgPswd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picHead)).BeginInit();
             this.panSetting.SuspendLayout();
             this.psGrpDnld.SuspendLayout();
             this.psGrpRecent.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picChgPswd)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picHead)).BeginInit();
+            this.panMain.SuspendLayout();
+            this.pmPanStatus.SuspendLayout();
+            this.pmPanHeads.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picboxDnld)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxAnalyz)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxDbgFiles)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pmGridview)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -123,12 +123,25 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.Teal;
+            this.splitContainer1.Panel2.Controls.Add(this.panMain);
             this.splitContainer1.Panel2.Controls.Add(this.panMyLoad);
             this.splitContainer1.Panel2.Controls.Add(this.panSetting);
-            this.splitContainer1.Panel2.Controls.Add(this.panMain);
             this.splitContainer1.Size = new System.Drawing.Size(1390, 721);
             this.splitContainer1.SplitterDistance = 284;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // picChgPswd
+            // 
+            this.picChgPswd.Image = global::DataSyncSystem.Properties.Resources.stLv;
+            this.picChgPswd.Location = new System.Drawing.Point(10, 6);
+            this.picChgPswd.Name = "picChgPswd";
+            this.picChgPswd.Size = new System.Drawing.Size(35, 41);
+            this.picChgPswd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picChgPswd.TabIndex = 9;
+            this.picChgPswd.TabStop = false;
+            this.picChgPswd.Click += new System.EventHandler(this.picChgPswd_Click);
+            this.picChgPswd.MouseEnter += new System.EventHandler(this.picChgPswd_MouseEnter);
+            this.picChgPswd.MouseLeave += new System.EventHandler(this.picChgPswd_MouseLeave);
             // 
             // btUpload
             // 
@@ -214,283 +227,15 @@
             this.labUserName.TabIndex = 1;
             this.labUserName.Text = "Name";
             // 
-            // panMain
+            // picHead
             // 
-            this.panMain.BackColor = System.Drawing.Color.Gray;
-            this.panMain.Controls.Add(this.pmPanStatus);
-            this.panMain.Controls.Add(this.pmPanHeads);
-            this.panMain.Controls.Add(this.pmPanTrials);
-            this.panMain.Controls.Add(this.pmPanPdcts);
-            this.panMain.Controls.Add(this.pmPanPltfms);
-            this.panMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panMain.Location = new System.Drawing.Point(0, 0);
-            this.panMain.Name = "panMain";
-            this.panMain.Size = new System.Drawing.Size(1102, 721);
-            this.panMain.TabIndex = 0;
-            this.panMain.Visible = false;
-            this.panMain.Paint += new System.Windows.Forms.PaintEventHandler(this.panMain_Paint);
-            // 
-            // pmPanStatus
-            // 
-            this.pmPanStatus.BackColor = System.Drawing.Color.Silver;
-            this.pmPanStatus.Controls.Add(this.pmLabNext0);
-            this.pmPanStatus.Controls.Add(this.pmLabRoot);
-            this.pmPanStatus.Controls.Add(this.pmLabNext2);
-            this.pmPanStatus.Controls.Add(this.pmLabNext1);
-            this.pmPanStatus.Controls.Add(this.pmLabTrial);
-            this.pmPanStatus.Controls.Add(this.pmLabProduct);
-            this.pmPanStatus.Controls.Add(this.pmLabPlatform);
-            this.pmPanStatus.Location = new System.Drawing.Point(0, 0);
-            this.pmPanStatus.Name = "pmPanStatus";
-            this.pmPanStatus.Size = new System.Drawing.Size(1102, 47);
-            this.pmPanStatus.TabIndex = 0;
-            // 
-            // pmLabNext0
-            // 
-            this.pmLabNext0.AutoSize = true;
-            this.pmLabNext0.BackColor = System.Drawing.Color.Silver;
-            this.pmLabNext0.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.pmLabNext0.ForeColor = System.Drawing.Color.White;
-            this.pmLabNext0.Location = new System.Drawing.Point(138, 11);
-            this.pmLabNext0.Name = "pmLabNext0";
-            this.pmLabNext0.Size = new System.Drawing.Size(43, 29);
-            this.pmLabNext0.TabIndex = 6;
-            this.pmLabNext0.Text = ">>";
-            // 
-            // pmLabRoot
-            // 
-            this.pmLabRoot.AutoSize = true;
-            this.pmLabRoot.BackColor = System.Drawing.Color.Black;
-            this.pmLabRoot.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pmLabRoot.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.pmLabRoot.ForeColor = System.Drawing.Color.White;
-            this.pmLabRoot.Location = new System.Drawing.Point(64, 11);
-            this.pmLabRoot.Name = "pmLabRoot";
-            this.pmLabRoot.Size = new System.Drawing.Size(62, 26);
-            this.pmLabRoot.TabIndex = 5;
-            this.pmLabRoot.Text = "Root";
-            this.pmLabRoot.Click += new System.EventHandler(this.pmLabRoot_Click);
-            this.pmLabRoot.MouseEnter += new System.EventHandler(this.pmLabRoot_MouseEnter);
-            this.pmLabRoot.MouseLeave += new System.EventHandler(this.pmLabRoot_MouseLeave);
-            // 
-            // pmLabNext2
-            // 
-            this.pmLabNext2.AutoSize = true;
-            this.pmLabNext2.BackColor = System.Drawing.Color.Silver;
-            this.pmLabNext2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.pmLabNext2.ForeColor = System.Drawing.Color.White;
-            this.pmLabNext2.Location = new System.Drawing.Point(535, 12);
-            this.pmLabNext2.Name = "pmLabNext2";
-            this.pmLabNext2.Size = new System.Drawing.Size(43, 29);
-            this.pmLabNext2.TabIndex = 4;
-            this.pmLabNext2.Text = ">>";
-            // 
-            // pmLabNext1
-            // 
-            this.pmLabNext1.AutoSize = true;
-            this.pmLabNext1.BackColor = System.Drawing.Color.Silver;
-            this.pmLabNext1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.pmLabNext1.ForeColor = System.Drawing.Color.White;
-            this.pmLabNext1.Location = new System.Drawing.Point(337, 11);
-            this.pmLabNext1.Name = "pmLabNext1";
-            this.pmLabNext1.Size = new System.Drawing.Size(43, 29);
-            this.pmLabNext1.TabIndex = 3;
-            this.pmLabNext1.Text = ">>";
-            // 
-            // pmLabTrial
-            // 
-            this.pmLabTrial.AutoSize = true;
-            this.pmLabTrial.BackColor = System.Drawing.Color.Black;
-            this.pmLabTrial.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.pmLabTrial.ForeColor = System.Drawing.Color.White;
-            this.pmLabTrial.Location = new System.Drawing.Point(594, 12);
-            this.pmLabTrial.Name = "pmLabTrial";
-            this.pmLabTrial.Size = new System.Drawing.Size(90, 26);
-            this.pmLabTrial.TabIndex = 2;
-            this.pmLabTrial.Text = "labTrial";
-            // 
-            // pmLabProduct
-            // 
-            this.pmLabProduct.AutoSize = true;
-            this.pmLabProduct.BackColor = System.Drawing.Color.Black;
-            this.pmLabProduct.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pmLabProduct.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.pmLabProduct.ForeColor = System.Drawing.Color.White;
-            this.pmLabProduct.Location = new System.Drawing.Point(401, 11);
-            this.pmLabProduct.Name = "pmLabProduct";
-            this.pmLabProduct.Size = new System.Drawing.Size(126, 26);
-            this.pmLabProduct.TabIndex = 1;
-            this.pmLabProduct.Text = "labProduct";
-            this.pmLabProduct.Click += new System.EventHandler(this.pmLabProduct_Click);
-            this.pmLabProduct.MouseEnter += new System.EventHandler(this.pmLabProduct_MouseEnter);
-            this.pmLabProduct.MouseLeave += new System.EventHandler(this.pmLabProduct_MouseLeave);
-            // 
-            // pmLabPlatform
-            // 
-            this.pmLabPlatform.AutoSize = true;
-            this.pmLabPlatform.BackColor = System.Drawing.Color.Black;
-            this.pmLabPlatform.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pmLabPlatform.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.pmLabPlatform.ForeColor = System.Drawing.Color.White;
-            this.pmLabPlatform.Location = new System.Drawing.Point(200, 12);
-            this.pmLabPlatform.Name = "pmLabPlatform";
-            this.pmLabPlatform.Size = new System.Drawing.Size(134, 26);
-            this.pmLabPlatform.TabIndex = 0;
-            this.pmLabPlatform.Text = "labPlatform";
-            this.pmLabPlatform.Click += new System.EventHandler(this.pmLabPlatform_Click);
-            this.pmLabPlatform.MouseEnter += new System.EventHandler(this.pmLabPlatform_MouseEnter);
-            this.pmLabPlatform.MouseLeave += new System.EventHandler(this.pmLabPlatform_MouseLeave);
-            // 
-            // pmPanHeads
-            // 
-            this.pmPanHeads.BackColor = System.Drawing.Color.Gray;
-            this.pmPanHeads.Controls.Add(this.picboxDnld);
-            this.pmPanHeads.Controls.Add(this.picboxAnalyz);
-            this.pmPanHeads.Controls.Add(this.picboxDbgFiles);
-            this.pmPanHeads.Controls.Add(this.pmGridview);
-            this.pmPanHeads.Controls.Add(this.groupBox1);
-            this.pmPanHeads.Location = new System.Drawing.Point(50, 84);
-            this.pmPanHeads.Name = "pmPanHeads";
-            this.pmPanHeads.Size = new System.Drawing.Size(1013, 611);
-            this.pmPanHeads.TabIndex = 4;
-            this.pmPanHeads.Paint += new System.Windows.Forms.PaintEventHandler(this.pmPanHeads_Paint);
-            // 
-            // pmGridview
-            // 
-            this.pmGridview.AllowDrop = true;
-            this.pmGridview.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.pmGridview.Location = new System.Drawing.Point(64, 176);
-            this.pmGridview.Name = "pmGridview";
-            this.pmGridview.RowTemplate.Height = 24;
-            this.pmGridview.Size = new System.Drawing.Size(858, 354);
-            this.pmGridview.TabIndex = 4;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.pmHeadLabOperator);
-            this.groupBox1.Controls.Add(this.pmHeadLabInfo);
-            this.groupBox1.Controls.Add(this.pmHeadLabDate);
-            this.groupBox1.Controls.Add(this.pmHeadLabUserId);
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(64, 21);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(858, 138);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "TrialInfo";
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(10, 52);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(83, 20);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "Operator";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(53, 104);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(40, 20);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Info";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(44, 78);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(49, 20);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Date";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label5.Location = new System.Drawing.Point(9, 26);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(84, 20);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "Activator";
-            // 
-            // pmHeadLabOperator
-            // 
-            this.pmHeadLabOperator.AutoSize = true;
-            this.pmHeadLabOperator.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.pmHeadLabOperator.Location = new System.Drawing.Point(111, 49);
-            this.pmHeadLabOperator.Name = "pmHeadLabOperator";
-            this.pmHeadLabOperator.Size = new System.Drawing.Size(46, 24);
-            this.pmHeadLabOperator.TabIndex = 4;
-            this.pmHeadLabOperator.Text = "ope";
-            // 
-            // pmHeadLabInfo
-            // 
-            this.pmHeadLabInfo.AutoSize = true;
-            this.pmHeadLabInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.pmHeadLabInfo.Location = new System.Drawing.Point(111, 101);
-            this.pmHeadLabInfo.Name = "pmHeadLabInfo";
-            this.pmHeadLabInfo.Size = new System.Drawing.Size(44, 24);
-            this.pmHeadLabInfo.TabIndex = 2;
-            this.pmHeadLabInfo.Text = "info";
-            // 
-            // pmHeadLabDate
-            // 
-            this.pmHeadLabDate.AutoSize = true;
-            this.pmHeadLabDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.pmHeadLabDate.Location = new System.Drawing.Point(111, 75);
-            this.pmHeadLabDate.Name = "pmHeadLabDate";
-            this.pmHeadLabDate.Size = new System.Drawing.Size(50, 24);
-            this.pmHeadLabDate.TabIndex = 1;
-            this.pmHeadLabDate.Text = "date";
-            // 
-            // pmHeadLabUserId
-            // 
-            this.pmHeadLabUserId.AutoSize = true;
-            this.pmHeadLabUserId.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.pmHeadLabUserId.Location = new System.Drawing.Point(111, 23);
-            this.pmHeadLabUserId.Name = "pmHeadLabUserId";
-            this.pmHeadLabUserId.Size = new System.Drawing.Size(87, 24);
-            this.pmHeadLabUserId.TabIndex = 0;
-            this.pmHeadLabUserId.Text = "activator";
-            // 
-            // pmPanTrials
-            // 
-            this.pmPanTrials.BackColor = System.Drawing.Color.Gray;
-            this.pmPanTrials.Location = new System.Drawing.Point(50, 84);
-            this.pmPanTrials.Name = "pmPanTrials";
-            this.pmPanTrials.Size = new System.Drawing.Size(1013, 611);
-            this.pmPanTrials.TabIndex = 3;
-            this.pmPanTrials.Paint += new System.Windows.Forms.PaintEventHandler(this.pmPanTrials_Paint);
-            // 
-            // pmPanPdcts
-            // 
-            this.pmPanPdcts.BackColor = System.Drawing.Color.Gray;
-            this.pmPanPdcts.Location = new System.Drawing.Point(50, 84);
-            this.pmPanPdcts.Name = "pmPanPdcts";
-            this.pmPanPdcts.Size = new System.Drawing.Size(1013, 611);
-            this.pmPanPdcts.TabIndex = 2;
-            this.pmPanPdcts.Paint += new System.Windows.Forms.PaintEventHandler(this.pmPanPdcts_Paint);
-            // 
-            // pmPanPltfms
-            // 
-            this.pmPanPltfms.BackColor = System.Drawing.Color.Gray;
-            this.pmPanPltfms.Location = new System.Drawing.Point(50, 84);
-            this.pmPanPltfms.Name = "pmPanPltfms";
-            this.pmPanPltfms.Size = new System.Drawing.Size(1013, 611);
-            this.pmPanPltfms.TabIndex = 1;
-            this.pmPanPltfms.Paint += new System.Windows.Forms.PaintEventHandler(this.pmPanPltfms_Paint);
+            this.picHead.Image = global::DataSyncSystem.Properties.Resources.man;
+            this.picHead.Location = new System.Drawing.Point(104, 84);
+            this.picHead.Name = "picHead";
+            this.picHead.Size = new System.Drawing.Size(100, 97);
+            this.picHead.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picHead.TabIndex = 0;
+            this.picHead.TabStop = false;
             // 
             // panMyLoad
             // 
@@ -638,28 +383,146 @@
             this.psLabPltfm.TabIndex = 0;
             this.psLabPltfm.Text = "platform";
             // 
-            // picChgPswd
+            // panMain
             // 
-            this.picChgPswd.Image = global::DataSyncSystem.Properties.Resources.stLv;
-            this.picChgPswd.Location = new System.Drawing.Point(10, 6);
-            this.picChgPswd.Name = "picChgPswd";
-            this.picChgPswd.Size = new System.Drawing.Size(35, 41);
-            this.picChgPswd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picChgPswd.TabIndex = 9;
-            this.picChgPswd.TabStop = false;
-            this.picChgPswd.Click += new System.EventHandler(this.picChgPswd_Click);
-            this.picChgPswd.MouseEnter += new System.EventHandler(this.picChgPswd_MouseEnter);
-            this.picChgPswd.MouseLeave += new System.EventHandler(this.picChgPswd_MouseLeave);
+            this.panMain.BackColor = System.Drawing.Color.Gray;
+            this.panMain.Controls.Add(this.pmPanStatus);
+            this.panMain.Controls.Add(this.pmPanHeads);
+            this.panMain.Controls.Add(this.pmPanTrials);
+            this.panMain.Controls.Add(this.pmPanPdcts);
+            this.panMain.Controls.Add(this.pmPanPltfms);
+            this.panMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panMain.Location = new System.Drawing.Point(0, 0);
+            this.panMain.Name = "panMain";
+            this.panMain.Size = new System.Drawing.Size(1102, 721);
+            this.panMain.TabIndex = 0;
+            this.panMain.Visible = false;
+            this.panMain.Paint += new System.Windows.Forms.PaintEventHandler(this.panMain_Paint);
             // 
-            // picHead
+            // pmPanStatus
             // 
-            this.picHead.Image = global::DataSyncSystem.Properties.Resources.man;
-            this.picHead.Location = new System.Drawing.Point(104, 84);
-            this.picHead.Name = "picHead";
-            this.picHead.Size = new System.Drawing.Size(100, 97);
-            this.picHead.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picHead.TabIndex = 0;
-            this.picHead.TabStop = false;
+            this.pmPanStatus.BackColor = System.Drawing.Color.Silver;
+            this.pmPanStatus.Controls.Add(this.pmLabNext0);
+            this.pmPanStatus.Controls.Add(this.pmLabRoot);
+            this.pmPanStatus.Controls.Add(this.pmLabNext2);
+            this.pmPanStatus.Controls.Add(this.pmLabNext1);
+            this.pmPanStatus.Controls.Add(this.pmLabTrial);
+            this.pmPanStatus.Controls.Add(this.pmLabProduct);
+            this.pmPanStatus.Controls.Add(this.pmLabPlatform);
+            this.pmPanStatus.Location = new System.Drawing.Point(0, 0);
+            this.pmPanStatus.Name = "pmPanStatus";
+            this.pmPanStatus.Size = new System.Drawing.Size(1102, 47);
+            this.pmPanStatus.TabIndex = 0;
+            // 
+            // pmLabNext0
+            // 
+            this.pmLabNext0.AutoSize = true;
+            this.pmLabNext0.BackColor = System.Drawing.Color.Silver;
+            this.pmLabNext0.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.pmLabNext0.ForeColor = System.Drawing.Color.White;
+            this.pmLabNext0.Location = new System.Drawing.Point(138, 11);
+            this.pmLabNext0.Name = "pmLabNext0";
+            this.pmLabNext0.Size = new System.Drawing.Size(43, 29);
+            this.pmLabNext0.TabIndex = 6;
+            this.pmLabNext0.Text = ">>";
+            // 
+            // pmLabRoot
+            // 
+            this.pmLabRoot.AutoSize = true;
+            this.pmLabRoot.BackColor = System.Drawing.Color.Black;
+            this.pmLabRoot.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pmLabRoot.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.pmLabRoot.ForeColor = System.Drawing.Color.White;
+            this.pmLabRoot.Location = new System.Drawing.Point(64, 11);
+            this.pmLabRoot.Name = "pmLabRoot";
+            this.pmLabRoot.Size = new System.Drawing.Size(62, 26);
+            this.pmLabRoot.TabIndex = 5;
+            this.pmLabRoot.Text = "Root";
+            this.pmLabRoot.Click += new System.EventHandler(this.pmLabRoot_Click);
+            this.pmLabRoot.MouseEnter += new System.EventHandler(this.pmLabRoot_MouseEnter);
+            this.pmLabRoot.MouseLeave += new System.EventHandler(this.pmLabRoot_MouseLeave);
+            // 
+            // pmLabNext2
+            // 
+            this.pmLabNext2.AutoSize = true;
+            this.pmLabNext2.BackColor = System.Drawing.Color.Silver;
+            this.pmLabNext2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.pmLabNext2.ForeColor = System.Drawing.Color.White;
+            this.pmLabNext2.Location = new System.Drawing.Point(535, 12);
+            this.pmLabNext2.Name = "pmLabNext2";
+            this.pmLabNext2.Size = new System.Drawing.Size(43, 29);
+            this.pmLabNext2.TabIndex = 4;
+            this.pmLabNext2.Text = ">>";
+            // 
+            // pmLabNext1
+            // 
+            this.pmLabNext1.AutoSize = true;
+            this.pmLabNext1.BackColor = System.Drawing.Color.Silver;
+            this.pmLabNext1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.pmLabNext1.ForeColor = System.Drawing.Color.White;
+            this.pmLabNext1.Location = new System.Drawing.Point(337, 11);
+            this.pmLabNext1.Name = "pmLabNext1";
+            this.pmLabNext1.Size = new System.Drawing.Size(43, 29);
+            this.pmLabNext1.TabIndex = 3;
+            this.pmLabNext1.Text = ">>";
+            // 
+            // pmLabTrial
+            // 
+            this.pmLabTrial.AutoSize = true;
+            this.pmLabTrial.BackColor = System.Drawing.Color.Black;
+            this.pmLabTrial.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.pmLabTrial.ForeColor = System.Drawing.Color.White;
+            this.pmLabTrial.Location = new System.Drawing.Point(594, 12);
+            this.pmLabTrial.Name = "pmLabTrial";
+            this.pmLabTrial.Size = new System.Drawing.Size(90, 26);
+            this.pmLabTrial.TabIndex = 2;
+            this.pmLabTrial.Text = "labTrial";
+            // 
+            // pmLabProduct
+            // 
+            this.pmLabProduct.AutoSize = true;
+            this.pmLabProduct.BackColor = System.Drawing.Color.Black;
+            this.pmLabProduct.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pmLabProduct.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.pmLabProduct.ForeColor = System.Drawing.Color.White;
+            this.pmLabProduct.Location = new System.Drawing.Point(401, 11);
+            this.pmLabProduct.Name = "pmLabProduct";
+            this.pmLabProduct.Size = new System.Drawing.Size(126, 26);
+            this.pmLabProduct.TabIndex = 1;
+            this.pmLabProduct.Text = "labProduct";
+            this.pmLabProduct.Click += new System.EventHandler(this.pmLabProduct_Click);
+            this.pmLabProduct.MouseEnter += new System.EventHandler(this.pmLabProduct_MouseEnter);
+            this.pmLabProduct.MouseLeave += new System.EventHandler(this.pmLabProduct_MouseLeave);
+            // 
+            // pmLabPlatform
+            // 
+            this.pmLabPlatform.AutoSize = true;
+            this.pmLabPlatform.BackColor = System.Drawing.Color.Black;
+            this.pmLabPlatform.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pmLabPlatform.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.pmLabPlatform.ForeColor = System.Drawing.Color.White;
+            this.pmLabPlatform.Location = new System.Drawing.Point(200, 12);
+            this.pmLabPlatform.Name = "pmLabPlatform";
+            this.pmLabPlatform.Size = new System.Drawing.Size(134, 26);
+            this.pmLabPlatform.TabIndex = 0;
+            this.pmLabPlatform.Text = "labPlatform";
+            this.pmLabPlatform.Click += new System.EventHandler(this.pmLabPlatform_Click);
+            this.pmLabPlatform.MouseEnter += new System.EventHandler(this.pmLabPlatform_MouseEnter);
+            this.pmLabPlatform.MouseLeave += new System.EventHandler(this.pmLabPlatform_MouseLeave);
+            // 
+            // pmPanHeads
+            // 
+            this.pmPanHeads.BackColor = System.Drawing.Color.Gray;
+            this.pmPanHeads.Controls.Add(this.picboxDnld);
+            this.pmPanHeads.Controls.Add(this.picboxAnalyz);
+            this.pmPanHeads.Controls.Add(this.picboxDbgFiles);
+            this.pmPanHeads.Controls.Add(this.pmGridview);
+            this.pmPanHeads.Controls.Add(this.groupBox1);
+            this.pmPanHeads.Location = new System.Drawing.Point(50, 84);
+            this.pmPanHeads.Name = "pmPanHeads";
+            this.pmPanHeads.Size = new System.Drawing.Size(1013, 611);
+            this.pmPanHeads.TabIndex = 4;
+            this.pmPanHeads.Paint += new System.Windows.Forms.PaintEventHandler(this.pmPanHeads_Paint);
             // 
             // picboxDnld
             // 
@@ -700,6 +563,143 @@
             this.picboxDbgFiles.MouseEnter += new System.EventHandler(this.picboxDbgFiles_MouseEnter);
             this.picboxDbgFiles.MouseLeave += new System.EventHandler(this.picboxDbgFiles_MouseLeave);
             // 
+            // pmGridview
+            // 
+            this.pmGridview.AllowDrop = true;
+            this.pmGridview.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.pmGridview.Location = new System.Drawing.Point(64, 176);
+            this.pmGridview.Name = "pmGridview";
+            this.pmGridview.RowTemplate.Height = 24;
+            this.pmGridview.Size = new System.Drawing.Size(858, 354);
+            this.pmGridview.TabIndex = 4;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.pmHeadLabOperator);
+            this.groupBox1.Controls.Add(this.pmHeadLabInfo);
+            this.groupBox1.Controls.Add(this.pmHeadLabDate);
+            this.groupBox1.Controls.Add(this.pmHeadLabUserId);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
+            this.groupBox1.Location = new System.Drawing.Point(64, 21);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(858, 138);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "TrialInfo";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Location = new System.Drawing.Point(10, 52);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(83, 20);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Operator";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.ForeColor = System.Drawing.Color.Black;
+            this.label3.Location = new System.Drawing.Point(53, 104);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(40, 20);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Info";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.ForeColor = System.Drawing.Color.Black;
+            this.label4.Location = new System.Drawing.Point(44, 78);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(49, 20);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Date";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label5.Location = new System.Drawing.Point(9, 26);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(84, 20);
+            this.label5.TabIndex = 5;
+            this.label5.Text = "Activator";
+            // 
+            // pmHeadLabOperator
+            // 
+            this.pmHeadLabOperator.AutoSize = true;
+            this.pmHeadLabOperator.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.pmHeadLabOperator.Location = new System.Drawing.Point(111, 49);
+            this.pmHeadLabOperator.Name = "pmHeadLabOperator";
+            this.pmHeadLabOperator.Size = new System.Drawing.Size(46, 24);
+            this.pmHeadLabOperator.TabIndex = 4;
+            this.pmHeadLabOperator.Text = "ope";
+            // 
+            // pmHeadLabInfo
+            // 
+            this.pmHeadLabInfo.AutoSize = true;
+            this.pmHeadLabInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.pmHeadLabInfo.Location = new System.Drawing.Point(111, 101);
+            this.pmHeadLabInfo.Name = "pmHeadLabInfo";
+            this.pmHeadLabInfo.Size = new System.Drawing.Size(44, 24);
+            this.pmHeadLabInfo.TabIndex = 2;
+            this.pmHeadLabInfo.Text = "info";
+            // 
+            // pmHeadLabDate
+            // 
+            this.pmHeadLabDate.AutoSize = true;
+            this.pmHeadLabDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.pmHeadLabDate.Location = new System.Drawing.Point(111, 75);
+            this.pmHeadLabDate.Name = "pmHeadLabDate";
+            this.pmHeadLabDate.Size = new System.Drawing.Size(50, 24);
+            this.pmHeadLabDate.TabIndex = 1;
+            this.pmHeadLabDate.Text = "date";
+            // 
+            // pmHeadLabUserId
+            // 
+            this.pmHeadLabUserId.AutoSize = true;
+            this.pmHeadLabUserId.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.pmHeadLabUserId.Location = new System.Drawing.Point(111, 23);
+            this.pmHeadLabUserId.Name = "pmHeadLabUserId";
+            this.pmHeadLabUserId.Size = new System.Drawing.Size(87, 24);
+            this.pmHeadLabUserId.TabIndex = 0;
+            this.pmHeadLabUserId.Text = "activator";
+            // 
+            // pmPanTrials
+            // 
+            this.pmPanTrials.BackColor = System.Drawing.Color.Gray;
+            this.pmPanTrials.Location = new System.Drawing.Point(50, 84);
+            this.pmPanTrials.Name = "pmPanTrials";
+            this.pmPanTrials.Size = new System.Drawing.Size(1013, 611);
+            this.pmPanTrials.TabIndex = 3;
+            this.pmPanTrials.Paint += new System.Windows.Forms.PaintEventHandler(this.pmPanTrials_Paint);
+            // 
+            // pmPanPdcts
+            // 
+            this.pmPanPdcts.BackColor = System.Drawing.Color.Gray;
+            this.pmPanPdcts.Location = new System.Drawing.Point(50, 84);
+            this.pmPanPdcts.Name = "pmPanPdcts";
+            this.pmPanPdcts.Size = new System.Drawing.Size(1013, 611);
+            this.pmPanPdcts.TabIndex = 2;
+            this.pmPanPdcts.Paint += new System.Windows.Forms.PaintEventHandler(this.pmPanPdcts_Paint);
+            // 
+            // pmPanPltfms
+            // 
+            this.pmPanPltfms.BackColor = System.Drawing.Color.Gray;
+            this.pmPanPltfms.Location = new System.Drawing.Point(50, 84);
+            this.pmPanPltfms.Name = "pmPanPltfms";
+            this.pmPanPltfms.Size = new System.Drawing.Size(1013, 611);
+            this.pmPanPltfms.TabIndex = 1;
+            this.pmPanPltfms.Paint += new System.Windows.Forms.PaintEventHandler(this.pmPanPltfms_Paint);
+            // 
             // FmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -717,23 +717,23 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.panMain.ResumeLayout(false);
-            this.pmPanStatus.ResumeLayout(false);
-            this.pmPanStatus.PerformLayout();
-            this.pmPanHeads.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pmGridview)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picChgPswd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picHead)).EndInit();
             this.panSetting.ResumeLayout(false);
             this.psGrpDnld.ResumeLayout(false);
             this.psGrpDnld.PerformLayout();
             this.psGrpRecent.ResumeLayout(false);
             this.psGrpRecent.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picChgPswd)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picHead)).EndInit();
+            this.panMain.ResumeLayout(false);
+            this.pmPanStatus.ResumeLayout(false);
+            this.pmPanStatus.PerformLayout();
+            this.pmPanHeads.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picboxDnld)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxAnalyz)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxDbgFiles)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pmGridview)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }

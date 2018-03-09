@@ -45,6 +45,7 @@ namespace DataSyncSystem.Utils
                 int cur = pgNow;
                 showed = 2;
                 while (showed <= showNum && cur <= pgAll)
+                //while (showed <= showNum)
                 {
                     Button bt = new Button();
                     bt.Location = new Point(lx, ly);
@@ -86,6 +87,7 @@ namespace DataSyncSystem.Utils
 
                 int cur = 1;
                 while (showed <= showNum && cur <= pgAll)
+                //while (showed <= showNum)
                 {
                     Button bt = new Button();
                     bt.Location = new Point(lx, ly);

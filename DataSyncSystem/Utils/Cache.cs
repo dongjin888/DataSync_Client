@@ -10,5 +10,9 @@ namespace DataSyncSystem.Utils
     {
         public static string userId = "";
         public static string trialUniqueStr = "";
+
+        public static string dnldPath = "";
+        public static string pltfm = "";
+        public static string pdct = "";
     }
 }
