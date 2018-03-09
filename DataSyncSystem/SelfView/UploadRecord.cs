@@ -55,6 +55,7 @@ namespace DataSyncSystem.SelfView
         {
             //从配置文件中获取 默认下载路径
             parent.dnldPath = CfgTool.getDnldPath(dnldDialog);
+
             if(parent.dnldPath == null)
             {
                 MyLogger.WriteLine("下载取消!");

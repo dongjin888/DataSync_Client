@@ -324,5 +324,17 @@
   <ItemGroup>
     <None Include="Resources\dnldHv.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exitHv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exitLv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\upldHv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\upldLv.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

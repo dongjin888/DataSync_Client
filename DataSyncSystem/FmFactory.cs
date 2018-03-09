@@ -58,20 +58,35 @@ namespace DataSyncSystem
 
         private void FmFactory_FormClosing(object sender, FormClosingEventArgs e)
         {
-            service.closeCon();
-
-            //关闭负责上传的socket
-            if (upldSock != null)
+            if (MessageBox.Show("    Are you sure exit ?", "Exit DataSync", MessageBoxButtons.YesNo)
+                               == DialogResult.Yes)
             {
-                try
+                FileStream fs = new FileStream(Environment.CurrentDirectory + "\\client.log", FileMode.Append);
+                StreamWriter sw = new StreamWriter(fs);
+                sw.Write(MyLogger.buf);
+                sw.WriteLine("==========" + DateTime.Now.ToLocalTime() + "==================");
+                sw.Flush();
+                sw.Close();
+                fs.Close();
+
+                service.closeCon();
+
+                //关闭负责上传的socket
+                if (upldSock != null)
                 {
-                    upldSock.Shutdown(SocketShutdown.Both);
-                    upldSock.Close();
+                    try
+                    {
+                        upldSock.Shutdown(SocketShutdown.Both);
+                        upldSock.Close();
+                    }
+                    catch
+                    {
+                        MyLogger.WriteLine("关闭upldSock 遇到异常！");
+                    }
                 }
-                catch
-                {
-                    MyLogger.WriteLine("关闭upldSock 遇到异常！");
-                }
+
+                Dispose();
+                Application.Exit();
             }
         }
 

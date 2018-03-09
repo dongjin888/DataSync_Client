@@ -59,6 +59,15 @@ namespace DataSyncSystem
 
         private void btSure_Click(object sender, EventArgs e)
         {
+            //检查密码是否填写
+            if((txtPswd.Text==null || txtPswd.Text.Equals("")) ||
+                txtPswd2.Text==null || txtPswd2.Text.Equals(""))
+            {
+                MessageBox.Show("please input the password !", "error");
+                return;
+            }
+
+            //检查两次密码是否一致
             if (!txtPswd.Text.Trim().Equals(txtPswd2.Text.Trim()))
             {
                 MessageBox.Show("two password not equal!", "error");

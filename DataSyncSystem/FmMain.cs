@@ -257,13 +257,24 @@ namespace DataSyncSystem
 
         private void FmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FileStream fs = new FileStream(Environment.CurrentDirectory + "\\client.log", FileMode.Append);
-            StreamWriter sw = new StreamWriter(fs);
-            sw.Write(MyLogger.buf);
-            sw.WriteLine("==========" + DateTime.Now.ToLocalTime() + "==================");
-            sw.Flush();
-            sw.Close();
-            fs.Close();
+            if(MessageBox.Show("Are you sure exit ?","Exit DataSync",MessageBoxButtons.YesNo)
+                               == DialogResult.Yes)
+            {
+                FileStream fs = new FileStream(Environment.CurrentDirectory + "\\client.log", FileMode.Append);
+                StreamWriter sw = new StreamWriter(fs);
+                sw.Write(MyLogger.buf);
+                sw.WriteLine("==========" + DateTime.Now.ToLocalTime() + "==================");
+                sw.Flush();
+                sw.Close();
+                fs.Close();
+
+                Dispose();
+                Application.Exit();
+            }
+            else
+            {
+                e.Cancel = true;
+            }
         }
 
         private void FmMain_FormClosed(object sender, FormClosedEventArgs e)
@@ -500,20 +511,20 @@ namespace DataSyncSystem
                 MyLogger.WriteLine(err.Message);
             }
         }
-        private void btUpload_Click(object sender, EventArgs e)
+        private void picBoxUpld_Click(object sender, EventArgs e)
         {
             isNewUpld = true;
             trialInfo = new TrialInfo();
 
             //首先选择Data folder
             FolderBrowserDialog browser = new FolderBrowserDialog();
-            if(browser.ShowDialog() == DialogResult.OK)
+            if (browser.ShowDialog() == DialogResult.OK)
             {
                 upldPath = browser.SelectedPath;
 
                 //检查路径的合法性
                 int upldDirChkCode = 0;
-                if(FileHandle.checkUpldDir(upldPath, ref upldDirChkCode))
+                if (FileHandle.checkUpldDir(upldPath, ref upldDirChkCode))
                 {
                     #region 检查upldhist.hist
                     FileInfo histFile = new FileInfo(upldPath + "\\.upldhist.hist");
@@ -583,7 +594,7 @@ namespace DataSyncSystem
                         sb.Append("Info:" + trialInfo.Info + "\n");
                         sb.Append("Other:" + trialInfo.Other + "\n");
 
-                        if(MessageBox.Show(sb.ToString(), "trial info check",MessageBoxButtons.OKCancel) != DialogResult.Cancel)
+                        if (MessageBox.Show(sb.ToString(), "trial info check", MessageBoxButtons.OKCancel) != DialogResult.Cancel)
                         {
                             //组装上传请求头
                             upldHead = "upld:#";
@@ -1717,6 +1728,12 @@ namespace DataSyncSystem
                 pdct = psCombPdct.Text;
             }
             
+            if(psTxtDnldPath.Text.Trim().Equals(""))
+            {
+                MessageBox.Show("setting parameter not complete! \r\n " +
+                                "save setting failed !", "error");
+                return;
+            }
             path = psTxtDnldPath.Text.Trim();
 
             psCombPltfm.Text = pltfm;
@@ -1766,7 +1783,15 @@ namespace DataSyncSystem
         {
             if(psDnldFolderBrsDlg.ShowDialog() == DialogResult.OK)
             {
-                psTxtDnldPath.Text = psDnldFolderBrsDlg.SelectedPath;
+                string selectPath = psDnldFolderBrsDlg.SelectedPath;
+                if (!FileHandle.checkDirCanWrite(selectPath))
+                {
+                    MessageBox.Show("You dont have permission this folder !", "error");
+                }
+                else
+                {
+                    psTxtDnldPath.Text = selectPath;
+                }
             }
         }
         #endregion
@@ -2007,5 +2032,43 @@ namespace DataSyncSystem
         }
 
         #endregion
+
+        private void picBoxExit_MouseEnter(object sender, EventArgs e)
+        {
+            picBoxExit.Image = Properties.Resources.exitHv;
+        }
+
+        private void picBoxExit_MouseLeave(object sender, EventArgs e)
+        {
+            picBoxExit.Image = Properties.Resources.exitLv;
+        }
+
+        private void picBoxUpld_MouseEnter(object sender, EventArgs e)
+        {
+            picBoxUpld.Image = Properties.Resources.upldHv;
+        }
+
+        private void picBoxUpld_MouseLeave(object sender, EventArgs e)
+        {
+            picBoxUpld.Image = Properties.Resources.upldLv;
+        }
+
+        private void picBoxExit_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("    Are you sure exit ?", "Exit DataSync", MessageBoxButtons.YesNo)
+                               == DialogResult.Yes)
+            {
+                FileStream fs = new FileStream(Environment.CurrentDirectory + "\\client.log", FileMode.Append);
+                StreamWriter sw = new StreamWriter(fs);
+                sw.Write(MyLogger.buf);
+                sw.WriteLine("==========" + DateTime.Now.ToLocalTime() + "==================");
+                sw.Flush();
+                sw.Close();
+                fs.Close();
+
+                Dispose();
+                Application.Exit();
+            }
+        }
     }
 }

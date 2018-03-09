@@ -26,9 +26,14 @@ namespace DataSyncSystem
 
         static FmDbgFiles()
         {
-            dnldFolder = Environment.CurrentDirectory;
+            if (!Cache.dnldPath.Equals(""))
+                dnldFolder = Cache.dnldPath;
+            else
+                dnldFolder = Environment.CurrentDirectory; 
+
             if (!FileHandle.checkDirCanWrite(dnldFolder))
             {
+                MessageBox.Show("default downlaod folder havent permission !", "warning");
                 dnldFolder = "";
             }
         }

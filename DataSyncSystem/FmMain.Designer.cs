@@ -30,29 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FmMain));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.picChgPswd = new System.Windows.Forms.PictureBox();
-            this.btUpload = new System.Windows.Forms.Button();
-            this.btExit = new System.Windows.Forms.Button();
             this.btMyLoad = new System.Windows.Forms.Button();
             this.btSetting = new System.Windows.Forms.Button();
             this.btMain = new System.Windows.Forms.Button();
             this.labUserTel = new System.Windows.Forms.Label();
             this.labUserTeam = new System.Windows.Forms.Label();
             this.labUserName = new System.Windows.Forms.Label();
-            this.picHead = new System.Windows.Forms.PictureBox();
-            this.panMyLoad = new System.Windows.Forms.Panel();
-            this.panSetting = new System.Windows.Forms.Panel();
-            this.psBtSure = new System.Windows.Forms.Button();
-            this.psBtSetting = new System.Windows.Forms.Button();
-            this.psGrpDnld = new System.Windows.Forms.GroupBox();
-            this.psBtChseDnldPath = new System.Windows.Forms.Button();
-            this.psTxtDnldPath = new System.Windows.Forms.TextBox();
-            this.psLabDnldPath = new System.Windows.Forms.Label();
-            this.psGrpRecent = new System.Windows.Forms.GroupBox();
-            this.psCombPdct = new System.Windows.Forms.ComboBox();
-            this.psLabPdct = new System.Windows.Forms.Label();
-            this.psCombPltfm = new System.Windows.Forms.ComboBox();
-            this.psLabPltfm = new System.Windows.Forms.Label();
             this.panMain = new System.Windows.Forms.Panel();
             this.pmPanStatus = new System.Windows.Forms.Panel();
             this.pmLabNext0 = new System.Windows.Forms.Label();
@@ -63,9 +46,6 @@
             this.pmLabProduct = new System.Windows.Forms.Label();
             this.pmLabPlatform = new System.Windows.Forms.Label();
             this.pmPanHeads = new System.Windows.Forms.Panel();
-            this.picboxDnld = new System.Windows.Forms.PictureBox();
-            this.picboxAnalyz = new System.Windows.Forms.PictureBox();
-            this.picboxDbgFiles = new System.Windows.Forms.PictureBox();
             this.pmGridview = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -79,24 +59,46 @@
             this.pmPanTrials = new System.Windows.Forms.Panel();
             this.pmPanPdcts = new System.Windows.Forms.Panel();
             this.pmPanPltfms = new System.Windows.Forms.Panel();
+            this.panMyLoad = new System.Windows.Forms.Panel();
+            this.panSetting = new System.Windows.Forms.Panel();
+            this.psBtSure = new System.Windows.Forms.Button();
+            this.psBtSetting = new System.Windows.Forms.Button();
+            this.psGrpDnld = new System.Windows.Forms.GroupBox();
+            this.psBtChseDnldPath = new System.Windows.Forms.Button();
+            this.psTxtDnldPath = new System.Windows.Forms.TextBox();
+            this.psLabDnldPath = new System.Windows.Forms.Label();
+            this.psGrpRecent = new System.Windows.Forms.GroupBox();
+            this.psCombPdct = new System.Windows.Forms.ComboBox();
+            this.psLabPdct = new System.Windows.Forms.Label();
+            this.psCombPltfm = new System.Windows.Forms.ComboBox();
+            this.psLabPltfm = new System.Windows.Forms.Label();
             this.psDnldFolderBrsDlg = new System.Windows.Forms.FolderBrowserDialog();
+            this.picBoxUpld = new System.Windows.Forms.PictureBox();
+            this.picBoxExit = new System.Windows.Forms.PictureBox();
+            this.picChgPswd = new System.Windows.Forms.PictureBox();
+            this.picHead = new System.Windows.Forms.PictureBox();
+            this.picboxDnld = new System.Windows.Forms.PictureBox();
+            this.picboxAnalyz = new System.Windows.Forms.PictureBox();
+            this.picboxDbgFiles = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picChgPswd)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picHead)).BeginInit();
-            this.panSetting.SuspendLayout();
-            this.psGrpDnld.SuspendLayout();
-            this.psGrpRecent.SuspendLayout();
             this.panMain.SuspendLayout();
             this.pmPanStatus.SuspendLayout();
             this.pmPanHeads.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pmGridview)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.panSetting.SuspendLayout();
+            this.psGrpDnld.SuspendLayout();
+            this.psGrpRecent.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxUpld)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxExit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picChgPswd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picHead)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxDnld)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxAnalyz)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxDbgFiles)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pmGridview)).BeginInit();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -109,9 +111,9 @@
             // 
             this.splitContainer1.Panel1.AccessibleName = "";
             this.splitContainer1.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
+            this.splitContainer1.Panel1.Controls.Add(this.picBoxUpld);
+            this.splitContainer1.Panel1.Controls.Add(this.picBoxExit);
             this.splitContainer1.Panel1.Controls.Add(this.picChgPswd);
-            this.splitContainer1.Panel1.Controls.Add(this.btUpload);
-            this.splitContainer1.Panel1.Controls.Add(this.btExit);
             this.splitContainer1.Panel1.Controls.Add(this.btMyLoad);
             this.splitContainer1.Panel1.Controls.Add(this.btSetting);
             this.splitContainer1.Panel1.Controls.Add(this.btMain);
@@ -129,40 +131,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(1390, 721);
             this.splitContainer1.SplitterDistance = 284;
             this.splitContainer1.TabIndex = 0;
-            // 
-            // picChgPswd
-            // 
-            this.picChgPswd.Image = global::DataSyncSystem.Properties.Resources.stLv;
-            this.picChgPswd.Location = new System.Drawing.Point(10, 6);
-            this.picChgPswd.Name = "picChgPswd";
-            this.picChgPswd.Size = new System.Drawing.Size(35, 41);
-            this.picChgPswd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picChgPswd.TabIndex = 9;
-            this.picChgPswd.TabStop = false;
-            this.picChgPswd.Click += new System.EventHandler(this.picChgPswd_Click);
-            this.picChgPswd.MouseEnter += new System.EventHandler(this.picChgPswd_MouseEnter);
-            this.picChgPswd.MouseLeave += new System.EventHandler(this.picChgPswd_MouseLeave);
-            // 
-            // btUpload
-            // 
-            this.btUpload.ForeColor = System.Drawing.Color.Red;
-            this.btUpload.Location = new System.Drawing.Point(206, 683);
-            this.btUpload.Name = "btUpload";
-            this.btUpload.Size = new System.Drawing.Size(75, 35);
-            this.btUpload.TabIndex = 8;
-            this.btUpload.Text = "upload";
-            this.btUpload.UseVisualStyleBackColor = true;
-            this.btUpload.Click += new System.EventHandler(this.btUpload_Click);
-            // 
-            // btExit
-            // 
-            this.btExit.ForeColor = System.Drawing.Color.Red;
-            this.btExit.Location = new System.Drawing.Point(3, 683);
-            this.btExit.Name = "btExit";
-            this.btExit.Size = new System.Drawing.Size(75, 35);
-            this.btExit.TabIndex = 7;
-            this.btExit.Text = "exit";
-            this.btExit.UseVisualStyleBackColor = true;
             // 
             // btMyLoad
             // 
@@ -226,162 +194,6 @@
             this.labUserName.Size = new System.Drawing.Size(49, 17);
             this.labUserName.TabIndex = 1;
             this.labUserName.Text = "Name";
-            // 
-            // picHead
-            // 
-            this.picHead.Image = global::DataSyncSystem.Properties.Resources.man;
-            this.picHead.Location = new System.Drawing.Point(104, 84);
-            this.picHead.Name = "picHead";
-            this.picHead.Size = new System.Drawing.Size(100, 97);
-            this.picHead.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picHead.TabIndex = 0;
-            this.picHead.TabStop = false;
-            // 
-            // panMyLoad
-            // 
-            this.panMyLoad.BackColor = System.Drawing.Color.Gray;
-            this.panMyLoad.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panMyLoad.Location = new System.Drawing.Point(0, 0);
-            this.panMyLoad.Name = "panMyLoad";
-            this.panMyLoad.Size = new System.Drawing.Size(1102, 721);
-            this.panMyLoad.TabIndex = 1;
-            this.panMyLoad.Visible = false;
-            this.panMyLoad.Paint += new System.Windows.Forms.PaintEventHandler(this.panMyLoad_Paint);
-            // 
-            // panSetting
-            // 
-            this.panSetting.AutoScroll = true;
-            this.panSetting.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.panSetting.Controls.Add(this.psBtSure);
-            this.panSetting.Controls.Add(this.psBtSetting);
-            this.panSetting.Controls.Add(this.psGrpDnld);
-            this.panSetting.Controls.Add(this.psGrpRecent);
-            this.panSetting.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panSetting.Location = new System.Drawing.Point(0, 0);
-            this.panSetting.Name = "panSetting";
-            this.panSetting.Size = new System.Drawing.Size(1102, 721);
-            this.panSetting.TabIndex = 2;
-            this.panSetting.Visible = false;
-            // 
-            // psBtSure
-            // 
-            this.psBtSure.BackColor = System.Drawing.Color.Black;
-            this.psBtSure.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.psBtSure.ForeColor = System.Drawing.Color.White;
-            this.psBtSure.Location = new System.Drawing.Point(668, 661);
-            this.psBtSure.Name = "psBtSure";
-            this.psBtSure.Size = new System.Drawing.Size(75, 34);
-            this.psBtSure.TabIndex = 3;
-            this.psBtSure.Text = "ok";
-            this.psBtSure.UseVisualStyleBackColor = false;
-            this.psBtSure.Click += new System.EventHandler(this.psBtSure_Click);
-            // 
-            // psBtSetting
-            // 
-            this.psBtSetting.BackColor = System.Drawing.Color.Black;
-            this.psBtSetting.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.psBtSetting.ForeColor = System.Drawing.Color.White;
-            this.psBtSetting.Location = new System.Drawing.Point(284, 657);
-            this.psBtSetting.Name = "psBtSetting";
-            this.psBtSetting.Size = new System.Drawing.Size(94, 34);
-            this.psBtSetting.TabIndex = 2;
-            this.psBtSetting.Text = "setting";
-            this.psBtSetting.UseVisualStyleBackColor = false;
-            this.psBtSetting.Click += new System.EventHandler(this.psBtSetting_Click);
-            // 
-            // psGrpDnld
-            // 
-            this.psGrpDnld.Controls.Add(this.psBtChseDnldPath);
-            this.psGrpDnld.Controls.Add(this.psTxtDnldPath);
-            this.psGrpDnld.Controls.Add(this.psLabDnldPath);
-            this.psGrpDnld.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.psGrpDnld.Location = new System.Drawing.Point(183, 263);
-            this.psGrpDnld.Name = "psGrpDnld";
-            this.psGrpDnld.Size = new System.Drawing.Size(780, 100);
-            this.psGrpDnld.TabIndex = 1;
-            this.psGrpDnld.TabStop = false;
-            this.psGrpDnld.Text = "download setting";
-            // 
-            // psBtChseDnldPath
-            // 
-            this.psBtChseDnldPath.Location = new System.Drawing.Point(532, 48);
-            this.psBtChseDnldPath.Name = "psBtChseDnldPath";
-            this.psBtChseDnldPath.Size = new System.Drawing.Size(95, 32);
-            this.psBtChseDnldPath.TabIndex = 6;
-            this.psBtChseDnldPath.Text = "choose";
-            this.psBtChseDnldPath.UseVisualStyleBackColor = true;
-            this.psBtChseDnldPath.Click += new System.EventHandler(this.psBtChseDnldPath_Click);
-            // 
-            // psTxtDnldPath
-            // 
-            this.psTxtDnldPath.Location = new System.Drawing.Point(222, 49);
-            this.psTxtDnldPath.Name = "psTxtDnldPath";
-            this.psTxtDnldPath.Size = new System.Drawing.Size(282, 26);
-            this.psTxtDnldPath.TabIndex = 5;
-            // 
-            // psLabDnldPath
-            // 
-            this.psLabDnldPath.AutoSize = true;
-            this.psLabDnldPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.psLabDnldPath.ForeColor = System.Drawing.Color.White;
-            this.psLabDnldPath.Location = new System.Drawing.Point(66, 51);
-            this.psLabDnldPath.Name = "psLabDnldPath";
-            this.psLabDnldPath.Size = new System.Drawing.Size(129, 20);
-            this.psLabDnldPath.TabIndex = 4;
-            this.psLabDnldPath.Text = "download path";
-            // 
-            // psGrpRecent
-            // 
-            this.psGrpRecent.Controls.Add(this.psCombPdct);
-            this.psGrpRecent.Controls.Add(this.psLabPdct);
-            this.psGrpRecent.Controls.Add(this.psCombPltfm);
-            this.psGrpRecent.Controls.Add(this.psLabPltfm);
-            this.psGrpRecent.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.psGrpRecent.Location = new System.Drawing.Point(183, 61);
-            this.psGrpRecent.Name = "psGrpRecent";
-            this.psGrpRecent.Size = new System.Drawing.Size(780, 120);
-            this.psGrpRecent.TabIndex = 0;
-            this.psGrpRecent.TabStop = false;
-            this.psGrpRecent.Text = "recent focus";
-            // 
-            // psCombPdct
-            // 
-            this.psCombPdct.FormattingEnabled = true;
-            this.psCombPdct.Location = new System.Drawing.Point(460, 44);
-            this.psCombPdct.Name = "psCombPdct";
-            this.psCombPdct.Size = new System.Drawing.Size(121, 28);
-            this.psCombPdct.TabIndex = 3;
-            // 
-            // psLabPdct
-            // 
-            this.psLabPdct.AutoSize = true;
-            this.psLabPdct.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.psLabPdct.ForeColor = System.Drawing.Color.White;
-            this.psLabPdct.Location = new System.Drawing.Point(373, 48);
-            this.psLabPdct.Name = "psLabPdct";
-            this.psLabPdct.Size = new System.Drawing.Size(72, 20);
-            this.psLabPdct.TabIndex = 2;
-            this.psLabPdct.Text = "product";
-            // 
-            // psCombPltfm
-            // 
-            this.psCombPltfm.FormattingEnabled = true;
-            this.psCombPltfm.Location = new System.Drawing.Point(191, 44);
-            this.psCombPltfm.Name = "psCombPltfm";
-            this.psCombPltfm.Size = new System.Drawing.Size(121, 28);
-            this.psCombPltfm.TabIndex = 1;
-            this.psCombPltfm.SelectedIndexChanged += new System.EventHandler(this.psCombPltfm_SelectedIndexChanged);
-            // 
-            // psLabPltfm
-            // 
-            this.psLabPltfm.AutoSize = true;
-            this.psLabPltfm.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.psLabPltfm.ForeColor = System.Drawing.Color.White;
-            this.psLabPltfm.Location = new System.Drawing.Point(97, 48);
-            this.psLabPltfm.Name = "psLabPltfm";
-            this.psLabPltfm.Size = new System.Drawing.Size(78, 20);
-            this.psLabPltfm.TabIndex = 0;
-            this.psLabPltfm.Text = "platform";
             // 
             // panMain
             // 
@@ -524,45 +336,6 @@
             this.pmPanHeads.TabIndex = 4;
             this.pmPanHeads.Paint += new System.Windows.Forms.PaintEventHandler(this.pmPanHeads_Paint);
             // 
-            // picboxDnld
-            // 
-            this.picboxDnld.Image = global::DataSyncSystem.Properties.Resources.dnldHv;
-            this.picboxDnld.Location = new System.Drawing.Point(861, 543);
-            this.picboxDnld.Name = "picboxDnld";
-            this.picboxDnld.Size = new System.Drawing.Size(61, 51);
-            this.picboxDnld.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picboxDnld.TabIndex = 7;
-            this.picboxDnld.TabStop = false;
-            this.picboxDnld.Click += new System.EventHandler(this.picboxDnld_Click);
-            this.picboxDnld.MouseEnter += new System.EventHandler(this.picboxDnld_MouseEnter);
-            this.picboxDnld.MouseLeave += new System.EventHandler(this.picboxDnld_MouseLeave);
-            // 
-            // picboxAnalyz
-            // 
-            this.picboxAnalyz.Image = global::DataSyncSystem.Properties.Resources.analyLv;
-            this.picboxAnalyz.Location = new System.Drawing.Point(789, 544);
-            this.picboxAnalyz.Name = "picboxAnalyz";
-            this.picboxAnalyz.Size = new System.Drawing.Size(57, 50);
-            this.picboxAnalyz.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picboxAnalyz.TabIndex = 6;
-            this.picboxAnalyz.TabStop = false;
-            this.picboxAnalyz.Click += new System.EventHandler(this.picboxAnalyz_Click);
-            this.picboxAnalyz.MouseEnter += new System.EventHandler(this.picboxAnalyz_MouseEnter);
-            this.picboxAnalyz.MouseLeave += new System.EventHandler(this.picboxAnalyz_MouseLeave);
-            // 
-            // picboxDbgFiles
-            // 
-            this.picboxDbgFiles.Image = ((System.Drawing.Image)(resources.GetObject("picboxDbgFiles.Image")));
-            this.picboxDbgFiles.Location = new System.Drawing.Point(55, 543);
-            this.picboxDbgFiles.Name = "picboxDbgFiles";
-            this.picboxDbgFiles.Size = new System.Drawing.Size(61, 51);
-            this.picboxDbgFiles.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picboxDbgFiles.TabIndex = 5;
-            this.picboxDbgFiles.TabStop = false;
-            this.picboxDbgFiles.Click += new System.EventHandler(this.picboxDbgFiles_Click);
-            this.picboxDbgFiles.MouseEnter += new System.EventHandler(this.picboxDbgFiles_MouseEnter);
-            this.picboxDbgFiles.MouseLeave += new System.EventHandler(this.picboxDbgFiles_MouseLeave);
-            // 
             // pmGridview
             // 
             this.pmGridview.AllowDrop = true;
@@ -700,6 +473,240 @@
             this.pmPanPltfms.TabIndex = 1;
             this.pmPanPltfms.Paint += new System.Windows.Forms.PaintEventHandler(this.pmPanPltfms_Paint);
             // 
+            // panMyLoad
+            // 
+            this.panMyLoad.BackColor = System.Drawing.Color.Gray;
+            this.panMyLoad.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panMyLoad.Location = new System.Drawing.Point(0, 0);
+            this.panMyLoad.Name = "panMyLoad";
+            this.panMyLoad.Size = new System.Drawing.Size(1102, 721);
+            this.panMyLoad.TabIndex = 1;
+            this.panMyLoad.Visible = false;
+            this.panMyLoad.Paint += new System.Windows.Forms.PaintEventHandler(this.panMyLoad_Paint);
+            // 
+            // panSetting
+            // 
+            this.panSetting.AutoScroll = true;
+            this.panSetting.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.panSetting.Controls.Add(this.psBtSure);
+            this.panSetting.Controls.Add(this.psBtSetting);
+            this.panSetting.Controls.Add(this.psGrpDnld);
+            this.panSetting.Controls.Add(this.psGrpRecent);
+            this.panSetting.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panSetting.Location = new System.Drawing.Point(0, 0);
+            this.panSetting.Name = "panSetting";
+            this.panSetting.Size = new System.Drawing.Size(1102, 721);
+            this.panSetting.TabIndex = 2;
+            this.panSetting.Visible = false;
+            // 
+            // psBtSure
+            // 
+            this.psBtSure.BackColor = System.Drawing.Color.Black;
+            this.psBtSure.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.psBtSure.ForeColor = System.Drawing.Color.White;
+            this.psBtSure.Location = new System.Drawing.Point(668, 661);
+            this.psBtSure.Name = "psBtSure";
+            this.psBtSure.Size = new System.Drawing.Size(75, 34);
+            this.psBtSure.TabIndex = 3;
+            this.psBtSure.Text = "ok";
+            this.psBtSure.UseVisualStyleBackColor = false;
+            this.psBtSure.Click += new System.EventHandler(this.psBtSure_Click);
+            // 
+            // psBtSetting
+            // 
+            this.psBtSetting.BackColor = System.Drawing.Color.Black;
+            this.psBtSetting.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.psBtSetting.ForeColor = System.Drawing.Color.White;
+            this.psBtSetting.Location = new System.Drawing.Point(284, 657);
+            this.psBtSetting.Name = "psBtSetting";
+            this.psBtSetting.Size = new System.Drawing.Size(94, 34);
+            this.psBtSetting.TabIndex = 2;
+            this.psBtSetting.Text = "setting";
+            this.psBtSetting.UseVisualStyleBackColor = false;
+            this.psBtSetting.Click += new System.EventHandler(this.psBtSetting_Click);
+            // 
+            // psGrpDnld
+            // 
+            this.psGrpDnld.Controls.Add(this.psBtChseDnldPath);
+            this.psGrpDnld.Controls.Add(this.psTxtDnldPath);
+            this.psGrpDnld.Controls.Add(this.psLabDnldPath);
+            this.psGrpDnld.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.psGrpDnld.Location = new System.Drawing.Point(183, 263);
+            this.psGrpDnld.Name = "psGrpDnld";
+            this.psGrpDnld.Size = new System.Drawing.Size(780, 100);
+            this.psGrpDnld.TabIndex = 1;
+            this.psGrpDnld.TabStop = false;
+            this.psGrpDnld.Text = "download setting";
+            // 
+            // psBtChseDnldPath
+            // 
+            this.psBtChseDnldPath.Location = new System.Drawing.Point(532, 48);
+            this.psBtChseDnldPath.Name = "psBtChseDnldPath";
+            this.psBtChseDnldPath.Size = new System.Drawing.Size(95, 32);
+            this.psBtChseDnldPath.TabIndex = 6;
+            this.psBtChseDnldPath.Text = "choose";
+            this.psBtChseDnldPath.UseVisualStyleBackColor = true;
+            this.psBtChseDnldPath.Click += new System.EventHandler(this.psBtChseDnldPath_Click);
+            // 
+            // psTxtDnldPath
+            // 
+            this.psTxtDnldPath.Location = new System.Drawing.Point(222, 49);
+            this.psTxtDnldPath.Name = "psTxtDnldPath";
+            this.psTxtDnldPath.Size = new System.Drawing.Size(282, 26);
+            this.psTxtDnldPath.TabIndex = 5;
+            // 
+            // psLabDnldPath
+            // 
+            this.psLabDnldPath.AutoSize = true;
+            this.psLabDnldPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.psLabDnldPath.ForeColor = System.Drawing.Color.White;
+            this.psLabDnldPath.Location = new System.Drawing.Point(66, 51);
+            this.psLabDnldPath.Name = "psLabDnldPath";
+            this.psLabDnldPath.Size = new System.Drawing.Size(129, 20);
+            this.psLabDnldPath.TabIndex = 4;
+            this.psLabDnldPath.Text = "download path";
+            // 
+            // psGrpRecent
+            // 
+            this.psGrpRecent.Controls.Add(this.psCombPdct);
+            this.psGrpRecent.Controls.Add(this.psLabPdct);
+            this.psGrpRecent.Controls.Add(this.psCombPltfm);
+            this.psGrpRecent.Controls.Add(this.psLabPltfm);
+            this.psGrpRecent.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.psGrpRecent.Location = new System.Drawing.Point(183, 61);
+            this.psGrpRecent.Name = "psGrpRecent";
+            this.psGrpRecent.Size = new System.Drawing.Size(780, 120);
+            this.psGrpRecent.TabIndex = 0;
+            this.psGrpRecent.TabStop = false;
+            this.psGrpRecent.Text = "recent focus";
+            // 
+            // psCombPdct
+            // 
+            this.psCombPdct.FormattingEnabled = true;
+            this.psCombPdct.Location = new System.Drawing.Point(460, 44);
+            this.psCombPdct.Name = "psCombPdct";
+            this.psCombPdct.Size = new System.Drawing.Size(121, 28);
+            this.psCombPdct.TabIndex = 3;
+            // 
+            // psLabPdct
+            // 
+            this.psLabPdct.AutoSize = true;
+            this.psLabPdct.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.psLabPdct.ForeColor = System.Drawing.Color.White;
+            this.psLabPdct.Location = new System.Drawing.Point(373, 48);
+            this.psLabPdct.Name = "psLabPdct";
+            this.psLabPdct.Size = new System.Drawing.Size(72, 20);
+            this.psLabPdct.TabIndex = 2;
+            this.psLabPdct.Text = "product";
+            // 
+            // psCombPltfm
+            // 
+            this.psCombPltfm.FormattingEnabled = true;
+            this.psCombPltfm.Location = new System.Drawing.Point(191, 44);
+            this.psCombPltfm.Name = "psCombPltfm";
+            this.psCombPltfm.Size = new System.Drawing.Size(121, 28);
+            this.psCombPltfm.TabIndex = 1;
+            this.psCombPltfm.SelectedIndexChanged += new System.EventHandler(this.psCombPltfm_SelectedIndexChanged);
+            // 
+            // psLabPltfm
+            // 
+            this.psLabPltfm.AutoSize = true;
+            this.psLabPltfm.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.psLabPltfm.ForeColor = System.Drawing.Color.White;
+            this.psLabPltfm.Location = new System.Drawing.Point(97, 48);
+            this.psLabPltfm.Name = "psLabPltfm";
+            this.psLabPltfm.Size = new System.Drawing.Size(78, 20);
+            this.psLabPltfm.TabIndex = 0;
+            this.psLabPltfm.Text = "platform";
+            // 
+            // picBoxUpld
+            // 
+            this.picBoxUpld.Image = global::DataSyncSystem.Properties.Resources.upldLv;
+            this.picBoxUpld.Location = new System.Drawing.Point(217, 661);
+            this.picBoxUpld.Name = "picBoxUpld";
+            this.picBoxUpld.Size = new System.Drawing.Size(52, 50);
+            this.picBoxUpld.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picBoxUpld.TabIndex = 11;
+            this.picBoxUpld.TabStop = false;
+            this.picBoxUpld.Click += new System.EventHandler(this.picBoxUpld_Click);
+            this.picBoxUpld.MouseEnter += new System.EventHandler(this.picBoxUpld_MouseEnter);
+            this.picBoxUpld.MouseLeave += new System.EventHandler(this.picBoxUpld_MouseLeave);
+            // 
+            // picBoxExit
+            // 
+            this.picBoxExit.Image = global::DataSyncSystem.Properties.Resources.exitLv;
+            this.picBoxExit.Location = new System.Drawing.Point(12, 662);
+            this.picBoxExit.Name = "picBoxExit";
+            this.picBoxExit.Size = new System.Drawing.Size(52, 50);
+            this.picBoxExit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picBoxExit.TabIndex = 10;
+            this.picBoxExit.TabStop = false;
+            this.picBoxExit.Click += new System.EventHandler(this.picBoxExit_Click);
+            this.picBoxExit.MouseEnter += new System.EventHandler(this.picBoxExit_MouseEnter);
+            this.picBoxExit.MouseLeave += new System.EventHandler(this.picBoxExit_MouseLeave);
+            // 
+            // picChgPswd
+            // 
+            this.picChgPswd.Image = global::DataSyncSystem.Properties.Resources.stLv;
+            this.picChgPswd.Location = new System.Drawing.Point(10, 6);
+            this.picChgPswd.Name = "picChgPswd";
+            this.picChgPswd.Size = new System.Drawing.Size(35, 41);
+            this.picChgPswd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picChgPswd.TabIndex = 9;
+            this.picChgPswd.TabStop = false;
+            this.picChgPswd.Click += new System.EventHandler(this.picChgPswd_Click);
+            this.picChgPswd.MouseEnter += new System.EventHandler(this.picChgPswd_MouseEnter);
+            this.picChgPswd.MouseLeave += new System.EventHandler(this.picChgPswd_MouseLeave);
+            // 
+            // picHead
+            // 
+            this.picHead.Image = global::DataSyncSystem.Properties.Resources.man;
+            this.picHead.Location = new System.Drawing.Point(104, 84);
+            this.picHead.Name = "picHead";
+            this.picHead.Size = new System.Drawing.Size(100, 97);
+            this.picHead.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picHead.TabIndex = 0;
+            this.picHead.TabStop = false;
+            // 
+            // picboxDnld
+            // 
+            this.picboxDnld.Image = global::DataSyncSystem.Properties.Resources.dnldHv;
+            this.picboxDnld.Location = new System.Drawing.Point(861, 543);
+            this.picboxDnld.Name = "picboxDnld";
+            this.picboxDnld.Size = new System.Drawing.Size(61, 51);
+            this.picboxDnld.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picboxDnld.TabIndex = 7;
+            this.picboxDnld.TabStop = false;
+            this.picboxDnld.Click += new System.EventHandler(this.picboxDnld_Click);
+            this.picboxDnld.MouseEnter += new System.EventHandler(this.picboxDnld_MouseEnter);
+            this.picboxDnld.MouseLeave += new System.EventHandler(this.picboxDnld_MouseLeave);
+            // 
+            // picboxAnalyz
+            // 
+            this.picboxAnalyz.Image = global::DataSyncSystem.Properties.Resources.analyLv;
+            this.picboxAnalyz.Location = new System.Drawing.Point(789, 544);
+            this.picboxAnalyz.Name = "picboxAnalyz";
+            this.picboxAnalyz.Size = new System.Drawing.Size(57, 50);
+            this.picboxAnalyz.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picboxAnalyz.TabIndex = 6;
+            this.picboxAnalyz.TabStop = false;
+            this.picboxAnalyz.Click += new System.EventHandler(this.picboxAnalyz_Click);
+            this.picboxAnalyz.MouseEnter += new System.EventHandler(this.picboxAnalyz_MouseEnter);
+            this.picboxAnalyz.MouseLeave += new System.EventHandler(this.picboxAnalyz_MouseLeave);
+            // 
+            // picboxDbgFiles
+            // 
+            this.picboxDbgFiles.Image = ((System.Drawing.Image)(resources.GetObject("picboxDbgFiles.Image")));
+            this.picboxDbgFiles.Location = new System.Drawing.Point(55, 543);
+            this.picboxDbgFiles.Name = "picboxDbgFiles";
+            this.picboxDbgFiles.Size = new System.Drawing.Size(61, 51);
+            this.picboxDbgFiles.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picboxDbgFiles.TabIndex = 5;
+            this.picboxDbgFiles.TabStop = false;
+            this.picboxDbgFiles.Click += new System.EventHandler(this.picboxDbgFiles_Click);
+            this.picboxDbgFiles.MouseEnter += new System.EventHandler(this.picboxDbgFiles_MouseEnter);
+            this.picboxDbgFiles.MouseLeave += new System.EventHandler(this.picboxDbgFiles_MouseLeave);
+            // 
             // FmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -717,23 +724,25 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picChgPswd)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picHead)).EndInit();
+            this.panMain.ResumeLayout(false);
+            this.pmPanStatus.ResumeLayout(false);
+            this.pmPanStatus.PerformLayout();
+            this.pmPanHeads.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pmGridview)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.panSetting.ResumeLayout(false);
             this.psGrpDnld.ResumeLayout(false);
             this.psGrpDnld.PerformLayout();
             this.psGrpRecent.ResumeLayout(false);
             this.psGrpRecent.PerformLayout();
-            this.panMain.ResumeLayout(false);
-            this.pmPanStatus.ResumeLayout(false);
-            this.pmPanStatus.PerformLayout();
-            this.pmPanHeads.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxUpld)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxExit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picChgPswd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picHead)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxDnld)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxAnalyz)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picboxDbgFiles)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pmGridview)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -741,12 +750,10 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.Button btExit;
         private System.Windows.Forms.Label labUserTel;
         private System.Windows.Forms.Label labUserTeam;
         private System.Windows.Forms.Label labUserName;
         private System.Windows.Forms.PictureBox picHead;
-        private System.Windows.Forms.Button btUpload;
         private System.Windows.Forms.Panel pmPanStatus;
         protected System.Windows.Forms.Label pmLabRoot;
         protected System.Windows.Forms.Label pmLabNext2;
@@ -791,5 +798,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.PictureBox picboxDnld;
         private System.Windows.Forms.PictureBox picboxAnalyz;
+        private System.Windows.Forms.PictureBox picBoxUpld;
+        private System.Windows.Forms.PictureBox picBoxExit;
     }
 }
