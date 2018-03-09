@@ -22,6 +22,7 @@ namespace DataSyncSystem
     {
         public User curUser = null; 
         DataService service = new DataService();
+        public static Dictionary<string, string> userDict = null;
 
         #region panMain 中需要的功能部件
         //显示相关的控制辅助
@@ -90,7 +91,7 @@ namespace DataSyncSystem
         public string plUploaderId;
         /** 分页相关 **/
         public int plUploadStartX = 90;
-        public int plUploadStartY = 44;
+        public int plUploadStartY = 26;
         public int plUploadHoffset = 25;
         public int plUploadPgAll = 0;
         public int plUploadPgNow = 1;
@@ -229,6 +230,8 @@ namespace DataSyncSystem
                 sr.Close();
                 fs.Close();
             }
+
+            userDict = service.getAllUserDict();
         }
 
         private void FmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -1367,11 +1370,16 @@ namespace DataSyncSystem
         {
             if(pmHeadShowTrial != null)
             {
-                pmHeadLabUserId.Text = "activator: "+pmHeadShowTrial.TrUserId;
-                pmHeadLabDate.Text = "date: "+TimeHandle.milSecondsToDatetime(long.Parse(pmHeadShowTrial.TrDate));
-                pmHeadLabSumPath.Text = "summary path: "+pmHeadShowTrial.TrSummaryPath + "summary.csv";
-                pmHeadLabDbgPath.Text = "debug folder: "+pmHeadShowTrial.TrDebugPath;
-                pmHeadLabOperator.Text = "operator: " + pmHeadShowTrial.TrOperator;
+                if(userDict == null && userDict.Count==0)
+                    pmHeadLabUserId.Text = pmHeadShowTrial.TrUserId;
+                else
+                    pmHeadLabUserId.Text = userDict[pmHeadShowTrial.TrUserId];
+                if (userDict == null && userDict.Count == 0)
+                    pmHeadLabOperator.Text = pmHeadShowTrial.TrOperator;
+                else
+                    pmHeadLabOperator.Text = userDict[pmHeadShowTrial.TrOperator];
+                pmHeadLabDate.Text = ""+TimeHandle.milSecondsToDatetime(long.Parse(pmHeadShowTrial.TrDate));
+                pmHeadLabInfo.Text = pmHeadShowTrial.TrInfo;
             }
             else
             {
@@ -1405,6 +1413,7 @@ namespace DataSyncSystem
         }
         private void pmTrialBtDnld_Click(object sender, EventArgs e)
         {
+            
             dnldPath = CfgTool.getDnldPath(dnldDialog);
 
             if(dnldPath == null)
@@ -1827,20 +1836,135 @@ namespace DataSyncSystem
         }
         #endregion
 
-        private void picChgPswd_MouseHover(object sender, EventArgs e)
-        {
-            picChgPswd.Image = Properties.Resources.stBlue;
-        }
-
         private void picChgPswd_MouseLeave(object sender, EventArgs e)
         {
-            picChgPswd.Image = Properties.Resources.stBlack;
+            picChgPswd.Image = Properties.Resources.stLv;
         }
 
         private void picChgPswd_Click(object sender, EventArgs e)
         {
             FmChgPswd fm = new FmChgPswd(service, curUser);
             fm.ShowDialog();
+        }
+
+        private void picChgPswd_MouseEnter(object sender, EventArgs e)
+        {
+            picChgPswd.Image = Properties.Resources.stHv;
+        }
+
+        private void picboxDbgFiles_MouseEnter(object sender, EventArgs e)
+        {
+            picboxDbgFiles.Image = Properties.Resources.schHv;
+        }
+
+        private void picboxDbgFiles_MouseLeave(object sender, EventArgs e)
+        {
+            picboxDbgFiles.Image = Properties.Resources.schLv;
+        }
+
+        private void picboxAnalyz_Click(object sender, EventArgs e)
+        {
+            //弹出分析选择框
+            FmAnalyzer analyze = new FmAnalyzer(pmHeadShowTrial.TrUserId, pmHeadShowTrial.TrDate, this);
+            analyze.Show();
+        }
+
+        private void picboxDnld_Click(object sender, EventArgs e)
+        {
+            dnldPath = CfgTool.getDnldPath(dnldDialog);
+
+            if (dnldPath == null)
+            {
+                MyLogger.WriteLine("下载取消!");
+                return;
+            }
+
+            //先判断要下载的文件是否已经存在
+            FileInfo existFile = new FileInfo(dnldPath + "\\" + pmHeadShowTrial.TrUserId + "_" + pmHeadShowTrial.TrDate + ".zip");
+            if (existFile.Exists)
+            {
+                MessageBox.Show("you have download the trial data!", "message");
+                return;
+            }
+
+            //先获取socket 连接
+            if (dnldSock == null)
+            {
+                MessageBox.Show("you have download the trial data!", "message");
+                dnldRunFlg = false;
+                return;
+            }
+            dnldHead = "dnld:#";
+            dnldHead += pmHeadShowTrial.TrUserId + "_" + pmHeadShowTrial.TrDate + "#";
+
+            try
+            {
+                //传输head 
+                dnldSock.Send(Encoding.UTF8.GetBytes(dnldHead.ToCharArray()));
+                dnldRunFlg = true;
+            }
+            catch
+            {
+                MessageBox.Show("与服务端断开连接!", "message");
+                dnldRunFlg = false;
+                MyLogger.WriteLine("发送下载请求头时 遇到异常！");
+            }
+        }
+
+        private void picboxAnalyz_MouseEnter(object sender, EventArgs e)
+        {
+            picboxAnalyz.Image = Properties.Resources.analyHv;
+        }
+
+        private void picboxAnalyz_MouseLeave(object sender, EventArgs e)
+        {
+            picboxAnalyz.Image = Properties.Resources.analyLv;
+        }
+
+        private void picboxDnld_MouseEnter(object sender, EventArgs e)
+        {
+            picboxDnld.Image = Properties.Resources.dnldlev;
+        }
+
+        private void picboxDnld_MouseLeave(object sender, EventArgs e)
+        {
+            picboxDnld.Image = Properties.Resources.dnldHv;
+        }
+
+        private void pmLabProduct_MouseEnter(object sender, EventArgs e)
+        {
+            pmLabProduct.BackColor = Color.White;
+            pmLabProduct.ForeColor = Color.Black;
+        }
+
+        private void pmLabProduct_MouseLeave(object sender, EventArgs e)
+        {
+            pmLabProduct.BackColor = Color.Black;
+            pmLabProduct.ForeColor = Color.White;
+        }
+
+        private void pmLabPlatform_MouseEnter(object sender, EventArgs e)
+        {
+            pmLabPlatform.BackColor = Color.White;
+            pmLabPlatform.ForeColor = Color.Black;
+        }
+
+        private void pmLabPlatform_MouseLeave(object sender, EventArgs e)
+        {
+            pmLabPlatform.BackColor = Color.Black;
+            pmLabPlatform.ForeColor = Color.White;
+        }
+
+        private void pmLabRoot_MouseEnter(object sender, EventArgs e)
+        {
+            pmLabRoot.BackColor = Color.White;
+            pmLabRoot.ForeColor = Color.Black;
+        }
+
+        private void pmLabRoot_MouseLeave(object sender, EventArgs e)
+        {
+            pmLabRoot.BackColor = Color.Black;
+            pmLabRoot.ForeColor = Color.White;
         }
     }
 }

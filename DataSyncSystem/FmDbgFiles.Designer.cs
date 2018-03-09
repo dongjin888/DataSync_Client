@@ -75,6 +75,8 @@
             this.picboxDnld.TabIndex = 3;
             this.picboxDnld.TabStop = false;
             this.picboxDnld.Click += new System.EventHandler(this.picboxDnld_Click);
+            this.picboxDnld.MouseEnter += new System.EventHandler(this.picboxDnld_MouseEnter);
+            this.picboxDnld.MouseLeave += new System.EventHandler(this.picboxDnld_MouseLeave);
             // 
             // pictureBox1
             // 
@@ -134,7 +136,7 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(657, 55);
+            this.label1.Location = new System.Drawing.Point(647, 55);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(98, 20);
             this.label1.TabIndex = 9;

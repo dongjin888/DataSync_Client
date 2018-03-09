@@ -146,6 +146,37 @@ namespace DataSyncSystem.Dao
             return ret;
         }
 
+        public Dictionary<string,string> getAllUserDict()
+        {
+            Dictionary<string, string> dict = null;
+            if (con != null)
+            {
+                try
+                {
+                    if (con.State != ConnectionState.Open) { con.Open(); }
+
+                    string queryStr = @"select userid,username from tabUsers;";
+                    MySqlCommand cmd = new MySqlCommand();
+                    cmd.Connection = con;
+                    cmd.CommandText = queryStr;
+                    dict = new Dictionary<string, string>();
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            dict.Add(reader.GetString(0), reader.GetString(1)); //userid == username
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MyLogger.WriteLine("dataservice-getTeamList() get error!\n   " + ex.Message);
+                }
+            }
+            return dict;
+        }
+
         #region 根据userId 用户工号获取用户对象
         public User getUserByUserId(string userId)
         {
@@ -808,50 +839,6 @@ namespace DataSyncSystem.Dao
             }
             return ret;
         }
-        #endregion
-
-        #region 插入一条trial 记录
-        /*
-        public void insertTrial(TrialInfo trialInfo)
-        {
-            if (con != null)
-            {
-                try
-                {
-                    if (con.State != ConnectionState.Open) { con.Open(); }
-
-                    string queryStr = @"insert into tabTrials values(null,@pltfm,@pdct,@actor,@date,
-                                        @path,@bugPath,@info,@operat);";
-                    MySqlCommand cmd = new MySqlCommand();
-                    cmd.Connection = con;
-                    cmd.CommandText = queryStr;
-                    cmd.Parameters.AddWithValue("@pltfm", trialInfo.Pltfm);
-                    cmd.Parameters.AddWithValue("@pdct", trialInfo.Pdct);
-                    cmd.Parameters.AddWithValue("@actor", trialInfo.Activator);
-                    cmd.Parameters.AddWithValue("@date", trialInfo.Unique.Split('_')[1]);
-                    string path = ContantInfo.Fs.path + trialInfo.Pltfm + "\\" + trialInfo.Pdct + "\\" +
-                                  trialInfo.Unique + "\\";
-                    cmd.Parameters.AddWithValue("@path", path);
-                    cmd.Parameters.AddWithValue("@bugPath", path + "debug\\");
-                    cmd.Parameters.AddWithValue("@info", trialInfo.Info);
-                    cmd.Parameters.AddWithValue("@operat", trialInfo.Operator);
-
-                    try
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
-                    catch
-                    {
-                        MyLogger.WriteLine("insert into tabtrials error!");
-                    }
-                    MyLogger.WriteLine("insert into tabtrials ok!");
-                }
-                catch
-                {
-                    MyLogger.WriteLine("insert tabtrials error!");
-                }
-            }
-        }*/
         #endregion
 
         public void chgPswd(string userId,string md5Str)

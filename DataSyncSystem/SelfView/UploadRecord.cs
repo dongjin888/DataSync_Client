@@ -102,5 +102,17 @@ namespace DataSyncSystem.SelfView
         {
             BackColor = bkColor;
         }
+
+        private void btDownload_MouseEnter(object sender, EventArgs e)
+        {
+            btDownload.BackColor = Color.Black;
+            btDownload.ForeColor = Color.White;
+        }
+
+        private void btDownload_MouseLeave(object sender, EventArgs e)
+        {
+            btDownload.BackColor = Color.White;
+            btDownload.ForeColor = Color.Black;
+        }
     }
 }

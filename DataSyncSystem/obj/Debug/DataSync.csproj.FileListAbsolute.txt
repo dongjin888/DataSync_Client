@@ -17,7 +17,6 @@ C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyn
 C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.SelfView.UploadRecord.resources
 C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.SelfView.FmProgress.resources
 C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.SelfView.FmCompress.resources
-C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.FmCsv.resources
 C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSync.csprojResolveAssemblyReference.cache
 C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.FmDbgFiles.resources
 C:\Users\1000248501\source\repos\DataSyncSystem\DataSyncSystem\obj\Debug\DataSyncSystem.SelfView.FmBchDnldProgrs.resources

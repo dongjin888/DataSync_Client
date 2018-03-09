@@ -30,7 +30,10 @@ namespace DataSyncSystem.SelfView
             fmMain = fm;
 
             this.trial = trial;
-            btUser.Text = trial.TrUserId;
+            if (FmMain.userDict == null && FmMain.userDict.Count == 0)
+                btUser.Text = trial.TrUserId;
+            else
+                btUser.Text = FmMain.userDict[trial.TrUserId];
             labTrialInfo.Text = trial.TrInfo;
             labTrialDate.Text = TimeHandle.milSecondsToDatetime(long.Parse(trial.TrDate)).ToString();
             trialUniqStr = trial.TrUserId + "_" + trial.TrDate;
@@ -41,7 +44,8 @@ namespace DataSyncSystem.SelfView
         //查看某个用户
         private void btUser_Click(object sender, EventArgs e)
         {
-            string userId = btUser.Text.Trim();
+            //string userId = btUser.Text.Trim();
+            string userId = trial.TrUserId;
             FmUser fmUser = new FmUser(fmMain,userId);
             fmUser.ShowDialog();
         }
@@ -244,12 +248,12 @@ namespace DataSyncSystem.SelfView
 
         private void MyTrial_MouseEnter(object sender, EventArgs e)
         {
-            BackColor = Color.Silver;
+            BackColor = Color.Beige;
         }
 
         private void MyTrial_MouseLeave(object sender, EventArgs e)
         {
-            BackColor = Color.Beige;
+            BackColor = Color.Silver;
         }
     }
 }

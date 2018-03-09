@@ -63,6 +63,36 @@ namespace DataSyncSystem.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap analyHv {
+            get {
+                object obj = ResourceManager.GetObject("analyHv", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap analyLv {
+            get {
+                object obj = ResourceManager.GetObject("analyLv", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap dnldHv {
+            get {
+                object obj = ResourceManager.GetObject("dnldHv", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap dnldlev {
             get {
                 object obj = ResourceManager.GetObject("dnldlev", resourceCulture);
@@ -143,9 +173,9 @@ namespace DataSyncSystem.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap search {
+        internal static System.Drawing.Bitmap schHv {
             get {
-                object obj = ResourceManager.GetObject("search", resourceCulture);
+                object obj = ResourceManager.GetObject("schHv", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,9 +183,9 @@ namespace DataSyncSystem.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap stBlack {
+        internal static System.Drawing.Bitmap schLv {
             get {
-                object obj = ResourceManager.GetObject("stBlack", resourceCulture);
+                object obj = ResourceManager.GetObject("schLv", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -163,9 +193,19 @@ namespace DataSyncSystem.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap stBlue {
+        internal static System.Drawing.Bitmap stHv {
             get {
-                object obj = ResourceManager.GetObject("stBlue", resourceCulture);
+                object obj = ResourceManager.GetObject("stHv", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap stLv {
+            get {
+                object obj = ResourceManager.GetObject("stLv", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -141,12 +141,6 @@ namespace DataSyncSystem
         // 下载按钮，点击后遍历listview 中的选中项，然后下载
         private void picboxDnld_Click(object sender, EventArgs e)
         {
-            picboxDnld.Image = Properties.Resources.dnldon;
-
-            Thread picboxImgTh = new Thread(imgChg);
-            picboxImgTh.IsBackground = true;
-            picboxImgTh.Start();
-
             MyLogger.WriteLine("download list:");
             List<string> dnldFileIdList = new List<string>();
             foreach (ListViewItem item in listView1.CheckedItems)
@@ -174,34 +168,12 @@ namespace DataSyncSystem
                     listView1.Items[i].Checked = false;
                 }
                 labSelectNum.Text = listView1.CheckedItems.Count + "";
-
-
             }
             else
             {
                 MessageBox.Show("Please choose a download folder!", "download deny");
             }
         }
-        #region 改变下载按钮特效
-        private void imgChg()
-        {
-            Thread.Sleep(300);
-            updateFreshImg();
-        }
-        private delegate void UpdateDnldImg();
-        private void updateFreshImg()
-        {
-            if (this.InvokeRequired)
-            {
-                UpdateDnldImg update = new UpdateDnldImg(updateFreshImg);
-                this.Invoke(update, new object[] { });
-            }
-            else
-            {
-                picboxDnld.Image = Properties.Resources.dnldlev;
-            }
-        }
-        #endregion
 
         //回车事件的处理
         private void txtFilter_KeyDown(object sender, KeyEventArgs e)
@@ -272,6 +244,16 @@ namespace DataSyncSystem
                 count -= 1;
             }
             labSelectNum.Text = count + "";
+        }
+
+        private void picboxDnld_MouseLeave(object sender, EventArgs e)
+        {
+            picboxDnld.Image = Properties.Resources.dnldlev;
+        }
+
+        private void picboxDnld_MouseEnter(object sender, EventArgs e)
+        {
+            picboxDnld.Image = Properties.Resources.dnldon;
         }
     }
 }

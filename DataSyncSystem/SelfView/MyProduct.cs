@@ -43,7 +43,7 @@ namespace DataSyncSystem.SelfView
         private void MyProduct_Paint(object sender, PaintEventArgs e)
         {
             //使用红色虚线绘制边框
-            Pen pen1 = new Pen(Color.Blue, 3);
+            Pen pen1 = new Pen(Color.White, 3);
             pen1.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
             pen1.DashPattern = new float[] { 4f, 2f };
             e.Graphics.DrawRectangle(pen1, 0, 0, this.Width - 1, this.Height - 1);

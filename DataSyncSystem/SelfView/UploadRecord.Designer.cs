@@ -67,9 +67,11 @@
             // 
             // labInfo
             // 
+            this.labInfo.AutoEllipsis = true;
             this.labInfo.AutoSize = true;
             this.labInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.labInfo.Location = new System.Drawing.Point(418, 13);
+            this.labInfo.MaximumSize = new System.Drawing.Size(270, 24);
             this.labInfo.Name = "labInfo";
             this.labInfo.Size = new System.Drawing.Size(40, 24);
             this.labInfo.TabIndex = 3;
@@ -77,8 +79,8 @@
             // 
             // btDownload
             // 
-            this.btDownload.BackColor = System.Drawing.Color.Red;
-            this.btDownload.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btDownload.BackColor = System.Drawing.Color.White;
+            this.btDownload.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btDownload.Location = new System.Drawing.Point(726, 7);
             this.btDownload.Name = "btDownload";
             this.btDownload.Size = new System.Drawing.Size(105, 33);
@@ -86,6 +88,8 @@
             this.btDownload.Text = "download";
             this.btDownload.UseVisualStyleBackColor = false;
             this.btDownload.Click += new System.EventHandler(this.btDownload_Click);
+            this.btDownload.MouseEnter += new System.EventHandler(this.btDownload_MouseEnter);
+            this.btDownload.MouseLeave += new System.EventHandler(this.btDownload_MouseLeave);
             // 
             // UploadRecord
             // 

@@ -85,12 +85,6 @@
     <Compile Include="FmChgPswd.Designer.cs">
       <DependentUpon>FmChgPswd.cs</DependentUpon>
     </Compile>
-    <Compile Include="FmCsv.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FmCsv.Designer.cs">
-      <DependentUpon>FmCsv.cs</DependentUpon>
-    </Compile>
     <Compile Include="FmDbgFiles.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -201,9 +195,6 @@
     <EmbeddedResource Include="FmChgPswd.resx">
       <DependentUpon>FmChgPswd.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FmCsv.resx">
-      <DependentUpon>FmCsv.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FmDbgFiles.resx">
       <DependentUpon>FmDbgFiles.cs</DependentUpon>
     </EmbeddedResource>
@@ -305,6 +296,33 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\stBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stLv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stHv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\schLv.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\schLv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\schHv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\schLv1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\analyLv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\analyHv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dnldHv.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

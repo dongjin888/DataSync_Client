@@ -25,7 +25,6 @@ namespace DataSyncSystem
             this.service = service;
             this.curUser = curUser;
             StartPosition = FormStartPosition.CenterScreen;
-            
         }
 
         private void picPswd1_MouseClick(object sender, MouseEventArgs e)

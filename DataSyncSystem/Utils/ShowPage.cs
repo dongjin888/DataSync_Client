@@ -55,7 +55,8 @@ namespace DataSyncSystem.Utils
 
                     if (cur == pgNow)
                     {
-                        bt.BackColor = Color.Red;
+                        bt.BackColor = Color.Black;
+                        bt.ForeColor = Color.White;
                     }
 
                     cur++;
@@ -95,7 +96,8 @@ namespace DataSyncSystem.Utils
 
                     if (cur == pgNow)
                     {
-                        bt.BackColor = Color.Red;
+                        bt.BackColor = Color.Black;
+                        bt.ForeColor = Color.White;
                     }
 
                     cur++;

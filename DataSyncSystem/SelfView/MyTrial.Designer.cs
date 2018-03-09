@@ -35,8 +35,9 @@
             // 
             // btUser
             // 
-            this.btUser.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            this.btUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btUser.BackColor = System.Drawing.Color.Black;
+            this.btUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btUser.ForeColor = System.Drawing.Color.White;
             this.btUser.Location = new System.Drawing.Point(0, 0);
             this.btUser.Name = "btUser";
             this.btUser.Size = new System.Drawing.Size(170, 29);
@@ -47,21 +48,25 @@
             // 
             // labTrialInfo
             // 
+            this.labTrialInfo.AutoEllipsis = true;
             this.labTrialInfo.AutoSize = true;
-            this.labTrialInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.labTrialInfo.Location = new System.Drawing.Point(50, 45);
+            this.labTrialInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.labTrialInfo.Location = new System.Drawing.Point(8, 43);
+            this.labTrialInfo.MaximumSize = new System.Drawing.Size(180, 18);
             this.labTrialInfo.Name = "labTrialInfo";
-            this.labTrialInfo.Size = new System.Drawing.Size(55, 18);
+            this.labTrialInfo.Size = new System.Drawing.Size(64, 18);
             this.labTrialInfo.TabIndex = 3;
             this.labTrialInfo.Text = "trialInfo";
             // 
             // labTrialDate
             // 
+            this.labTrialDate.AutoEllipsis = true;
             this.labTrialDate.AutoSize = true;
-            this.labTrialDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.labTrialDate.Location = new System.Drawing.Point(1, 74);
+            this.labTrialDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.labTrialDate.Location = new System.Drawing.Point(8, 74);
+            this.labTrialDate.MaximumSize = new System.Drawing.Size(185, 18);
             this.labTrialDate.Name = "labTrialDate";
-            this.labTrialDate.Size = new System.Drawing.Size(62, 18);
+            this.labTrialDate.Size = new System.Drawing.Size(71, 18);
             this.labTrialDate.TabIndex = 4;
             this.labTrialDate.Text = "trialDate";
             // 
@@ -69,7 +74,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Beige;
+            this.BackColor = System.Drawing.Color.Silver;
             this.Controls.Add(this.labTrialDate);
             this.Controls.Add(this.labTrialInfo);
             this.Controls.Add(this.btUser);
