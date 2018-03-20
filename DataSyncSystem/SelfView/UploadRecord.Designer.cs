@@ -33,6 +33,7 @@
             this.labDate = new System.Windows.Forms.Label();
             this.labInfo = new System.Windows.Forms.Label();
             this.btDownload = new System.Windows.Forms.Button();
+            this.btLink = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // labPltfm
@@ -81,7 +82,7 @@
             // 
             this.btDownload.BackColor = System.Drawing.Color.White;
             this.btDownload.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btDownload.Location = new System.Drawing.Point(726, 7);
+            this.btDownload.Location = new System.Drawing.Point(736, 7);
             this.btDownload.Name = "btDownload";
             this.btDownload.Size = new System.Drawing.Size(105, 33);
             this.btDownload.TabIndex = 4;
@@ -91,10 +92,26 @@
             this.btDownload.MouseEnter += new System.EventHandler(this.btDownload_MouseEnter);
             this.btDownload.MouseLeave += new System.EventHandler(this.btDownload_MouseLeave);
             // 
+            // btLink
+            // 
+            this.btLink.BackColor = System.Drawing.Color.White;
+            this.btLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btLink.ForeColor = System.Drawing.Color.Blue;
+            this.btLink.Location = new System.Drawing.Point(631, 7);
+            this.btLink.Name = "btLink";
+            this.btLink.Size = new System.Drawing.Size(75, 32);
+            this.btLink.TabIndex = 5;
+            this.btLink.Text = "link";
+            this.btLink.UseVisualStyleBackColor = false;
+            this.btLink.Click += new System.EventHandler(this.btLink_Click);
+            this.btLink.MouseEnter += new System.EventHandler(this.btLink_MouseEnter);
+            this.btLink.MouseLeave += new System.EventHandler(this.btLink_MouseLeave);
+            // 
             // UploadRecord
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btLink);
             this.Controls.Add(this.btDownload);
             this.Controls.Add(this.labInfo);
             this.Controls.Add(this.labDate);
@@ -117,5 +134,6 @@
         private System.Windows.Forms.Label labDate;
         private System.Windows.Forms.Label labInfo;
         private System.Windows.Forms.Button btDownload;
+        private System.Windows.Forms.Button btLink;
     }
 }

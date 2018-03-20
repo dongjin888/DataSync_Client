@@ -69,6 +69,7 @@ namespace DataSyncSystem
                 sw.Close();
                 fs.Close();
 
+                //关闭mysql 连接
                 service.closeCon();
 
                 //关闭负责上传的socket
@@ -76,6 +77,7 @@ namespace DataSyncSystem
                 {
                     try
                     {
+                        upldSock.Send(Encoding.UTF8.GetBytes("exit:#".ToCharArray()));
                         upldSock.Shutdown(SocketShutdown.Both);
                         upldSock.Close();
                     }

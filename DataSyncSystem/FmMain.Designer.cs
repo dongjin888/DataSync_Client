@@ -30,14 +30,19 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FmMain));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.picBoxUpld = new System.Windows.Forms.PictureBox();
+            this.picBoxExit = new System.Windows.Forms.PictureBox();
+            this.picChgPswd = new System.Windows.Forms.PictureBox();
             this.btMyLoad = new System.Windows.Forms.Button();
             this.btSetting = new System.Windows.Forms.Button();
             this.btMain = new System.Windows.Forms.Button();
             this.labUserTel = new System.Windows.Forms.Label();
             this.labUserTeam = new System.Windows.Forms.Label();
             this.labUserName = new System.Windows.Forms.Label();
+            this.picHead = new System.Windows.Forms.PictureBox();
             this.panMain = new System.Windows.Forms.Panel();
             this.pmPanStatus = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pmLabNext0 = new System.Windows.Forms.Label();
             this.pmLabRoot = new System.Windows.Forms.Label();
             this.pmLabNext2 = new System.Windows.Forms.Label();
@@ -46,6 +51,9 @@
             this.pmLabProduct = new System.Windows.Forms.Label();
             this.pmLabPlatform = new System.Windows.Forms.Label();
             this.pmPanHeads = new System.Windows.Forms.Panel();
+            this.picboxDnld = new System.Windows.Forms.PictureBox();
+            this.picboxAnalyz = new System.Windows.Forms.PictureBox();
+            this.picboxDbgFiles = new System.Windows.Forms.PictureBox();
             this.pmGridview = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -73,32 +81,26 @@
             this.psCombPltfm = new System.Windows.Forms.ComboBox();
             this.psLabPltfm = new System.Windows.Forms.Label();
             this.psDnldFolderBrsDlg = new System.Windows.Forms.FolderBrowserDialog();
-            this.picBoxUpld = new System.Windows.Forms.PictureBox();
-            this.picBoxExit = new System.Windows.Forms.PictureBox();
-            this.picChgPswd = new System.Windows.Forms.PictureBox();
-            this.picHead = new System.Windows.Forms.PictureBox();
-            this.picboxDnld = new System.Windows.Forms.PictureBox();
-            this.picboxAnalyz = new System.Windows.Forms.PictureBox();
-            this.picboxDbgFiles = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxUpld)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxExit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picChgPswd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picHead)).BeginInit();
             this.panMain.SuspendLayout();
             this.pmPanStatus.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pmPanHeads.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxDnld)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxAnalyz)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxDbgFiles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pmGridview)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.panSetting.SuspendLayout();
             this.psGrpDnld.SuspendLayout();
             this.psGrpRecent.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxUpld)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxExit)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picChgPswd)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picHead)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxDnld)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxAnalyz)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxDbgFiles)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -125,12 +127,51 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.Teal;
+            this.splitContainer1.Panel2.Controls.Add(this.panSetting);
             this.splitContainer1.Panel2.Controls.Add(this.panMain);
             this.splitContainer1.Panel2.Controls.Add(this.panMyLoad);
-            this.splitContainer1.Panel2.Controls.Add(this.panSetting);
             this.splitContainer1.Size = new System.Drawing.Size(1390, 721);
             this.splitContainer1.SplitterDistance = 284;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // picBoxUpld
+            // 
+            this.picBoxUpld.Image = global::DataSyncSystem.Properties.Resources.upldLv;
+            this.picBoxUpld.Location = new System.Drawing.Point(217, 661);
+            this.picBoxUpld.Name = "picBoxUpld";
+            this.picBoxUpld.Size = new System.Drawing.Size(52, 50);
+            this.picBoxUpld.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picBoxUpld.TabIndex = 11;
+            this.picBoxUpld.TabStop = false;
+            this.picBoxUpld.Click += new System.EventHandler(this.picBoxUpld_Click);
+            this.picBoxUpld.MouseEnter += new System.EventHandler(this.picBoxUpld_MouseEnter);
+            this.picBoxUpld.MouseLeave += new System.EventHandler(this.picBoxUpld_MouseLeave);
+            // 
+            // picBoxExit
+            // 
+            this.picBoxExit.Image = global::DataSyncSystem.Properties.Resources.exitLv;
+            this.picBoxExit.Location = new System.Drawing.Point(12, 662);
+            this.picBoxExit.Name = "picBoxExit";
+            this.picBoxExit.Size = new System.Drawing.Size(52, 50);
+            this.picBoxExit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picBoxExit.TabIndex = 10;
+            this.picBoxExit.TabStop = false;
+            this.picBoxExit.Click += new System.EventHandler(this.picBoxExit_Click);
+            this.picBoxExit.MouseEnter += new System.EventHandler(this.picBoxExit_MouseEnter);
+            this.picBoxExit.MouseLeave += new System.EventHandler(this.picBoxExit_MouseLeave);
+            // 
+            // picChgPswd
+            // 
+            this.picChgPswd.Image = global::DataSyncSystem.Properties.Resources.stLv;
+            this.picChgPswd.Location = new System.Drawing.Point(10, 6);
+            this.picChgPswd.Name = "picChgPswd";
+            this.picChgPswd.Size = new System.Drawing.Size(35, 41);
+            this.picChgPswd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picChgPswd.TabIndex = 9;
+            this.picChgPswd.TabStop = false;
+            this.picChgPswd.Click += new System.EventHandler(this.picChgPswd_Click);
+            this.picChgPswd.MouseEnter += new System.EventHandler(this.picChgPswd_MouseEnter);
+            this.picChgPswd.MouseLeave += new System.EventHandler(this.picChgPswd_MouseLeave);
             // 
             // btMyLoad
             // 
@@ -195,6 +236,16 @@
             this.labUserName.TabIndex = 1;
             this.labUserName.Text = "Name";
             // 
+            // picHead
+            // 
+            this.picHead.Image = global::DataSyncSystem.Properties.Resources.man;
+            this.picHead.Location = new System.Drawing.Point(104, 84);
+            this.picHead.Name = "picHead";
+            this.picHead.Size = new System.Drawing.Size(100, 97);
+            this.picHead.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picHead.TabIndex = 0;
+            this.picHead.TabStop = false;
+            // 
             // panMain
             // 
             this.panMain.BackColor = System.Drawing.Color.Gray;
@@ -214,6 +265,7 @@
             // pmPanStatus
             // 
             this.pmPanStatus.BackColor = System.Drawing.Color.Silver;
+            this.pmPanStatus.Controls.Add(this.pictureBox1);
             this.pmPanStatus.Controls.Add(this.pmLabNext0);
             this.pmPanStatus.Controls.Add(this.pmLabRoot);
             this.pmPanStatus.Controls.Add(this.pmLabNext2);
@@ -225,6 +277,19 @@
             this.pmPanStatus.Name = "pmPanStatus";
             this.pmPanStatus.Size = new System.Drawing.Size(1102, 47);
             this.pmPanStatus.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::DataSyncSystem.Properties.Resources.lkdnldHv;
+            this.pictureBox1.Location = new System.Drawing.Point(922, 6);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(50, 34);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 7;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.pictureBox1.MouseEnter += new System.EventHandler(this.pictureBox1_MouseEnter);
+            this.pictureBox1.MouseLeave += new System.EventHandler(this.pictureBox1_MouseLeave);
             // 
             // pmLabNext0
             // 
@@ -335,6 +400,45 @@
             this.pmPanHeads.Size = new System.Drawing.Size(1013, 611);
             this.pmPanHeads.TabIndex = 4;
             this.pmPanHeads.Paint += new System.Windows.Forms.PaintEventHandler(this.pmPanHeads_Paint);
+            // 
+            // picboxDnld
+            // 
+            this.picboxDnld.Image = global::DataSyncSystem.Properties.Resources.dnldHv;
+            this.picboxDnld.Location = new System.Drawing.Point(861, 543);
+            this.picboxDnld.Name = "picboxDnld";
+            this.picboxDnld.Size = new System.Drawing.Size(61, 51);
+            this.picboxDnld.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picboxDnld.TabIndex = 7;
+            this.picboxDnld.TabStop = false;
+            this.picboxDnld.Click += new System.EventHandler(this.picboxDnld_Click);
+            this.picboxDnld.MouseEnter += new System.EventHandler(this.picboxDnld_MouseEnter);
+            this.picboxDnld.MouseLeave += new System.EventHandler(this.picboxDnld_MouseLeave);
+            // 
+            // picboxAnalyz
+            // 
+            this.picboxAnalyz.Image = global::DataSyncSystem.Properties.Resources.analyLv;
+            this.picboxAnalyz.Location = new System.Drawing.Point(789, 544);
+            this.picboxAnalyz.Name = "picboxAnalyz";
+            this.picboxAnalyz.Size = new System.Drawing.Size(57, 50);
+            this.picboxAnalyz.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picboxAnalyz.TabIndex = 6;
+            this.picboxAnalyz.TabStop = false;
+            this.picboxAnalyz.Click += new System.EventHandler(this.picboxAnalyz_Click);
+            this.picboxAnalyz.MouseEnter += new System.EventHandler(this.picboxAnalyz_MouseEnter);
+            this.picboxAnalyz.MouseLeave += new System.EventHandler(this.picboxAnalyz_MouseLeave);
+            // 
+            // picboxDbgFiles
+            // 
+            this.picboxDbgFiles.Image = ((System.Drawing.Image)(resources.GetObject("picboxDbgFiles.Image")));
+            this.picboxDbgFiles.Location = new System.Drawing.Point(55, 543);
+            this.picboxDbgFiles.Name = "picboxDbgFiles";
+            this.picboxDbgFiles.Size = new System.Drawing.Size(61, 51);
+            this.picboxDbgFiles.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picboxDbgFiles.TabIndex = 5;
+            this.picboxDbgFiles.TabStop = false;
+            this.picboxDbgFiles.Click += new System.EventHandler(this.picboxDbgFiles_Click);
+            this.picboxDbgFiles.MouseEnter += new System.EventHandler(this.picboxDbgFiles_MouseEnter);
+            this.picboxDbgFiles.MouseLeave += new System.EventHandler(this.picboxDbgFiles_MouseLeave);
             // 
             // pmGridview
             // 
@@ -619,94 +723,6 @@
             this.psLabPltfm.TabIndex = 0;
             this.psLabPltfm.Text = "platform";
             // 
-            // picBoxUpld
-            // 
-            this.picBoxUpld.Image = global::DataSyncSystem.Properties.Resources.upldLv;
-            this.picBoxUpld.Location = new System.Drawing.Point(217, 661);
-            this.picBoxUpld.Name = "picBoxUpld";
-            this.picBoxUpld.Size = new System.Drawing.Size(52, 50);
-            this.picBoxUpld.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picBoxUpld.TabIndex = 11;
-            this.picBoxUpld.TabStop = false;
-            this.picBoxUpld.Click += new System.EventHandler(this.picBoxUpld_Click);
-            this.picBoxUpld.MouseEnter += new System.EventHandler(this.picBoxUpld_MouseEnter);
-            this.picBoxUpld.MouseLeave += new System.EventHandler(this.picBoxUpld_MouseLeave);
-            // 
-            // picBoxExit
-            // 
-            this.picBoxExit.Image = global::DataSyncSystem.Properties.Resources.exitLv;
-            this.picBoxExit.Location = new System.Drawing.Point(12, 662);
-            this.picBoxExit.Name = "picBoxExit";
-            this.picBoxExit.Size = new System.Drawing.Size(52, 50);
-            this.picBoxExit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picBoxExit.TabIndex = 10;
-            this.picBoxExit.TabStop = false;
-            this.picBoxExit.Click += new System.EventHandler(this.picBoxExit_Click);
-            this.picBoxExit.MouseEnter += new System.EventHandler(this.picBoxExit_MouseEnter);
-            this.picBoxExit.MouseLeave += new System.EventHandler(this.picBoxExit_MouseLeave);
-            // 
-            // picChgPswd
-            // 
-            this.picChgPswd.Image = global::DataSyncSystem.Properties.Resources.stLv;
-            this.picChgPswd.Location = new System.Drawing.Point(10, 6);
-            this.picChgPswd.Name = "picChgPswd";
-            this.picChgPswd.Size = new System.Drawing.Size(35, 41);
-            this.picChgPswd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picChgPswd.TabIndex = 9;
-            this.picChgPswd.TabStop = false;
-            this.picChgPswd.Click += new System.EventHandler(this.picChgPswd_Click);
-            this.picChgPswd.MouseEnter += new System.EventHandler(this.picChgPswd_MouseEnter);
-            this.picChgPswd.MouseLeave += new System.EventHandler(this.picChgPswd_MouseLeave);
-            // 
-            // picHead
-            // 
-            this.picHead.Image = global::DataSyncSystem.Properties.Resources.man;
-            this.picHead.Location = new System.Drawing.Point(104, 84);
-            this.picHead.Name = "picHead";
-            this.picHead.Size = new System.Drawing.Size(100, 97);
-            this.picHead.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picHead.TabIndex = 0;
-            this.picHead.TabStop = false;
-            // 
-            // picboxDnld
-            // 
-            this.picboxDnld.Image = global::DataSyncSystem.Properties.Resources.dnldHv;
-            this.picboxDnld.Location = new System.Drawing.Point(861, 543);
-            this.picboxDnld.Name = "picboxDnld";
-            this.picboxDnld.Size = new System.Drawing.Size(61, 51);
-            this.picboxDnld.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picboxDnld.TabIndex = 7;
-            this.picboxDnld.TabStop = false;
-            this.picboxDnld.Click += new System.EventHandler(this.picboxDnld_Click);
-            this.picboxDnld.MouseEnter += new System.EventHandler(this.picboxDnld_MouseEnter);
-            this.picboxDnld.MouseLeave += new System.EventHandler(this.picboxDnld_MouseLeave);
-            // 
-            // picboxAnalyz
-            // 
-            this.picboxAnalyz.Image = global::DataSyncSystem.Properties.Resources.analyLv;
-            this.picboxAnalyz.Location = new System.Drawing.Point(789, 544);
-            this.picboxAnalyz.Name = "picboxAnalyz";
-            this.picboxAnalyz.Size = new System.Drawing.Size(57, 50);
-            this.picboxAnalyz.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picboxAnalyz.TabIndex = 6;
-            this.picboxAnalyz.TabStop = false;
-            this.picboxAnalyz.Click += new System.EventHandler(this.picboxAnalyz_Click);
-            this.picboxAnalyz.MouseEnter += new System.EventHandler(this.picboxAnalyz_MouseEnter);
-            this.picboxAnalyz.MouseLeave += new System.EventHandler(this.picboxAnalyz_MouseLeave);
-            // 
-            // picboxDbgFiles
-            // 
-            this.picboxDbgFiles.Image = ((System.Drawing.Image)(resources.GetObject("picboxDbgFiles.Image")));
-            this.picboxDbgFiles.Location = new System.Drawing.Point(55, 543);
-            this.picboxDbgFiles.Name = "picboxDbgFiles";
-            this.picboxDbgFiles.Size = new System.Drawing.Size(61, 51);
-            this.picboxDbgFiles.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picboxDbgFiles.TabIndex = 5;
-            this.picboxDbgFiles.TabStop = false;
-            this.picboxDbgFiles.Click += new System.EventHandler(this.picboxDbgFiles_Click);
-            this.picboxDbgFiles.MouseEnter += new System.EventHandler(this.picboxDbgFiles_MouseEnter);
-            this.picboxDbgFiles.MouseLeave += new System.EventHandler(this.picboxDbgFiles_MouseLeave);
-            // 
             // FmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -724,10 +740,18 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxUpld)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBoxExit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picChgPswd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picHead)).EndInit();
             this.panMain.ResumeLayout(false);
             this.pmPanStatus.ResumeLayout(false);
             this.pmPanStatus.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.pmPanHeads.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picboxDnld)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxAnalyz)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picboxDbgFiles)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pmGridview)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -736,13 +760,6 @@
             this.psGrpDnld.PerformLayout();
             this.psGrpRecent.ResumeLayout(false);
             this.psGrpRecent.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxUpld)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBoxExit)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picChgPswd)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picHead)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxDnld)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxAnalyz)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picboxDbgFiles)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -800,5 +817,6 @@
         private System.Windows.Forms.PictureBox picboxAnalyz;
         private System.Windows.Forms.PictureBox picBoxUpld;
         private System.Windows.Forms.PictureBox picBoxExit;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

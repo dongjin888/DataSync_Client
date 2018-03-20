@@ -17,6 +17,7 @@ namespace DataSyncSystem.SelfView
         public FmBchDnldProgrs()
         {
             InitializeComponent();
+            CheckForIllegalCrossThreadCalls = false;
         }
 
         public FmBchDnldProgrs(int fileNum)
@@ -30,6 +31,9 @@ namespace DataSyncSystem.SelfView
             progress.Maximum = maxFileNum;
             labPersent.Text = "0/" + maxFileNum;
         }
+
+        
+
 
         private delegate void UpdtProg(int num,string fileName);
         public void updtProg(int num,string fileName)
@@ -54,5 +58,6 @@ namespace DataSyncSystem.SelfView
                 }
             }
         }
+
     }
 }

@@ -181,27 +181,6 @@ namespace DataSyncSystem
         {
             CheckForIllegalCrossThreadCalls = false;
 
-            GetCsvSock.init(this);
-            initDnldSock();
-            initUpldSock();
-
-            //界面打开先显示panel1 
-            panMain.Visible = true;
-            btMain.BackColor = Color.Red;
-
-            //获取要panMain 中要显示的初始信息
-            pmPltfmList = service.getPltfmPageList(pmPltfmPgNow, pmPltfmPgSize,ref pmPltfmPgAll);
-
-            //显示用户信息
-            curUser = service.getUserByUserId(Cache.userId);
-            labUserName.Text = curUser.UserName;
-            labUserTeam.Text = curUser.TeamName;
-            labUserTel.Text = curUser.UserTel;
-
-            //我的上传界面中默认显示当前用户的
-            plUploaderId = curUser.UserId;
-            plUploadList = service.getTrialPageList(plUploaderId, plUploadPgNow, plUploadPgSize, ref plUploadPgAll);
-
             #region 根据用户配置预先显示panel main 中的内容
             FileInfo cfg = new FileInfo(Environment.CurrentDirectory + "\\" + ".datasync.cfg");
             if (cfg.Exists)
@@ -209,7 +188,7 @@ namespace DataSyncSystem
                 FileStream fs = new FileStream(cfg.FullName, FileMode.Open);
                 StreamReader sr = new StreamReader(fs);
                 string tmp = null;
-                while((tmp=sr.ReadLine()) != null)
+                while ((tmp = sr.ReadLine()) != null)
                 {
                     if (tmp.StartsWith("pltfm"))
                     {
@@ -232,7 +211,30 @@ namespace DataSyncSystem
                 }
                 sr.Close();
                 fs.Close();
+                dnldPath = Cache.dnldPath;
             }
+
+            GetCsvSock.init(this);
+            initDnldSock();
+            initUpldSock();
+
+            //界面打开先显示panel1 
+            panMain.Visible = true;
+            btMain.BackColor = Color.Red;
+
+            //获取要panMain 中要显示的初始信息
+            pmPltfmList = service.getPltfmPageList(pmPltfmPgNow, pmPltfmPgSize,ref pmPltfmPgAll);
+
+            //显示用户信息
+            curUser = service.getUserByUserId(Cache.userId);
+            labUserName.Text = curUser.UserName;
+            labUserTeam.Text = curUser.TeamName;
+            labUserTel.Text = curUser.UserTel;
+
+            //我的上传界面中默认显示当前用户的
+            plUploaderId = curUser.UserId;
+            plUploadList = service.getTrialPageList(plUploaderId, plUploadPgNow, plUploadPgSize, ref plUploadPgAll);
+            
             if(!Cache.pltfm.Equals(""))
             {
                 pmPdctList = service.getPdctPageList(pmPdctPgNow, pmPdctPgSize, Cache.pltfm, ref pmPdctPgAll);
@@ -284,8 +286,11 @@ namespace DataSyncSystem
             //关闭下载 csv 的socket
             try
             {
+                GetCsvSock.sock.Send(Encoding.UTF8.GetBytes("exit:#".ToCharArray()));
+
                 GetCsvSock.sock.Shutdown(SocketShutdown.Both);
                 GetCsvSock.sock.Close();
+                MyLogger.WriteLine("close csvSock success !");
             }
             catch
             {
@@ -297,8 +302,11 @@ namespace DataSyncSystem
             {
                 try
                 {
+                    dnldSock.Send(Encoding.UTF8.GetBytes("exit:#".ToCharArray()));
                     dnldSock.Shutdown(SocketShutdown.Both);
                     dnldSock.Close();
+                    MyLogger.WriteLine("close dnldSock success !");
+
                 }
                 catch
                 {
@@ -311,8 +319,10 @@ namespace DataSyncSystem
             {
                 try
                 {
+                    upldSock.Send(Encoding.UTF8.GetBytes("exit:#".ToCharArray()));
                     upldSock.Shutdown(SocketShutdown.Both);
                     upldSock.Close();
+                    MyLogger.WriteLine("close upldSock success !");
                 }
                 catch
                 {
@@ -526,7 +536,7 @@ namespace DataSyncSystem
                 int upldDirChkCode = 0;
                 if (FileHandle.checkUpldDir(upldPath, ref upldDirChkCode))
                 {
-                    #region 检查upldhist.hist
+                    #region 检查.upldhist.hist
                     FileInfo histFile = new FileInfo(upldPath + "\\.upldhist.hist");
                     if (histFile.Exists)
                     {
@@ -628,7 +638,7 @@ namespace DataSyncSystem
                 }
                 else
                 {
-                    MessageBox.Show("upload dir error:\r\n" + ContantInfo.UpldDir.upldDirErrDict[upldDirChkCode], "message");
+                    MessageBox.Show("upload dir illegal:\r\n" + ContantInfo.UpldDir.upldDirErrDict[upldDirChkCode], "message");
                 }
             }
             else
@@ -791,7 +801,7 @@ namespace DataSyncSystem
 
             try
             {
-                //然后压缩整个 临时文件到parent 目录下
+                //然后压缩整个 临时文件到压缩文件中
                 ZipFile.CreateFromDirectory(upldDir.FullName, zipFileName);
                 compressCode = ContantInfo.Compress.PRESSOK;
                 MyLogger.WriteLine("[compressed]:" + zipFileName);
@@ -1467,8 +1477,28 @@ namespace DataSyncSystem
 
             if(dnldPath == null)
             {
-                MyLogger.WriteLine("下载取消!");
-                return;
+                //MyLogger.WriteLine("下载取消!");
+                //return;
+
+                FolderBrowserDialog dia = new FolderBrowserDialog();
+                if(dia.ShowDialog() == DialogResult.OK)
+                {
+                    string select = dia.SelectedPath;
+                    if (FileHandle.checkDirCanWrite(select))
+                    {
+                        dnldPath = select;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Folder dont have permission !", "error");
+                        return;
+                    }
+                }
+                else
+                {
+                    MyLogger.WriteLine("下载取消!");
+                    return;
+                }
             }
 
             //先判断要下载的文件是否已经存在
@@ -1493,7 +1523,7 @@ namespace DataSyncSystem
             {
                 //传输head 
                 dnldSock.Send(Encoding.UTF8.GetBytes(dnldHead.ToCharArray()));
-                dnldRunFlg = true;
+                //dnldRunFlg = true;
             }
             catch
             {
@@ -1506,6 +1536,8 @@ namespace DataSyncSystem
         {
             while (dnldRunFlg)
             {
+                if (dnldPath == null || dnldPath.Equals(""))
+                    dnldPath = Cache.dnldPath;
                 MyLogger.WriteLine("dnldSock 等待服务端的下一次可下载回应！");
                 dnldOk = false;
 
@@ -1910,9 +1942,9 @@ namespace DataSyncSystem
         {
             dnldPath = CfgTool.getDnldPath(dnldDialog);
 
-            if (dnldPath == null)
+            if (dnldPath == null || dnldPath.Equals(""))
             {
-                MyLogger.WriteLine("下载取消!");
+                MessageBox.Show("download path not ready !", "cancel");
                 return;
             }
 
@@ -1938,7 +1970,7 @@ namespace DataSyncSystem
             {
                 //传输head 
                 dnldSock.Send(Encoding.UTF8.GetBytes(dnldHead.ToCharArray()));
-                dnldRunFlg = true;
+                //dnldRunFlg = true;
             }
             catch
             {
@@ -2031,7 +2063,15 @@ namespace DataSyncSystem
             pmLabRoot.ForeColor = Color.White;
         }
 
-        #endregion
+        private void pictureBox1_MouseEnter(object sender, EventArgs e)
+        {
+            pictureBox1.Image = Properties.Resources.lkdnldLv;
+        }
+
+        private void pictureBox1_MouseLeave(object sender, EventArgs e)
+        {
+            pictureBox1.Image = Properties.Resources.lkdnldHv;
+        }
 
         private void picBoxExit_MouseEnter(object sender, EventArgs e)
         {
@@ -2052,6 +2092,7 @@ namespace DataSyncSystem
         {
             picBoxUpld.Image = Properties.Resources.upldLv;
         }
+        #endregion
 
         private void picBoxExit_Click(object sender, EventArgs e)
         {
@@ -2068,6 +2109,67 @@ namespace DataSyncSystem
 
                 Dispose();
                 Application.Exit();
+            }
+        }
+
+        //点击下载按钮事件
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            Trial trial = new Trial();
+            trial.TrUserId = "";
+            trial.TrOperator = "";
+            trial.TrDate = "";
+            trial.TrInfo = "";
+            FmInputLink fm = new FmInputLink(ref trial,service);
+            if(fm.ShowDialog() == DialogResult.OK)
+            {
+                //组装下载头，下载
+                if(MessageBox.Show("trial info :\r\n\r\n" +
+                    "Activator:" + userDict[trial.TrUserId] + "\r\n" +
+                    "Operator:" + userDict[trial.TrOperator] + "\r\n" +
+                    "Date:" + TimeHandle.milSecondsToDatetime(long.Parse(trial.TrDate)) +
+                    "Info" + trial.TrInfo, "Download", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    if (dnldPath == null || dnldPath.Equals(""))
+                    {
+                        MessageBox.Show("download path not ready !", "cancel");
+                        return;
+                    }
+
+                    //先判断要下载的文件是否已经存在
+                    FileInfo existFile = new FileInfo(dnldPath + "\\" + trial.TrUserId + "_" + trial.TrDate + ".zip");
+                    if (existFile.Exists)
+                    {
+                        MessageBox.Show("you have download the trial data!", "message");
+                        return;
+                    }
+
+                    if (dnldSock == null)
+                    {
+                        MessageBox.Show("you have download the trial data!", "message");
+                        dnldRunFlg = false;
+                        return;
+                    }
+                    dnldHead = "dnld:#";
+                    dnldHead += trial.TrUserId + "_" + trial.TrDate + "#";
+
+                    try
+                    {
+                        //传输head 
+                        dnldSock.Send(Encoding.UTF8.GetBytes(dnldHead.ToCharArray()));
+                    }
+                    catch
+                    {
+                        MessageBox.Show("与服务端断开连接!", "message");
+                        dnldRunFlg = false;
+                        MyLogger.WriteLine("发送下载请求头时 遇到异常！");
+                    }
+                }
+                else
+                {
+                    MyLogger.WriteLine("client quit download!");
+                }
+                    
             }
         }
     }

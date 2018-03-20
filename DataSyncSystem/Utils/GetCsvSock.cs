@@ -54,7 +54,7 @@ namespace DataSyncSystem.Utils
         private static void recvMsg()
         {
             string msg = null;
-            byte[] msgBuf = new byte[128];
+            byte[] msgBuf = new byte[128]; //128 字节
             int byteCount = 0;
 
             while (sock != null)
@@ -270,6 +270,7 @@ namespace DataSyncSystem.Utils
                     }
 
                     List<string> dnldFiles = new List<string>();
+                    int taskFileId = 1;
                     while (waitRecvFileNum >= 1)
                     {
                         //监听文件头 信息
@@ -366,7 +367,8 @@ namespace DataSyncSystem.Utils
                                 }
                             }// using file()
                             dnldFiles.Add(fmTmp);
-                        }// else if (msg.StartsWith("resreqbunchfile:"))
+                            taskFileId++;
+                        }// if (msg.StartsWith("singleinfo:"))
                     }// while(waitRecvNum > 1)
                     
                     if(prog != null) // 不是后台下载

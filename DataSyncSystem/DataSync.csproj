@@ -135,6 +135,12 @@
     <Compile Include="SelfView\FmCompress.Designer.cs">
       <DependentUpon>FmCompress.cs</DependentUpon>
     </Compile>
+    <Compile Include="SelfView\FmInputLink.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelfView\FmInputLink.Designer.cs">
+      <DependentUpon>FmInputLink.cs</DependentUpon>
+    </Compile>
     <Compile Include="SelfView\FmProgress.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -228,6 +234,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SelfView\FmCompress.resx">
       <DependentUpon>FmCompress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelfView\FmInputLink.resx">
+      <DependentUpon>FmInputLink.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SelfView\FmProgress.resx">
       <DependentUpon>FmProgress.cs</DependentUpon>
@@ -335,6 +344,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\upldLv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lkdnldHv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lkdnldLv.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

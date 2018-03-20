@@ -25,6 +25,8 @@ namespace DataSyncSystem.SelfView
         FolderBrowserDialog dnldDialog;
         Socket dnldSock;
 
+        string link = "";
+
         public UploadRecord(Trial trial,Color bkColor,Form fm,FolderBrowserDialog dialog,Socket sock)
         {
             this.trial = trial;
@@ -41,6 +43,7 @@ namespace DataSyncSystem.SelfView
             labDate.Text = TimeHandle.milSecondsToDatetime(long.Parse(trial.TrDate)).ToString();
             labInfo.Text = trial.TrInfo;
 
+            link = EnDeCode.encodeLink(trial.TrUserId + "_" + trial.TrDate);
         }
 
         private void UploadRecord_Paint(object sender, PaintEventArgs e)
@@ -58,7 +61,7 @@ namespace DataSyncSystem.SelfView
 
             if(parent.dnldPath == null)
             {
-                MyLogger.WriteLine("下载取消!");
+                MessageBox.Show("download path not ready !", "cancel");
                 return;
             }
 
@@ -84,7 +87,7 @@ namespace DataSyncSystem.SelfView
             {
                 //传输head 
                 dnldSock.Send(Encoding.UTF8.GetBytes(dnldHead.ToCharArray()));
-                parent.dnldRunFlg = true;
+                //parent.dnldRunFlg = true;
             }
             catch
             {
@@ -114,6 +117,26 @@ namespace DataSyncSystem.SelfView
         {
             btDownload.BackColor = Color.White;
             btDownload.ForeColor = Color.Black;
+        }
+
+        private void btLink_MouseEnter(object sender, EventArgs e)
+        {
+            btLink.BackColor = Color.Black;
+            btLink.ForeColor = Color.Red;
+        }
+
+        private void btLink_MouseLeave(object sender, EventArgs e)
+        {
+            btLink.BackColor = Color.White;
+            btLink.ForeColor = Color.Blue;
+        }
+
+        private void btLink_Click(object sender, EventArgs e)
+        {
+            //调用 clipBoard 粘贴复制
+            Clipboard.SetDataObject(link);
+
+            MessageBox.Show("You have copy the link to clipboard :\r\n\r\n" + link, "message");
         }
     }
 }

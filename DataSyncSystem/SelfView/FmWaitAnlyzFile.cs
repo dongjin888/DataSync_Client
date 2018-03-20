@@ -19,6 +19,7 @@ namespace DataSyncSystem.SelfView
 
         public FmWaitAnlyzFile()
         {
+            CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
             runFlg = true;
             StartPosition = FormStartPosition.CenterScreen;

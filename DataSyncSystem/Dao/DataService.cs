@@ -543,6 +543,50 @@ namespace DataSyncSystem.Dao
         }
         #endregion
 
+        //获取某条trial 记录
+        public Trial getTrialByUidDate(string uid, string datestr)
+        {
+            Trial ret = new Trial();
+            if (con != null)
+            {
+                try
+                {
+                    if (con.State != ConnectionState.Open) { con.Open(); }
+                    MyLogger.WriteLine("date:" + datestr + " userid:" + uid);
+                    string queryPage = @"select * from tabTrials where trialUserId=@userId 
+                                         and trialDate=@datestr";
+                    MySqlCommand cmd = new MySqlCommand();
+                    cmd.Connection = con;
+                    cmd.CommandText = queryPage;
+                    cmd.Parameters.AddWithValue("@userId", uid);
+                    cmd.Parameters.AddWithValue("@datestr", datestr);
+
+                    //查询Trial记录，并封装到类
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ret.Id = reader.GetInt32(0);
+                            ret.TrPltfmName = reader.GetString(1);
+                            ret.TrPdctName = reader.GetString(2);
+                            ret.TrUserId = reader.GetString(3);
+                            ret.TrDate = reader.GetString(4);
+                            ret.TrSummaryPath = reader.GetString(5);
+                            ret.TrDebugPath = reader.GetString(6);
+                            ret.TrInfo = reader.GetString(7);
+                            ret.TrOperator = reader.GetString(8);
+                        }
+                        MyLogger.WriteLine("get trial ok!" + ret);
+                    }
+                }
+                catch
+                {
+                    MyLogger.WriteLine("when query page trial list error!");
+                }
+            }
+            return ret;
+        }
+
         #region 获取所有的platform
         public List<Platform> getAllPlatforms()
         {

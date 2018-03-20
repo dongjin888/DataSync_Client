@@ -41,7 +41,7 @@
             this.labInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.labInfo.ForeColor = System.Drawing.Color.White;
             this.labInfo.Location = new System.Drawing.Point(70, 103);
-            this.labInfo.MaximumSize = new System.Drawing.Size(540, 60);
+            this.labInfo.MaximumSize = new System.Drawing.Size(500, 24);
             this.labInfo.Name = "labInfo";
             this.labInfo.Size = new System.Drawing.Size(40, 20);
             this.labInfo.TabIndex = 3;

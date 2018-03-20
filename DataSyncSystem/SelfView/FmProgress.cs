@@ -24,6 +24,7 @@ namespace DataSyncSystem.SelfView
         /// <param name="type">类型:upld, dnld , csvdnld </param>
         public FmProgress(Form par,long maxValue,string type)
         {
+            CheckForIllegalCrossThreadCalls = false;
             InitializeComponent();
 
             progress.Maximum = (int)maxValue/100;

@@ -12,6 +12,7 @@ namespace DataSyncSystem.Utils
         static int listIndex = 0;
         static Dictionary<char, int> lightDict = new Dictionary<char, int>();
         static Dictionary<char, int> darkDict = new Dictionary<char, int>();
+        static int seed = 113;
 
         static EnDeCode()
         {
@@ -88,6 +89,25 @@ namespace DataSyncSystem.Utils
                 darkDict.Add(arr[i], i);
             }
         }
+        private static string getRandomStr(int len)
+        {
+            List<char> charList = new List<char>();
+            for (char i = '0'; i <= '9'; i++)
+                charList.Add(i);
+            for (char i = 'a'; i <= 'z'; i++)
+                charList.Add(i);
+            for (char i = 'A'; i <= 'Z'; i++)
+                charList.Add(i);
+
+            Random random = new Random(seed);
+            StringBuilder codSb = new StringBuilder();
+            for (int i = 0; i < len; i++)
+            {
+                codSb.Append(charList[random.Next() % charList.Count]);
+            }
+            seed += 17;
+            return codSb.ToString();
+        }
 
         public static string encode(string str)
         {
@@ -133,5 +153,56 @@ namespace DataSyncSystem.Utils
             return decSb.ToString();
         }
 
+        public static string encodeLink(string uniquestr)
+        {
+            StringBuilder link = new StringBuilder();
+            //随机生成前10 位
+            link.Append(getRandomStr(10));
+
+            // + "_" 
+            link.Append("_");
+
+            try
+            {
+                //uid_date  encode()
+                link.Append(encode(uniquestr));
+            }catch
+            {
+                throw new Exception("enocding process error!");
+            }
+
+            //+ "_"
+            link.Append("_");
+
+            //随机生成后位
+            link.Append(getRandomStr(8));
+
+            string[] splits = link.ToString().Split('_');
+            link.Clear();
+            link.Append(splits[1] + "_");
+            link.Append(splits[0] + "_");
+            link.Append(splits[2] + "_");
+            link.Append(splits[3]);
+
+            return link.ToString();
+        }
+        public static string decodeLink(string encode)
+        {
+            string[] splits = encode.Split('_');
+            StringBuilder sb = new StringBuilder();
+            sb.Append(splits[0] + "_");
+            sb.Append(splits[2]);
+            string unique;
+            try
+            {
+                unique = decode(sb.ToString());
+            }
+            catch
+            {
+                throw new Exception("decoding process error!");
+            }
+
+            return unique;
+        }
     }
 }
