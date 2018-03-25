@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DataSyncSystem.Utils;
 using System.IO;
+using System.Net.Sockets;
+using System.Net;
+using System.Text;
 
 namespace DataSyncSystem
 {
@@ -19,6 +22,8 @@ namespace DataSyncSystem
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            // 从文件系统获取配置信息
+            /*
             FileInfo cfg = new FileInfo(Environment.CurrentDirectory+"\\.syscfg.cfg");
             FileStream stream = new FileStream(cfg.FullName, FileMode.Open);
             StreamReader sr = new StreamReader(stream);
@@ -36,11 +41,13 @@ namespace DataSyncSystem
             }
             sr.Close();
             stream.Close();
+            ContantInfo.Database.CONSQLSTR = ;
+            ContantInfo.SockServ.ip = ;
+            ContantInfo.SockServ.port = ;
+            */
 
-            ContantInfo.Database.CONSQLSTR = parts[0];
-            ContantInfo.SockServ.ip = parts[1];
-            ContantInfo.SockServ.port = parts[2];
 
+            //弹出登录提示框
             Form fmLogin = new FmLogin();
             fmLogin.FormBorderStyle = FormBorderStyle.FixedDialog;
 
@@ -51,7 +58,7 @@ namespace DataSyncSystem
             {
                 //主界面开始运行
                 Form fmMain = new FmMain();
-                fmMain.FormBorderStyle = FormBorderStyle.FixedDialog;
+                //fmMain.FormBorderStyle = FormBorderStyle.FixedDialog;
 
                 Application.Run(fmMain);
 

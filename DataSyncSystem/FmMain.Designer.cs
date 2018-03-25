@@ -127,11 +127,11 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.Teal;
-            this.splitContainer1.Panel2.Controls.Add(this.panSetting);
             this.splitContainer1.Panel2.Controls.Add(this.panMain);
             this.splitContainer1.Panel2.Controls.Add(this.panMyLoad);
-            this.splitContainer1.Size = new System.Drawing.Size(1390, 721);
-            this.splitContainer1.SplitterDistance = 284;
+            this.splitContainer1.Panel2.Controls.Add(this.panSetting);
+            this.splitContainer1.Size = new System.Drawing.Size(1360, 721);
+            this.splitContainer1.SplitterDistance = 277;
             this.splitContainer1.TabIndex = 0;
             // 
             // picBoxUpld
@@ -257,7 +257,7 @@
             this.panMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panMain.Location = new System.Drawing.Point(0, 0);
             this.panMain.Name = "panMain";
-            this.panMain.Size = new System.Drawing.Size(1102, 721);
+            this.panMain.Size = new System.Drawing.Size(1079, 721);
             this.panMain.TabIndex = 0;
             this.panMain.Visible = false;
             this.panMain.Paint += new System.Windows.Forms.PaintEventHandler(this.panMain_Paint);
@@ -583,7 +583,7 @@
             this.panMyLoad.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panMyLoad.Location = new System.Drawing.Point(0, 0);
             this.panMyLoad.Name = "panMyLoad";
-            this.panMyLoad.Size = new System.Drawing.Size(1102, 721);
+            this.panMyLoad.Size = new System.Drawing.Size(1079, 721);
             this.panMyLoad.TabIndex = 1;
             this.panMyLoad.Visible = false;
             this.panMyLoad.Paint += new System.Windows.Forms.PaintEventHandler(this.panMyLoad_Paint);
@@ -599,7 +599,7 @@
             this.panSetting.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panSetting.Location = new System.Drawing.Point(0, 0);
             this.panSetting.Name = "panSetting";
-            this.panSetting.Size = new System.Drawing.Size(1102, 721);
+            this.panSetting.Size = new System.Drawing.Size(1079, 721);
             this.panSetting.TabIndex = 2;
             this.panSetting.Visible = false;
             // 
@@ -727,7 +727,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1390, 721);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(1360, 721);
             this.Controls.Add(this.splitContainer1);
             this.MaximizeBox = false;
             this.Name = "FmMain";

@@ -270,6 +270,20 @@ namespace DataSyncSystem
                 sw.Close();
                 fs.Close();
 
+                //清除当前软件目录下的.dict 和 .csv 文件
+                DirectoryInfo dir = new DirectoryInfo(Environment.CurrentDirectory);
+                foreach(FileInfo f in dir.GetFiles())
+                {
+                    if(f.Name.EndsWith(".dict") || f.Name.EndsWith(".csv"))
+                    {
+                        try
+                        {
+                            File.Delete(f.FullName);
+                        }
+                        catch { }
+                    }
+                }
+
                 Dispose();
                 Application.Exit();
             }
@@ -397,64 +411,6 @@ namespace DataSyncSystem
                 int lastX = plUploadPgStartX;
                 ShowPage.showPg(plUploadPgNow, plUploadPgAll, plUploadPgShow, panMyLoad, lastX, 
                                 plUploadPgStartY, new EventHandler(uploadPage_Click));
-
-                /*
-                #region 画出页脚信息
-                #region "<<"
-                if (plUploadPgNow > 1)
-                {
-                    Button btPre = new Button();
-                    btPre.Text = "<<";
-                    btPre.Location = new Point(plUploadPgStartX, plUploadPgStartY);
-                    btPre.Size = new Size(60, 25);
-                    btPre.BackColor = Color.White;
-                    btPre.ForeColor = Color.Black;
-                    btPre.UseVisualStyleBackColor = true;
-                    btPre.Click += new System.EventHandler(this.uploadPage_Click);
-                    panMyLoad.Controls.Add(btPre);
-                    lastX = plUploadPgStartX + 60 + offset;
-                }
-                #endregion
-
-                #region 页中 
-                int tmp = lastX;
-                for (int i = 1; i <= plUploadPgAll; i++)
-                {
-                    Button bt = new Button();
-                    bt.Text = i + "";
-                    bt.Location = new Point(lastX + (i - 1) * (60 + offset), plUploadPgStartY);
-                    bt.Size = new Size(60, 25);
-                    if (plUploadPgNow == i)
-                        bt.BackColor = Color.Red;
-                    else
-                        bt.BackColor = Color.White;
-                    bt.ForeColor = Color.Black;
-                    bt.Click += new System.EventHandler(this.uploadPage_Click);
-                    panMyLoad.Controls.Add(bt);
-                    MyLogger.WriteLine("button :" + bt.Location.X + "," + bt.Location.Y);
-
-                    tmp = bt.Location.X;
-                }
-                lastX = tmp + 60 + offset;
-                #endregion
-
-                #region ">>"
-                if (plUploadPgNow < plUploadPgAll)
-                {
-                    Button btNext = new Button();
-                    btNext.Text = ">>";
-                    btNext.Location = new Point(lastX, plUploadPgStartY);
-                    btNext.Size = new Size(60, 25);
-                    btNext.BackColor = Color.White;
-                    btNext.ForeColor = Color.Black;
-                    btNext.UseVisualStyleBackColor = true;
-                    btNext.Click += new System.EventHandler(this.uploadPage_Click);
-                    panMyLoad.Controls.Add(btNext);
-                    MyLogger.WriteLine("button :" + btNext.Location.X + "," + btNext.Location.Y);
-                }
-                #endregion
-                #endregion
-                */
             }
             else
             {
@@ -1064,69 +1020,6 @@ namespace DataSyncSystem
                 int lastX = pmPltfmPgStartX;
                 ShowPage.showPg(pmPltfmPgNow, pmPltfmPgAll, pmPltfmPgShow, pmPanPltfms, lastX, 
                                  pmPltfmPgStartY, new EventHandler(pltfmsPage_Click));
-                /*
-                #region 画出分页信息
-
-                #region 上一页 "<<"
-                //"<<"
-                if (pmPltfmPgNow > 1)
-                {
-                    Button btPre = new Button();
-                    btPre.Text = "<<";
-                    btPre.Location = new Point(pmPltfmPgStartX, pmPltfmPgStartY);
-                    btPre.Size = new Size(60, 25);
-                    btPre.BackColor = Color.White;
-                    btPre.ForeColor = Color.Black;
-                    btPre.UseVisualStyleBackColor = true;
-                    btPre.Click += new System.EventHandler(this.pltfmsPage_Click);
-                    pmPanPltfms.Controls.Add(btPre);
-                    MyLogger.WriteLine("button :" + btPre.Location.X + "," + btPre.Location.Y);
-
-                    lastX = pmPltfmPgStartX + 60 + offset;
-                }
-                #endregion
-
-                #region 页中
-                int tmp = lastX;
-                for (int i = 1; i <= pmPltfmPgAll; i++)
-                {
-                    Button bt = new Button();
-                    bt.Text = i+"";
-                    bt.Location = new Point(lastX+(i-1)*(60+offset), pmPltfmPgStartY);
-                    bt.Size = new Size(60, 25);
-                    if (pmPltfmPgNow == i)
-                        bt.BackColor = Color.Red;
-                    else
-                        bt.BackColor = Color.White;
-                    bt.ForeColor = Color.Black;
-                    bt.Click += new System.EventHandler(this.pltfmsPage_Click);
-                    pmPanPltfms.Controls.Add(bt);
-                    MyLogger.WriteLine("button :" + bt.Location.X + "," + bt.Location.Y);
-
-
-                    tmp = bt.Location.X;
-                }
-                lastX = tmp+60+offset;
-                #endregion
-
-                #region 下一页 ">>"
-                if (pmPltfmPgNow < pmPltfmPgAll)
-                {
-                    Button btNext = new Button();
-                    btNext.Text = ">>";
-                    btNext.Location = new Point(lastX, pmPltfmPgStartY);
-                    btNext.Size = new Size(60, 25);
-                    btNext.BackColor = Color.White;
-                    btNext.ForeColor = Color.Black;
-                    btNext.UseVisualStyleBackColor = true;
-                    btNext.Click += new System.EventHandler(this.pltfmsPage_Click);
-                    pmPanPltfms.Controls.Add(btNext);
-                    MyLogger.WriteLine("button :" + btNext.Location.X + "," + btNext.Location.Y);
-                }
-                #endregion
-
-                #endregion
-                */
             }
             else
             {
@@ -1198,55 +1091,6 @@ namespace DataSyncSystem
                 int lastX = pmPdctPgStartX;
                 ShowPage.showPg(pmPdctPgNow, pmPdctPgAll, pmPdctPgShow, pmPanPdcts, lastX, 
                                 pmPdctPgStartY, new EventHandler(pdctsPage_Click));
-                /*
-                if (pmPdctPgNow > 1)
-                {
-                    Button btPre = new Button();
-                    btPre.Text = "<<";
-                    btPre.Location = new Point(pmPdctPgStartX, pmPdctPgStartY);
-                    btPre.Size = new Size(60, 25);
-                    btPre.BackColor = Color.White;
-                    btPre.ForeColor = Color.Black;
-                    btPre.UseVisualStyleBackColor = true;
-                    btPre.Click += new System.EventHandler(this.pdctsPage_Click);
-                    pmPanPdcts.Controls.Add(btPre);
-                    MyLogger.WriteLine("button :" + btPre.Location.X + "," + btPre.Location.Y);
-
-                    lastX = pmPdctPgStartX + 60 + offset;
-                }
-                int tmp = lastX;
-                for (int i = 1; i <= pmPdctPgAll; i++)
-                {
-                    Button bt = new Button();
-                    bt.Text = i + "";
-                    bt.Location = new Point(lastX + (i - 1) * (60 + offset), pmPdctPgStartY);
-                    bt.Size = new Size(60, 25);
-                    if (pmPdctPgNow == i)
-                        bt.BackColor = Color.Red;
-                    else
-                        bt.BackColor = Color.White;
-                    bt.ForeColor = Color.Black;
-                    bt.Click += new System.EventHandler(this.pdctsPage_Click);
-                    pmPanPdcts.Controls.Add(bt);
-                    MyLogger.WriteLine("button :" + bt.Location.X + "," + bt.Location.Y);
-
-                    tmp = bt.Location.X;
-                }
-                lastX = tmp + 60 + offset;
-                if (pmPdctPgNow < pmPdctPgAll)
-                {
-                    Button btNext = new Button();
-                    btNext.Text = ">>";
-                    btNext.Location = new Point(lastX, pmPdctPgStartY);
-                    btNext.Size = new Size(60, 25);
-                    btNext.BackColor = Color.White;
-                    btNext.ForeColor = Color.Black;
-                    btNext.UseVisualStyleBackColor = true;
-                    btNext.Click += new System.EventHandler(this.pdctsPage_Click);
-                    pmPanPdcts.Controls.Add(btNext);
-                    MyLogger.WriteLine("button :" + btNext.Location.X + "," + btNext.Location.Y);
-                }
-                */
             }
             else
             {
@@ -1319,67 +1163,6 @@ namespace DataSyncSystem
                 int lastX = pmTrialPgStartX;
                 ShowPage.showPg(pmTrialPgNow, pmTrialPgAll, pmTrialPgShow, pmPanTrials, lastX,
                                pmTrialPgStartY, new EventHandler(trialsPage_Click));
-                /*
-                #region 画出页信息
-
-                #region "<<"
-                if (pmTrialPgNow > 1)
-                {
-                    Button btPre = new Button();
-                    btPre.Text = "<<";
-                    btPre.Location = new Point(pmTrialPgStartX, pmTrialPgStartY);
-                    btPre.Size = new Size(60, 25);
-                    btPre.BackColor = Color.White;
-                    btPre.ForeColor = Color.Black;
-                    btPre.UseVisualStyleBackColor = true;
-                    btPre.Click += new System.EventHandler(this.trialsPage_Click);
-                    pmPanTrials.Controls.Add(btPre);
-                    MyLogger.WriteLine("button :" + btPre.Location.X + "," + btPre.Location.Y);
-
-                    lastX = pmTrialPgStartX + 60 + offset;
-                }
-                #endregion
-
-                #region 页中
-                int tmp = lastX;
-                for (int i = 1; i <= pmTrialPgAll; i++)
-                {
-                    Button bt = new Button();
-                    bt.Text = i + "";
-                    bt.Location = new Point(lastX + (i - 1) * (60 + offset), pmTrialPgStartY);
-                    bt.Size = new Size(60, 25);
-                    if (pmTrialPgNow == i)
-                        bt.BackColor = Color.Red;
-                    else
-                        bt.BackColor = Color.White;
-                    bt.ForeColor = Color.Black;
-                    bt.Click += new System.EventHandler(this.trialsPage_Click);
-                    pmPanTrials.Controls.Add(bt);
-                    MyLogger.WriteLine("button :" + bt.Location.X + "," + bt.Location.Y);
-
-                    tmp = bt.Location.X;
-                }
-                lastX = tmp + 60 + offset;
-                #endregion
-
-                #region ">>"
-                if (pmTrialPgNow < pmTrialPgAll)
-                {
-                    Button btNext = new Button();
-                    btNext.Text = ">>";
-                    btNext.Location = new Point(lastX, pmTrialPgStartY);
-                    btNext.Size = new Size(60, 25);
-                    btNext.BackColor = Color.White;
-                    btNext.ForeColor = Color.Black;
-                    btNext.UseVisualStyleBackColor = true;
-                    btNext.Click += new System.EventHandler(this.trialsPage_Click);
-                    pmPanTrials.Controls.Add(btNext);
-                    MyLogger.WriteLine("button :" + btNext.Location.X + "," + btNext.Location.Y);
-                }
-                #endregion
-
-                #endregion
-                */
             }
             else
             {
@@ -1557,7 +1340,7 @@ namespace DataSyncSystem
                 {
                     try
                     {
-                        dnldSock.Receive(msgBuf);
+                        count = dnldSock.Receive(msgBuf);
                     }
                     catch
                     {
@@ -1566,6 +1349,8 @@ namespace DataSyncSystem
                        
                         return;
                     }
+                    if (count == 0)
+                        break;
                     msg = Encoding.UTF8.GetString(msgBuf);
                     string fileLength = "";
                     if (msg.StartsWith("resdnld:"))
@@ -1575,9 +1360,23 @@ namespace DataSyncSystem
                         MyLogger.WriteLine("文件大小为:" + fileLength);
                     }
 
+                    long t = 0;
+                    try
+                    {
+                        t = long.Parse(fileLength);
+                    }
+                    catch
+                    {
+                        dnldOk = true;
+                        break;
+                    }
                     //显示进度条
-                    FmProgress prog = new FmProgress(this, long.Parse(fileLength), "dnld");
-                    prog.Show();
+                    FmProgress prog = null;
+                    if (t != 0)
+                    {
+                        prog = new FmProgress(this, t, "dnld");
+                        prog.Show();
+                    }
 
                     if (msg.StartsWith("errdnld:"))
                     {
@@ -1631,7 +1430,7 @@ namespace DataSyncSystem
                                 }
 
                                 //不能整段发送的剩余数据
-                                else
+                                else if(!msg.StartsWith("00000000"))
                                 {
                                     fs.Write(fileBuf, 0, count);
                                     fs.Close();
@@ -2107,6 +1906,55 @@ namespace DataSyncSystem
                 sw.Close();
                 fs.Close();
 
+                service.closeCon();
+
+                //关闭下载 csv 的socket
+                try
+                {
+                    GetCsvSock.sock.Send(Encoding.UTF8.GetBytes("exit:#".ToCharArray()));
+
+                    GetCsvSock.sock.Shutdown(SocketShutdown.Both);
+                    GetCsvSock.sock.Close();
+                    MyLogger.WriteLine("close csvSock success !");
+                }
+                catch
+                {
+                    MyLogger.WriteLine("关闭csvsock 遇到异常!");
+                }
+
+                // 关闭负责下载的socket
+                if (dnldSock != null)
+                {
+                    try
+                    {
+                        dnldSock.Send(Encoding.UTF8.GetBytes("exit:#".ToCharArray()));
+                        dnldSock.Shutdown(SocketShutdown.Both);
+                        dnldSock.Close();
+                        MyLogger.WriteLine("close dnldSock success !");
+
+                    }
+                    catch
+                    {
+                        MyLogger.WriteLine("关闭dnldSock 遇到异常!");
+                    }
+                }
+
+                //关闭负责上传的socket
+                if (upldSock != null)
+                {
+                    try
+                    {
+                        upldSock.Send(Encoding.UTF8.GetBytes("exit:#".ToCharArray()));
+                        upldSock.Shutdown(SocketShutdown.Both);
+                        upldSock.Close();
+                        MyLogger.WriteLine("close upldSock success !");
+                    }
+                    catch
+                    {
+                        MyLogger.WriteLine("关闭upldSock 遇到异常！");
+                    }
+                }
+
                 Dispose();
                 Application.Exit();
             }
@@ -2127,7 +1975,7 @@ namespace DataSyncSystem
                 if(MessageBox.Show("trial info :\r\n\r\n" +
                     "Activator:" + userDict[trial.TrUserId] + "\r\n" +
                     "Operator:" + userDict[trial.TrOperator] + "\r\n" +
-                    "Date:" + TimeHandle.milSecondsToDatetime(long.Parse(trial.TrDate)) +
+                    "Date:" + TimeHandle.milSecondsToDatetime(long.Parse(trial.TrDate)) + "\r\n" +
                     "Info" + trial.TrInfo, "Download", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     if (dnldPath == null || dnldPath.Equals(""))

@@ -34,6 +34,7 @@
             this.txtPass = new System.Windows.Forms.TextBox();
             this.btLogin = new System.Windows.Forms.Button();
             this.labLoginStatus = new System.Windows.Forms.Label();
+            this.chkBoxCache = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // labName
@@ -53,6 +54,7 @@
             this.txtName.Size = new System.Drawing.Size(100, 22);
             this.txtName.TabIndex = 1;
             this.txtName.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtName_MouseClick);
+            this.txtName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtName_KeyDown);
             // 
             // labPass
             // 
@@ -72,6 +74,7 @@
             this.txtPass.TabIndex = 3;
             this.txtPass.UseSystemPasswordChar = true;
             this.txtPass.TextChanged += new System.EventHandler(this.txtPass_TextChanged);
+            this.txtPass.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPass_KeyDown);
             // 
             // btLogin
             // 
@@ -95,12 +98,24 @@
             this.labLoginStatus.Size = new System.Drawing.Size(0, 25);
             this.labLoginStatus.TabIndex = 6;
             // 
+            // chkBoxCache
+            // 
+            this.chkBoxCache.AutoSize = true;
+            this.chkBoxCache.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.chkBoxCache.Location = new System.Drawing.Point(441, 172);
+            this.chkBoxCache.Name = "chkBoxCache";
+            this.chkBoxCache.Size = new System.Drawing.Size(116, 21);
+            this.chkBoxCache.TabIndex = 8;
+            this.chkBoxCache.Text = "remeber me";
+            this.chkBoxCache.UseVisualStyleBackColor = true;
+            // 
             // FmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(668, 421);
+            this.Controls.Add(this.chkBoxCache);
             this.Controls.Add(this.labLoginStatus);
             this.Controls.Add(this.btLogin);
             this.Controls.Add(this.txtPass);
@@ -126,6 +141,7 @@
         private System.Windows.Forms.TextBox txtPass;
         private System.Windows.Forms.Button btLogin;
         private System.Windows.Forms.Label labLoginStatus;
+        private System.Windows.Forms.CheckBox chkBoxCache;
     }
 }
 

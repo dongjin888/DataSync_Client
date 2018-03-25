@@ -44,6 +44,7 @@ namespace DataSyncSystem.SelfView
             fmMain.setCurPmPan();
             //platform 中点击时，要设置好下一个Product中的内容
             DataService service = new DataService();
+            fmMain.pmPdctPgNow = 1;
             fmMain.pmPdctList = service.getPdctPageList(
                                 fmMain.pmPdctPgNow, fmMain.pmPdctPgSize, this.pltfmName, ref fmMain.pmPdctPgAll);
             fmMain.pmPanPdcts.Controls.Clear();

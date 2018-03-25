@@ -13,7 +13,6 @@ using System.IO.Compression;
 using System.Windows.Forms;
 using System.Data;
 using DataSyncSystem.SelfView;
-using DataSyncSystem.Utils;
 
 namespace DataSyncSystem.Utils
 {

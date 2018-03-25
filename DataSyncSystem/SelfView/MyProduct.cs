@@ -59,6 +59,7 @@ namespace DataSyncSystem.SelfView
 
             //同时设置好该Product中 包含的Trial List数据
             DataService service = new DataService();
+            fmMain.pmTrialPgNow = 1;
             fmMain.pmTrialsList = service.getTrPgByPdct(fmMain.pmLabTexts[2], pdctName,
                                         fmMain.pmTrialPgNow, fmMain.pmTrialPgSize, ref fmMain.pmTrialPgAll);
             fmMain.pmPanTrials.Controls.Clear();

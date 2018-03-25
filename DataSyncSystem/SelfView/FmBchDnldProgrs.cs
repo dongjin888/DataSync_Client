@@ -32,9 +32,6 @@ namespace DataSyncSystem.SelfView
             labPersent.Text = "0/" + maxFileNum;
         }
 
-        
-
-
         private delegate void UpdtProg(int num,string fileName);
         public void updtProg(int num,string fileName)
         {
