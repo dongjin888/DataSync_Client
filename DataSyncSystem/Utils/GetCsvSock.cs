@@ -82,8 +82,14 @@ namespace DataSyncSystem.Utils
                     MyLogger.WriteLine("<下载csv>:服务端回应请求错误! " + msg);
                     MessageBox.Show(msg.Split('#')[1], "csv文件缺失");
 
+                    //设置CombxSummaryFile 没有summary 文件
+                    parent.setSumFileComb(-1);
+
+                    //清空datagridview 中的内容
+                    parent.clearGridView();
+
                     //csv响应错误，也要请求文件dict
-                    if (!File.Exists(Environment.CurrentDirectory + userId + "_" + trialDate + ".dict"))
+                    if (!File.Exists(Environment.CurrentDirectory +"\\"+ userId + "_" + trialDate + ".dict"))
                     {
                         queryDdgFiles(userId, trialDate);
                     }
@@ -91,10 +97,16 @@ namespace DataSyncSystem.Utils
                     continue;
                 }
 
-                //正常响应reqcsv:
+                //正常响应reqcsv:  msg = "resreqcsv:#" + csvFiles.Count + "#" + sumId + "#";
                 else if (msg.StartsWith("resreqcsv:"))
                 {
                     MyLogger.WriteLine("<下载csv>服务端回应！" + msg);
+                    //获取服务端summary数量
+                    string[] splits = msg.Split('#');
+                    int sumFileNum = Int32.Parse(splits[1]);
+
+                    //更新FmMain 中的summary.csv下拉框
+                    parent.setSumFileComb(sumFileNum);
 
                     //开始接收 csv 数据包
                     //> 第一种方法
@@ -105,7 +117,7 @@ namespace DataSyncSystem.Utils
                     int maxFileLen = 1024 * 512;//512 k
                     byte[] fileBuf = new byte[maxFileLen];
 
-                    string csvFileName = userId + "_" + trialDate + ".csv";
+                    string csvFileName = userId + "_" + trialDate+ "_" + splits[2] + ".csv";
                     MyLogger.WriteLine("recv Data run:" + csvFileName);
 
                     //保存的csv 文件路径
@@ -128,7 +140,7 @@ namespace DataSyncSystem.Utils
                             }
 
                             //正常数据
-                            if (count > 64)
+                            if (count > 128) // 64
                             {
                                 try
                                 {
@@ -199,7 +211,7 @@ namespace DataSyncSystem.Utils
                     MyLogger.WriteLine("接收服务端resreqdbgfile:\n"+msg);
 
                     //接收dbgfiles 信息
-                    byte[] dbgFileBuf = new byte[1024 * 32]; //32k
+                    byte[] dbgFileBuf = new byte[1024 * 300]; //300k
                     try
                     {
                         sock.Receive(dbgFileBuf);
@@ -248,11 +260,13 @@ namespace DataSyncSystem.Utils
                     byte[] fileBuf = new byte[maxFileLen];
                     string fileName = null;
                     int waitRecvFileNum = Int32.Parse(msg.Split('#')[1]); //要下载的文件个数
+                    long allFileLength = long.Parse(msg.Split('#')[2]);
+                    long sent = 0;
 
                     FmBchDnldProgrs prog = null;
                     if (bchDnldProg) //如果要显示bunch files 下载进度条
                     {
-                        prog = new FmBchDnldProgrs(waitRecvFileNum);
+                        prog = new FmBchDnldProgrs(waitRecvFileNum,allFileLength);
                         prog.Show(parent);
                     }
 
@@ -289,6 +303,7 @@ namespace DataSyncSystem.Utils
                         if (msg.StartsWith("singleinfo:"))
                         {
                             fileName = msg.Split('#')[2];
+                            MyLogger.WriteLine("singleinfo:\n" + msg);
 
                             bool ifFileEnd = false;
                             string fmTmp = dnldDir + "\\" + tm + "-" + fileName;
@@ -311,9 +326,11 @@ namespace DataSyncSystem.Utils
                                         try
                                         {
                                             fs.Write(fileBuf, 0, count);
+                                            sent += count;
                                         }
-                                        catch
+                                        catch(Exception ex)
                                         {
+                                            MyLogger.WriteLine("exceptioin:\n" + ex.Message);
                                             MyLogger.WriteLine("bunch file 下载时,写入文件信息时错误！");
                                         }
                                     }
@@ -352,18 +369,24 @@ namespace DataSyncSystem.Utils
                                             try
                                             {
                                                 fs.Write(fileBuf, 0, count);
+                                                sent += count;
                                                 fs.Close();
                                                 MyLogger.WriteLine("保存文件:" + fileName + " 成功!\n");
                                             }
                                             catch { MyLogger.WriteLine("bunfile 关闭接收文件时异常！"); }
                                         }
                                     }
+                                    if (prog != null)
+                                    {
+                                        prog.updtProg(waitRecvFileNum, fileName,sent);
+                                    }
                                 }// while(!iffileEnd)
 
-                                if (prog != null)
-                                {
-                                   prog.updtProg(waitRecvFileNum,fileName);
-                                }
+                                //if (prog != null)
+                                //{
+                                //   prog.updtProg(waitRecvFileNum,fileName);
+                                //}
+
                             }// using file()
                             dnldFiles.Add(fmTmp);
                             taskFileId++;
@@ -427,7 +450,7 @@ namespace DataSyncSystem.Utils
                 parent.showDataview(table.DefaultView);
 
                 //下载完summary csv 文件，接着街下载dbgfiles
-                if (!File.Exists(Environment.CurrentDirectory + userId + "_" + trialDate + ".dict"))
+                if (!File.Exists(Environment.CurrentDirectory+"\\" + userId + "_" + trialDate + ".dict"))
                 {
                     queryDdgFiles(userId, trialDate);
                 }
@@ -443,13 +466,13 @@ namespace DataSyncSystem.Utils
         }
 
         //外部调用接口 [用来发送csv头部:reqcsv:#userId_trialDate#]
-        public static void dnldCsvFile(string id, string date)
+        public static void dnldCsvFile(string id, string date,int sumId)
         {
             userId = id;
             trialDate = date;
 
             //先发送请求头: reqcsv:#userId_trialDate#
-            string reqHead = "reqcsv:#" + userId + "_" + trialDate + "#";
+            string reqHead = "reqcsv:#" + userId + "_" + trialDate + "#" + sumId + "#";
 
             try
             {

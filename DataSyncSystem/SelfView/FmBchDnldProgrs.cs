@@ -13,6 +13,7 @@ namespace DataSyncSystem.SelfView
     public partial class FmBchDnldProgrs : Form
     {
         private int maxFileNum = 0;
+        private int allLength = 0;
 
         public FmBchDnldProgrs()
         {
@@ -20,36 +21,37 @@ namespace DataSyncSystem.SelfView
             CheckForIllegalCrossThreadCalls = false;
         }
 
-        public FmBchDnldProgrs(int fileNum)
+        public FmBchDnldProgrs(int fileNum,long leng)
         {
             InitializeComponent();
 
             StartPosition = FormStartPosition.CenterScreen;
 
             maxFileNum = fileNum;
+            allLength = (int)(leng / 1000);
             Text = "download files";
-            progress.Maximum = maxFileNum;
+            progress.Maximum = allLength;
             labPersent.Text = "0/" + maxFileNum;
         }
 
-        private delegate void UpdtProg(int num,string fileName);
-        public void updtProg(int num,string fileName)
+        private delegate void UpdtProg(int num,string fileName,long sent);
+        public void updtProg(int num,string fileName,long sent)
         {
             if (this.InvokeRequired)
             {
                 UpdtProg updt = new UpdtProg(updtProg);
-                this.Invoke(updt, new object[] { num,fileName });
+                this.Invoke(updt, new object[] { num,fileName,sent});
             }
             else
             {
-                int cur = maxFileNum - num;
-                if (cur > maxFileNum)
-                    cur = maxFileNum;
-                this.progress.Value = cur;
-                this.labInfo.Text = fileName;
+                int cur = (int)(sent / 1000);
+                if (cur > allLength)
+                    cur = allLength;
+                progress.Value = cur;
+                labInfo.Text = fileName;
                 labPersent.Text = (maxFileNum - num) + "/" + maxFileNum;
                 Application.DoEvents();
-                if (cur == maxFileNum)
+                if (cur== allLength || (maxFileNum-num >= maxFileNum))
                 {
                     Dispose();
                 }

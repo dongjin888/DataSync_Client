@@ -19,7 +19,13 @@ namespace DataSyncSystem.Dao
         {
             if(con == null)
             {
-                con = new MySqlConnection(ContantInfo.Database.CONSQLSTR);
+                try
+                {
+                    con = new MySqlConnection(ContantInfo.Database.CONSQLSTR);
+                }catch(Exception ex)
+                {
+                    Console.WriteLine("con exception:\n" + ex.Message);
+                }
             }
         }
 
@@ -35,7 +41,7 @@ namespace DataSyncSystem.Dao
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("con exception:\n"+ex.Message);
                     ret = false;
                 }
             }
@@ -77,7 +83,7 @@ namespace DataSyncSystem.Dao
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("check user login exception:\n"+ex.Message);
                 }
             }
             return ret;

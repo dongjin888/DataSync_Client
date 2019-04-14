@@ -58,7 +58,7 @@ namespace DataSyncSystem
             {
                 //主界面开始运行
                 Form fmMain = new FmMain();
-                //fmMain.FormBorderStyle = FormBorderStyle.FixedDialog;
+                fmMain.FormBorderStyle = FormBorderStyle.FixedDialog;
 
                 Application.Run(fmMain);
 

@@ -45,18 +45,18 @@ namespace DataSyncSystem.SelfView
         private delegate void SetProgValue(long pos,string info);
         public void updateProgValue(long pos,string info)
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
                 SetProgValue setProg = new SetProgValue(updateProgValue);
-                this.Invoke(setProg, new object[] { pos,info});
+                Invoke(setProg, new object[] { pos,info});
             }
             else
             {
                 int tmp = (int)pos / 100;
                 if (tmp > progress.Maximum)
                     tmp = progress.Maximum;
-                this.progress.Value = tmp;
-                this.progress.Refresh();
+                progress.Value = tmp;
+                progress.Refresh();
                 labInfo.Text = "当前进度:" + (int)(((float)progress.Value / progress.Maximum) * 100) + "/100";
                 Application.DoEvents(); //这句代码用于labinfo 信息的显示，否则labinfo 不能正确显示出来
                 if (progress.Value == progress.Maximum)

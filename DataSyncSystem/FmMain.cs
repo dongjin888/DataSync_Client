@@ -45,7 +45,7 @@ namespace DataSyncSystem
         public int pmPltfmLineSize = 3; //每行显示3个
         //页脚开始位置信息
         public int pmPltfmPgStartX = 210;
-        public int pmPltfmPgStartY = 465;
+        public int pmPltfmPgStartY = 460; //460 //435
         public int pmPltfmPgShow = 3;  // 页脚显示多少页
 
         //pmPanPdcts panel 中所需的功能部件
@@ -61,7 +61,7 @@ namespace DataSyncSystem
         public int pmPdctLineSize = 3;//每行显示3个
         //页脚开始位置信息
         public int pmPdctPgStartX = 210;
-        public int pmPdctPgStartY = 465;
+        public int pmPdctPgStartY = 460; //460 //435
         public int pmPdctPgShow = 3;  // 页脚显示多少页
 
         //pmPanTrials panel 中所需的功能部件
@@ -77,7 +77,7 @@ namespace DataSyncSystem
         public int pmTrialLineSize = 3; //控制换行相关
         //页脚开始位置信息
         public int pmTrialPgStartX = 130;
-        public int pmTrialPgStartY = 430;
+        public int pmTrialPgStartY = 455;//455 //424
         public int pmTrialPgShow = 3; //页脚显示4个页码
 
         //pmPanHeads panel 中所需的功能部件
@@ -97,7 +97,7 @@ namespace DataSyncSystem
         public int plUploadPgNow = 1;
         public int plUploadPgSize = 8; //每页显示多少条数据
         public int plUploadPgStartX = 125;
-        public int plUploadPgStartY = 550;
+        public int plUploadPgStartY = 550;//550 //515
         public int plUploadPgShow = 4; //页脚显示多少页码
 
         #endregion
@@ -682,7 +682,7 @@ namespace DataSyncSystem
                     {
                         endFlg = true;
                         MyLogger.WriteLine("服务端返回接收结束响应!");
-                        MessageBox.Show("上传成功!", "message");
+                        MessageBox.Show("Upload success !", "message");
                     }
 
                     //接收服务端返回的错误信息
@@ -704,7 +704,6 @@ namespace DataSyncSystem
         {
             // root 是用户选择的要上传的目录
             DirectoryInfo root = new DirectoryInfo(upldPath);
-            DirectoryInfo parent = root.Parent;
 
             //先遍历上传目录中所有的子目录
             List<DirectoryInfo> sonFolder = new List<DirectoryInfo>();
@@ -728,6 +727,29 @@ namespace DataSyncSystem
                 }
             }
 
+            //再把待上传文件夹中的子文件夹
+            foreach(DirectoryInfo d in root.GetDirectories())
+            {
+                if (!d.Name.Equals("never_same_with_this")) //去掉压缩临时文件夹本身
+                {
+                    //中的summary.csv 拷贝到压缩目录中
+                    foreach (FileInfo sumCsv in d.GetFiles())
+                    {
+                        if (sumCsv.Name.EndsWith(".csv") || sumCsv.Name.EndsWith(".Csv"))
+                        {
+                            try
+                            {
+                                File.Copy(sumCsv.FullName, upldDirStr + d.Name + "+" + sumCsv.Name);
+                            }
+                            catch (Exception cpEx)
+                            {
+                                MyLogger.WriteLine("copy summary.csv exception:\n" + cpEx.Message);
+                            }
+                        }
+                    }
+                }
+            }
+
             zipFileName = root.FullName + "\\never_same_with_this.zip";
             if (File.Exists(zipFileName))
             {
@@ -740,17 +762,31 @@ namespace DataSyncSystem
 
             if(sonFolder.Count>1 || (sonFolder.Count==1 && !sonFolder[0].Name.Equals(root.Name))) // 目录中有子目录
             {
+                string[] splits = null;
                 foreach (DirectoryInfo d in sonFolder)
                 {
                     if (d.GetFiles().Length != 0) //压缩有文件的目录 到临时上传文件中
                     {
                         // C:\data\DNData\20160817_Tag117_Slot3_DN\LHC_08-16-2016\Bin
-                        // LHC_08-16-2016_Bin.zip ==> 到上传目录中
+                        // DNData+2016****+LHC_08-16-2016+Bin.zip ==> 到上传目录中
                         try
                         {
-                            ZipFile.CreateFromDirectory(d.FullName, upldDirStr + d.Parent.Name + "_" + d.Name + ".zip");
+                            splits = d.FullName.Split('\\');
+                            bool addPathFlg = false;
+                            StringBuilder addTmp = new StringBuilder("") ;
+                            foreach (string s in splits)
+                            {
+                                if (!addPathFlg){
+                                    addPathFlg = s.Equals(root.Name);
+                                }else{
+                                    addTmp.Append(s+"+");
+                                }
+                            }
+                            addTmp.Remove(addTmp.Length-1, 1);
+                            //ZipFile.CreateFromDirectory(d.FullName, upldDirStr + d.Parent.Name + "_" + d.Name + ".zip");
+                            ZipFile.CreateFromDirectory(d.FullName, upldDirStr + addTmp.ToString() + ".zip");
                         }
-                        catch { MyLogger.WriteLine("compress error !\n" + (upldDirStr + d.Parent.Name + "_" + d.Name + ".zip")); }
+                        catch { MyLogger.WriteLine("compress sonfolder exception !\n"); }
                     }
                 }
             }
@@ -780,7 +816,7 @@ namespace DataSyncSystem
             Directory.Delete(upldDir.FullName);
             MyLogger.WriteLine("临时文件夹删除完成!");
         }
-        private void upload()
+        private void upload(object form)
         {
             int transMaxLen = 1024 * 512; //512k
             byte[] msgBuf = new byte[200];
@@ -927,6 +963,8 @@ namespace DataSyncSystem
             pmCurPan = 0;
             setCurPmLab();
             setCurPmPan();
+
+            clearGridView();
         }
 
         private void pmLabPlatform_Click(object sender, EventArgs e)
@@ -938,6 +976,8 @@ namespace DataSyncSystem
             pmCurPan = 1;
             setCurPmLab();
             setCurPmPan();
+
+            clearGridView();
         }
 
         private void pmLabProduct_Click(object sender, EventArgs e)
@@ -946,6 +986,8 @@ namespace DataSyncSystem
             pmCurPan = 2;
             setCurPmLab();
             setCurPmPan();
+
+            clearGridView();
         }
         #endregion
 
@@ -1253,6 +1295,7 @@ namespace DataSyncSystem
                 MyLogger.WriteLine(err.Message);
             }
         }
+        /*
         private void pmTrialBtDnld_Click(object sender, EventArgs e)
         {
             
@@ -1314,7 +1357,7 @@ namespace DataSyncSystem
                 dnldRunFlg = false;
                 MyLogger.WriteLine("发送下载请求头时 遇到异常！");
             }
-        }
+        }*/
         private void dnldRecv()
         {
             while (dnldRunFlg)
@@ -1324,7 +1367,7 @@ namespace DataSyncSystem
                 MyLogger.WriteLine("dnldSock 等待服务端的下一次可下载回应！");
                 dnldOk = false;
 
-                byte[] msgBuf = new byte[64];
+                byte[] msgBuf = new byte[128]; // 64k
                 string msg = null;
 
                 int maxFileLen = 1024 * 512;//512 k
@@ -1388,7 +1431,8 @@ namespace DataSyncSystem
 
                     bool ifFileEnd = false;
 
-                    dnldFileName = dnldPath + "\\" + msg.Split('#')[1] + ".zip";
+                    //reshead : resdnld:#userid_date#fileleng#pltfm_pdct#
+                    dnldFileName = dnldPath + "\\" +msg.Split('#')[3]+"_"+ msg.Split('#')[1] + ".zip";
 
                     long curLeng = 0;
 
@@ -1748,7 +1792,10 @@ namespace DataSyncSystem
             }
 
             //先判断要下载的文件是否已经存在
-            FileInfo existFile = new FileInfo(dnldPath + "\\" + pmHeadShowTrial.TrUserId + "_" + pmHeadShowTrial.TrDate + ".zip");
+            FileInfo existFile = new FileInfo(dnldPath + "\\" +pmHeadShowTrial.TrPltfmName+"_"
+                                          +pmHeadShowTrial.TrPdctName+ "_"
+                                          +pmHeadShowTrial.TrUserId + "_" 
+                                          + pmHeadShowTrial.TrDate + ".zip");
             if (existFile.Exists)
             {
                 MessageBox.Show("you have download the trial data!", "message");
@@ -2018,6 +2065,107 @@ namespace DataSyncSystem
                     MyLogger.WriteLine("client quit download!");
                 }
                     
+            }
+        }
+
+        private delegate void SetSumFileComb(int count);
+        public void setSumFileComb(int count)
+        {
+            if (this.InvokeRequired)
+            {
+                SetSumFileComb set = new SetSumFileComb(setSumFileComb);
+                this.Invoke(set, new object[] { count });
+            }
+            else
+            {
+                combSumFiles.Items.Clear();
+                if (count == 0)
+                    combSumFiles.Text = "summary1.csv";
+                else if (count == -1) { 
+                    combSumFiles.Text = "No summary";
+                }
+                else if (count>0)
+                {
+                    for(int i = 1; i <= count; i++)
+                    {
+                        combSumFiles.Items.Add("summary" + i + ".csv");
+                    }
+                }
+            }
+        }
+
+        //清空datagridview 内容
+        private delegate void ClearGridView();
+        public void clearGridView()
+        {
+            if (InvokeRequired)
+            {
+                ClearGridView clear = new ClearGridView(clearGridView);
+                Invoke(clear, new object[] { });
+            }
+            else
+            {
+                if (pmGridview.DataSource != null)
+                    pmGridview.DataSource = null;
+            }
+        }
+
+        // summary文件下拉框
+        private void combSumFiles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int selectId = combSumFiles.SelectedIndex;
+            string uniqStr = pmHeadShowTrial.TrUserId + "_" + pmHeadShowTrial.TrDate;
+            FileInfo csvFile = new FileInfo(Environment.CurrentDirectory + "\\" + uniqStr + "_"+selectId + ".csv");
+
+            MyLogger.WriteLine("select summary index:\n" + selectId);
+                
+            if (!csvFile.Exists && selectId>=0)
+            {
+                GetCsvSock.dnldCsvFile(pmHeadShowTrial.TrUserId, pmHeadShowTrial.TrDate, selectId);
+            }
+            else
+            {
+                try
+                {
+                    String line;
+                    String[] split = null;
+                    DataTable table = new DataTable();
+                    DataRow row = null;
+
+                    StreamReader sr = new StreamReader(csvFile.FullName, Encoding.Default);
+                    //创建与数据源对应的数据列 
+                    line = sr.ReadLine();
+                    split = line.Split(',');
+                    foreach (String colname in split)
+                    {
+                        table.Columns.Add(colname, System.Type.GetType("System.String"));
+                    }
+                    //将数据填入数据表 
+                    int j = 0;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        j = 0;
+                        row = table.NewRow();
+                        split = line.Split(',');
+                        foreach (String colname in split)
+                        {
+                            row[j] = colname;
+                            j++;
+                        }
+                        table.Rows.Add(row);
+                    }
+                    sr.Close();
+                    //使用代理更新FmMain 中的DataGridView 
+                    showDataview(table.DefaultView);
+                }
+                catch (Exception vErr)
+                {
+                    MessageBox.Show(vErr.Message);
+                }
+                finally
+                {
+                    GC.Collect();
+                }
             }
         }
     }

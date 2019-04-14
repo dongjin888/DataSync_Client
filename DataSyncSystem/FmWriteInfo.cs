@@ -36,6 +36,7 @@ namespace DataSyncSystem
         {
             InitializeComponent();
             StartPosition = FormStartPosition.CenterScreen;
+
             #region 控件初始化
             infos.Add(combActivator);
             infos.Add(combOperator);
@@ -92,6 +93,7 @@ namespace DataSyncSystem
                 teamUserDict = service.getUserNmDictByTeam(teamList[0]);
                 if (teamUserDict != null)
                 {
+                    combActivator.Items.Clear();
                     foreach (var entry in teamUserDict)
                     {
                         combActivator.Items.Add(entry.Value);
@@ -146,9 +148,9 @@ namespace DataSyncSystem
             if(selectTeam != null)
             {
                 teamUserDict = service.getUserNmDictByTeam(selectTeam);
-                if(teamUserDict != null && teamUserDict.Count > 0)
+                combActivator.Items.Clear();
+                if (teamUserDict != null && teamUserDict.Count > 0)
                 {
-                    combActivator.Items.Clear();
                     foreach (var entry in teamUserDict)
                     {
                         combActivator.Items.Add(entry.Value);
@@ -158,7 +160,6 @@ namespace DataSyncSystem
                 }
                 else
                 {
-                    combActivator.Items.Clear();
                     combActivator.Text = "";
                 }
             }
@@ -201,7 +202,7 @@ namespace DataSyncSystem
         {
             foreach(Control con in infos)
             {
-                if (con.Text.Equals(""))
+                if (con == null || con.Text.Equals(""))
                 {
                     MessageBox.Show("Trail info not complete!", "error");
                     return;
@@ -284,6 +285,7 @@ namespace DataSyncSystem
             teamUserDict = service.getUserNmDictByTeam(teamList[0]);
             if (teamUserDict != null)
             {
+                combActivator.Items.Clear();
                 foreach (var entry in teamUserDict)
                 {
                     combActivator.Items.Add(entry.Value);
@@ -295,6 +297,7 @@ namespace DataSyncSystem
             pltfmList = service.getPltfmNames();
             if (pltfmList != null)
             {
+                combPltfm.Items.Clear();
                 foreach (string pltfm in pltfmList)
                 {
                     combPltfm.Items.Add(pltfm);
@@ -309,6 +312,7 @@ namespace DataSyncSystem
             pdctList = service.getPdctNamesByPltfm(pltfmList[0]);
             if (pdctList != null)
             {
+                combPdct.Items.Clear();
                 foreach (string pdct in pdctList)
                 {
                     combPdct.Items.Add(pdct);

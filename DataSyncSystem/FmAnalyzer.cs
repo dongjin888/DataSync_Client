@@ -105,12 +105,13 @@ namespace DataSyncSystem
             //得到配置文件信息
             List<string> cfg = AnalyzerCfg.toolDict[lab.Text.Trim()];
 
+            // 所需分析的文件列表
             List<string> fileNameList = new List<string>();
 
             string dictName = Environment.CurrentDirectory + "\\" + userid + "_" + date + ".dict";
             if(!File.Exists(dictName))
             {
-                MessageBox.Show("This trial didn't have the .dict file!", "operator!");
+                MessageBox.Show("This trial didn't have the .dict file!", "error");
                 return;
             }
             FileStream fs = new FileStream(dictName, FileMode.Open);
@@ -124,7 +125,7 @@ namespace DataSyncSystem
             fs.Close();
 
             string[] filekeywords = (cfg[2] + ",").Split(',');
-            List<string> findFileIds = new List<string>();
+            List<string> findFileIds = new List<string>(); //
             foreach(string str in filekeywords)
             {
                 //分割keywords[] 去find文件

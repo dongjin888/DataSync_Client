@@ -51,6 +51,7 @@
             this.pmLabProduct = new System.Windows.Forms.Label();
             this.pmLabPlatform = new System.Windows.Forms.Label();
             this.pmPanHeads = new System.Windows.Forms.Panel();
+            this.combSumFiles = new System.Windows.Forms.ComboBox();
             this.picboxDnld = new System.Windows.Forms.PictureBox();
             this.picboxAnalyz = new System.Windows.Forms.PictureBox();
             this.picboxDbgFiles = new System.Windows.Forms.PictureBox();
@@ -390,6 +391,7 @@
             // pmPanHeads
             // 
             this.pmPanHeads.BackColor = System.Drawing.Color.Gray;
+            this.pmPanHeads.Controls.Add(this.combSumFiles);
             this.pmPanHeads.Controls.Add(this.picboxDnld);
             this.pmPanHeads.Controls.Add(this.picboxAnalyz);
             this.pmPanHeads.Controls.Add(this.picboxDbgFiles);
@@ -401,10 +403,22 @@
             this.pmPanHeads.TabIndex = 4;
             this.pmPanHeads.Paint += new System.Windows.Forms.PaintEventHandler(this.pmPanHeads_Paint);
             // 
+            // combSumFiles
+            // 
+            this.combSumFiles.BackColor = System.Drawing.Color.Black;
+            this.combSumFiles.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.combSumFiles.ForeColor = System.Drawing.Color.White;
+            this.combSumFiles.FormattingEnabled = true;
+            this.combSumFiles.Location = new System.Drawing.Point(416, 153);
+            this.combSumFiles.Name = "combSumFiles";
+            this.combSumFiles.Size = new System.Drawing.Size(163, 26);
+            this.combSumFiles.TabIndex = 8;
+            this.combSumFiles.SelectedIndexChanged += new System.EventHandler(this.combSumFiles_SelectedIndexChanged);
+            // 
             // picboxDnld
             // 
             this.picboxDnld.Image = global::DataSyncSystem.Properties.Resources.dnldHv;
-            this.picboxDnld.Location = new System.Drawing.Point(861, 543);
+            this.picboxDnld.Location = new System.Drawing.Point(861, 549);
             this.picboxDnld.Name = "picboxDnld";
             this.picboxDnld.Size = new System.Drawing.Size(61, 51);
             this.picboxDnld.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -417,7 +431,7 @@
             // picboxAnalyz
             // 
             this.picboxAnalyz.Image = global::DataSyncSystem.Properties.Resources.analyLv;
-            this.picboxAnalyz.Location = new System.Drawing.Point(789, 544);
+            this.picboxAnalyz.Location = new System.Drawing.Point(789, 550);
             this.picboxAnalyz.Name = "picboxAnalyz";
             this.picboxAnalyz.Size = new System.Drawing.Size(57, 50);
             this.picboxAnalyz.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -430,7 +444,7 @@
             // picboxDbgFiles
             // 
             this.picboxDbgFiles.Image = ((System.Drawing.Image)(resources.GetObject("picboxDbgFiles.Image")));
-            this.picboxDbgFiles.Location = new System.Drawing.Point(55, 543);
+            this.picboxDbgFiles.Location = new System.Drawing.Point(55, 549);
             this.picboxDbgFiles.Name = "picboxDbgFiles";
             this.picboxDbgFiles.Size = new System.Drawing.Size(61, 51);
             this.picboxDbgFiles.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -444,7 +458,7 @@
             // 
             this.pmGridview.AllowDrop = true;
             this.pmGridview.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.pmGridview.Location = new System.Drawing.Point(64, 176);
+            this.pmGridview.Location = new System.Drawing.Point(64, 189);
             this.pmGridview.Name = "pmGridview";
             this.pmGridview.RowTemplate.Height = 24;
             this.pmGridview.Size = new System.Drawing.Size(858, 354);
@@ -462,7 +476,7 @@
             this.groupBox1.Controls.Add(this.pmHeadLabUserId);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(64, 21);
+            this.groupBox1.Location = new System.Drawing.Point(64, 1);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(858, 138);
             this.groupBox1.TabIndex = 0;
@@ -727,7 +741,6 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1360, 721);
             this.Controls.Add(this.splitContainer1);
             this.MaximizeBox = false;
@@ -819,5 +832,6 @@
         private System.Windows.Forms.PictureBox picBoxUpld;
         private System.Windows.Forms.PictureBox picBoxExit;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ComboBox combSumFiles;
     }
 }

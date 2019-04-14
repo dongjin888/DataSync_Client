@@ -10,17 +10,38 @@ namespace DataSyncSystem.Utils
     {
         public static class Database
         {
+            //company server
+            
+            public static string CONSQLSTR = "server=10.131.4.58;" +
+                "database=datasync;uid=datasync;" +
+                "pwd=DataSync_!;" +
+                "charset=utf8;";
+            
+
+            //local test
+            /*
             public static string CONSQLSTR = "server=localhost;" +
                 "database=datasync;uid=root;" +
-                "pwd=Sql@My_!;" +
+                "pwd=root;" +
                 "charset=utf8;";
+            */
+
+            //school lab
+            /*
+            public static string CONSQLSTR = "server=192.168.1.103;" +
+                "database=datasync;uid=root;" +
+                "pwd=root;" +
+                "charset=utf8;";
+            */
         }
 
         public static class SockServ
         {
             //public static string ip = "10.113.200.34";
             //public static string ip = "192.168.0.101";
-            public static string ip = "127.0.0.1";
+            //public static string ip = "127.0.0.1"; //local pc
+            public static string ip = "10.131.4.58"; //company server
+            //public static string ip = "192.168.1.103"; // school lab
             public static string port = "5000";
         }
 

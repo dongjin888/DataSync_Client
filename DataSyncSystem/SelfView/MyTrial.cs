@@ -59,20 +59,24 @@ namespace DataSyncSystem.SelfView
             fmMain.setCurPmLab();
             fmMain.setCurPmPan();
 
+            //清空datagridview中的数据
+            fmMain.clearGridView();
+
             //还要为下面的pmHeads 中的数据显示做准备
             fmMain.pmHeadShowTrial = trial;
             fmMain.Refresh();
 
             //连接socket 获取该trial的summary.csv 文件 先
             //获取到的summary.csv 文件会先保存在 当前软件目录下并以 userid_datestr.csv 的形式保存
+            string uniqStr = trial.TrUserId + "_" + trial.TrDate;
+            FileInfo csvFile = new FileInfo(Environment.CurrentDirectory + "\\" + uniqStr + "_0" + ".csv");
 
-            FileInfo csvFile = new FileInfo(Environment.CurrentDirectory + "\\" +
-                               trial.TrUserId + "_" + trial.TrDate + ".csv");
-            if (!csvFile.Exists)
-            {
-                GetCsvSock.dnldCsvFile(trial.TrUserId, trial.TrDate);
-            }
-            else //文件存在
+            //if (!csvFile.Exists)
+            //{
+                GetCsvSock.dnldCsvFile(trial.TrUserId, trial.TrDate ,0);
+                fmMain.setSumFileComb(0); //设置初始的summary1.csv
+            //}
+            /*else //文件存在
             {
                 try
                 {
@@ -115,10 +119,10 @@ namespace DataSyncSystem.SelfView
                 {
                     GC.Collect();
                 }
-            }
+            }*/
 
             // 判断dict 文件是否存在
-            if (!File.Exists(csvFile.FullName.Split('.')[0] + ".dict")){ //不存在，在getcsvSock 中更新可用
+            if (!File.Exists(Environment.CurrentDirectory + "\\" + uniqStr + ".dict")){ //不存在，在getcsvSock 中更新可用
                 fmMain.disablePic();
             }
             else

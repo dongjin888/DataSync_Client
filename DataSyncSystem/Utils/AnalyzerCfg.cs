@@ -9,7 +9,8 @@ namespace DataSyncSystem.Utils
     public class AnalyzerCfg
     {
 
-        public static Dictionary<string, List<string>> toolDict = new Dictionary<string, List<string>>();
+        public static Dictionary<string, List<string>> toolDict
+                            = new Dictionary<string, List<string>>();
 
         static AnalyzerCfg()
         {

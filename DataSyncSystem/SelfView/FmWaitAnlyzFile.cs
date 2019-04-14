@@ -41,7 +41,6 @@ namespace DataSyncSystem.SelfView
         private void update()
         {
             index++;
-
             if (this.InvokeRequired)
             {
                 MyUpdate upd = new MyUpdate(update);

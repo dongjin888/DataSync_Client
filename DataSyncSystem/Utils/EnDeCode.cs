@@ -215,7 +215,7 @@ namespace DataSyncSystem.Utils
 
         public static string encode(string str)
         {
-            if (!str.Contains("_"))
+            if (str==null || !str.Contains("_"))
             {
                 throw new Exception("original string format error!");
             }
